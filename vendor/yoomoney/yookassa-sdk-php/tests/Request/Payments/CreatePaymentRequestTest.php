@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2024 "YooMoney", NBСO LLC
+ * Copyright (c) 2025 "YooMoney", NBСO LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -993,6 +993,65 @@ class CreatePaymentRequestTest extends AbstractTestCase
     {
         $instance = $this->getTestInstance();
         return $this->getInvalidDataProviderByType($instance->getValidator()->getRulesByPropName('_merchant_customer_id'));
+    }
+
+    /**
+     * Test property "payment_order"
+     * @dataProvider validPaymentOrderDataProvider
+     * @param mixed $value
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testPaymentOrder(mixed $value): void
+    {
+        $instance = $this->getTestInstance();
+        self::assertEmpty($instance->getPaymentOrder());
+        self::assertEmpty($instance->payment_order);
+        $instance->setPaymentOrder($value);
+        self::assertEquals($value, is_array($value) ? $instance->getPaymentOrder()->toArray() : $instance->getPaymentOrder());
+        self::assertEquals($value, is_array($value) ? $instance->payment_order->toArray() : $instance->payment_order);
+        if (!empty($value)) {
+            self::assertNotNull($instance->getPaymentOrder());
+            self::assertNotNull($instance->hasPaymentOrder());
+            self::assertNotNull($instance->payment_order);
+        }
+    }
+
+    /**
+     * Test invalid property "payment_order"
+     * @dataProvider invalidPaymentOrderDataProvider
+     * @param mixed $value
+     * @param string $exceptionClass
+     *
+     * @return void
+     */
+    public function testInvalidPaymentOrder(mixed $value, string $exceptionClass): void
+    {
+        $instance = $this->getTestInstance();
+
+        $this->expectException($exceptionClass);
+        $instance->setPaymentOrder($value);
+    }
+
+    /**
+     * @return array[]
+     * @throws Exception
+     */
+    public function validPaymentOrderDataProvider(): array
+    {
+        $instance = $this->getTestInstance();
+        return $this->getValidDataProviderByType($instance->getValidator()->getRulesByPropName('_payment_order'));
+    }
+
+    /**
+     * @return array[]
+     * @throws Exception
+     */
+    public function invalidPaymentOrderDataProvider(): array
+    {
+        $instance = $this->getTestInstance();
+        return $this->getInvalidDataProviderByType($instance->getValidator()->getRulesByPropName('_payment_order'));
     }
 
     /**

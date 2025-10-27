@@ -47,6 +47,10 @@ try {
                     'vat_code' => 2,
                     'payment_mode' => \YooKassa\Model\Receipt\PaymentMode::FULL_PAYMENT,
                     'payment_subject' => \YooKassa\Model\Receipt\PaymentSubject::COMMODITY,
+                    'mark_code_info': {
+                        'gs_1m': '0104607163091607215Fn1MXm>oaiWF93frgh'
+                    },
+                    'planned_status' => 3,
                 ],
             ],
             'tax_system_code' => 1,

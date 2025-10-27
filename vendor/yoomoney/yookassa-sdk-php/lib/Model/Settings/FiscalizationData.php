@@ -32,7 +32,7 @@ use YooKassa\Validator\Constraints as Assert;
 /**
  * Класс, представляющий модель FiscalizationData.
  *
- * Настройки магазина для %[отправки чеков в налоговую](/developers/payment-acceptance/receipts/basics).
+ * Настройки магазина для [отправки чеков в налоговую](/developers/payment-acceptance/receipts/basics).
  *
  * Присутствует, если вы запрашивали настройки магазина, и этот магазин использует решения ЮKassa для отправки чеков.
  * Отсутствует, если магазин еще не включал отправку чеков через ЮKassa.

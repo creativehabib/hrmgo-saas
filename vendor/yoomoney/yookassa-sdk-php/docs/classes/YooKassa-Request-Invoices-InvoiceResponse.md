@@ -29,7 +29,7 @@
 | public | [$description](../classes/YooKassa-Model-Invoice-Invoice.md#property_description) |  | Описание выставленного счета (не более 128 символов), которое вы увидите в личном кабинете ЮKassa, а пользователь на странице счета. Например: «Счет на оплату по договору 37». |
 | public | [$expires_at](../classes/YooKassa-Model-Invoice-Invoice.md#property_expires_at) |  | Срок действия счета — дата и время, до которых можно оплатить выставленный счет. Указывается по [UTC](https://ru.wikipedia.org/wiki/Всемирное_координированное_время) и передается в формате [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). Пример: `2024-10-18T10:51:18.139Z` Присутствует только для счетов в статусе `pending`. |
 | public | [$expiresAt](../classes/YooKassa-Model-Invoice-Invoice.md#property_expiresAt) |  | Срок действия счета — дата и время, до которых можно оплатить выставленный счет. Указывается по [UTC](https://ru.wikipedia.org/wiki/Всемирное_координированное_время) и передается в формате [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). Пример: `2024-10-18T10:51:18.139Z` Присутствует только для счетов в статусе `pending`. |
-| public | [$id](../classes/YooKassa-Model-Invoice-Invoice.md#property_id) |  | Идентификатор счета в ЮКасса. |
+| public | [$id](../classes/YooKassa-Model-Invoice-Invoice.md#property_id) |  | Идентификатор счета в ЮKassa. |
 | public | [$metadata](../classes/YooKassa-Model-Invoice-Invoice.md#property_metadata) |  | Любые дополнительные данные, которые нужны вам для работы (например, ваш внутренний идентификатор заказа). Передаются в виде набора пар «ключ-значение» и возвращаются в ответе от ЮKassa. Ограничения: максимум 16 ключей, имя ключа не больше 32 символов, значение ключа не больше 512 символов, тип данных — строка в формате UTF-8. |
 | public | [$payment_details](../classes/YooKassa-Model-Invoice-Invoice.md#property_payment_details) |  | Данные о платеже по выставленному счету. Присутствуют, только если платеж успешно [подтвержден пользователем](https://yookassa.ru/developers/payment-acceptance/getting-started/payment-process#user-confirmation). |
 | public | [$paymentDetails](../classes/YooKassa-Model-Invoice-Invoice.md#property_paymentDetails) |  | Данные о платеже по выставленному счету. Присутствуют, только если платеж успешно [подтвержден пользователем](https://yookassa.ru/developers/payment-acceptance/getting-started/payment-process#user-confirmation). |
@@ -40,7 +40,7 @@
 | protected | [$_delivery_method](../classes/YooKassa-Model-Invoice-Invoice.md#property__delivery_method) |  | Данные о выбранном способе доставки счета. Присутствует только для счетов в статусе `pending`. |
 | protected | [$_description](../classes/YooKassa-Model-Invoice-Invoice.md#property__description) |  | Описание выставленного счета (не более 128 символов), которое вы увидите в личном кабинете ЮKassa, а пользователь на странице счета. |
 | protected | [$_expires_at](../classes/YooKassa-Model-Invoice-Invoice.md#property__expires_at) |  | Срок действия счета — дата и время, до которых можно оплатить выставленный счет. Указывается по [UTC](https://ru.wikipedia.org/wiki/Всемирное_координированное_время) и передается в формате [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
-| protected | [$_id](../classes/YooKassa-Model-Invoice-Invoice.md#property__id) |  | Идентификатор счета в ЮКасса. |
+| protected | [$_id](../classes/YooKassa-Model-Invoice-Invoice.md#property__id) |  | Идентификатор счета в ЮKassa. |
 | protected | [$_metadata](../classes/YooKassa-Model-Invoice-Invoice.md#property__metadata) |  | Любые дополнительные данные, которые нужны вам для работы (например, ваш внутренний идентификатор заказа). |
 | protected | [$_payment_details](../classes/YooKassa-Model-Invoice-Invoice.md#property__payment_details) |  | Данные о платеже по выставленному счету. Присутствуют, только если платеж успешно [подтвержден пользователем](https://yookassa.ru/developers/payment-acceptance/getting-started/payment-process#user-confirmation). |
 | protected | [$_status](../classes/YooKassa-Model-Invoice-Invoice.md#property__status) |  | Статус счета. Возможные значения: `pending`, `succeeded`, `canceled`. |
@@ -241,7 +241,7 @@
 ---
 ***Description***
 
-Идентификатор счета в ЮКасса.
+Идентификатор счета в ЮKassa.
 
 **Type:** <a href="../string"><abbr title="string">string</abbr></a>
 
@@ -398,7 +398,7 @@
 ---
 **Summary**
 
-Идентификатор счета в ЮКасса.
+Идентификатор счета в ЮKassa.
 
 **Type:** <a href="../?string"><abbr title="?string">?string</abbr></a>
 
@@ -702,7 +702,7 @@ public getId() : string|null
 **Details:**
 * Inherited From: [\YooKassa\Model\Invoice\Invoice](../classes/YooKassa-Model-Invoice-Invoice.md)
 
-**Returns:** string|null - Идентификатор счета в ЮКасса
+**Returns:** string|null - Идентификатор счета в ЮKassa
 
 
 <a name="method_getMetadata" class="anchor"></a>
@@ -1024,7 +1024,7 @@ public setId(string|null $id = null) : self
 ##### Parameters:
 | Type | Name | Description |
 | ---- | ---- | ----------- |
-| <code lang="php">string OR null</code> | id  | Идентификатор счета в ЮКасса. |
+| <code lang="php">string OR null</code> | id  | Идентификатор счета в ЮKassa. |
 
 **Returns:** self - 
 
@@ -1161,10 +1161,10 @@ protected validatePropertyValue(string $propertyName, mixed $propertyValue) : mi
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 33](../reports/deprecated.md)
+* [Deprecated - 40](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

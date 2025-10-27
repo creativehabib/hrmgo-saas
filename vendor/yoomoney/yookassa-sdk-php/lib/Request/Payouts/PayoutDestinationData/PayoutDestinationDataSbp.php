@@ -44,9 +44,6 @@ use YooKassa\Validator\Constraints as Assert;
  */
 class PayoutDestinationDataSbp extends AbstractPayoutDestinationData
 {
-    /** @var int Максимальная длина строки id банка. */
-    public const MAX_LENGTH_BANK_ID = 12;
-
     /**
      * Телефон, к которому привязан счет получателя выплаты в системе участника СБП.
      *
@@ -58,14 +55,14 @@ class PayoutDestinationDataSbp extends AbstractPayoutDestinationData
     private ?string $_phone = null;
 
     /**
-     * Идентификатор участника СБП — банка или платежного сервиса, подключенного к сервису.
-     * Максимум 12 символов. [Как получить идентификатор участника СБП](/developers/payouts/making-payouts/sbp)
+     * Идентификатор выбранного участника СБП — банка или платежного сервиса, подключенного к сервису.
+     * Формат: 12 символов. [Как получить идентификатор участника СБП](https://yookassa.ru/developers/payouts/making-payouts/sbp)
      *
      * @var string|null
      */
     #[Assert\NotBlank]
     #[Assert\Type('string')]
-    #[Assert\Length(max: self::MAX_LENGTH_BANK_ID)]
+    #[Assert\Regex("/^[a-zA-Z0-9]{12}$/")]
     private ?string $_bank_id = null;
 
     /**

@@ -17,7 +17,7 @@ Interface CreatePostReceiptRequestInterface.
 | ----------:| ---- | ---- | ------- |
 | public | [getAdditionalUserProps()](../classes/YooKassa-Request-Receipts-CreatePostReceiptRequestInterface.md#method_getAdditionalUserProps) |  | Возвращает дополнительный реквизит пользователя. |
 | public | [getCustomer()](../classes/YooKassa-Request-Receipts-CreatePostReceiptRequestInterface.md#method_getCustomer) |  | Возвращает информацию о плательщике. |
-| public | [getItems()](../classes/YooKassa-Request-Receipts-CreatePostReceiptRequestInterface.md#method_getItems) |  | Возвращает список товаров в заказе. |
+| public | [getItems()](../classes/YooKassa-Request-Receipts-CreatePostReceiptRequestInterface.md#method_getItems) |  | Возвращает Список товаров в заказе: для [Чеков от ЮKassa](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/yoomoney/basics) — не более 80 товаров, для [сторонних онлайн-касс](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/other-services/basics) — не более 100 товаров. |
 | public | [getObjectId()](../classes/YooKassa-Request-Receipts-CreatePostReceiptRequestInterface.md#method_getObjectId) |  | Возвращает идентификатор объекта, для которого формируется чек. |
 | public | [getObjectType()](../classes/YooKassa-Request-Receipts-CreatePostReceiptRequestInterface.md#method_getObjectType) |  | Возвращает тип объекта чека. |
 | public | [getOnBehalfOf()](../classes/YooKassa-Request-Receipts-CreatePostReceiptRequestInterface.md#method_getOnBehalfOf) |  | Возвращает идентификатор магазина, от имени которого нужно отправить чек. |
@@ -67,7 +67,7 @@ Interface CreatePostReceiptRequestInterface.
 | property |  | Отраслевой реквизит чека |
 | property |  | Операционный реквизит чека |
 | property |  | Операционный реквизит чека |
-| property |  | Список товаров в заказе |
+| property |  | Список товаров в заказе: для [Чеков от ЮKassa](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/yoomoney/basics) — не более 80 товаров, для [сторонних онлайн-касс](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/other-services/basics) — не более 100 товаров |
 | property |  | Массив оплат, обеспечивающих выдачу товара |
 
 ---
@@ -436,7 +436,7 @@ public getItems() : ?\YooKassa\Common\ListObjectInterface
 
 **Summary**
 
-Возвращает список товаров в заказе.
+Возвращает Список товаров в заказе: для [Чеков от ЮKassa](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/yoomoney/basics) — не более 80 товаров, для [сторонних онлайн-касс](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/other-services/basics) — не более 100 товаров.
 
 **Description**
 
@@ -587,10 +587,10 @@ public notEmpty() : bool
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 33](../reports/deprecated.md)
+* [Deprecated - 40](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

@@ -10,6 +10,7 @@
 namespace PHPUnit\Event;
 
 use function assert;
+use function memory_reset_peak_usage;
 use PHPUnit\Event\Code\ClassMethod;
 use PHPUnit\Event\Code\ComparisonFailure;
 use PHPUnit\Event\Code\IssueTrigger\IssueTrigger;
@@ -499,6 +500,8 @@ final class DispatchingEmitter implements Emitter
      */
     public function testPrepared(Code\Test $test): void
     {
+        memory_reset_peak_usage();
+
         $this->dispatcher->dispatch(
             new Test\Prepared(
                 $this->telemetryInfo(),
@@ -641,7 +644,7 @@ final class DispatchingEmitter implements Emitter
             new Test\TestProxyCreated(
                 $this->telemetryInfo(),
                 $className,
-                Exporter::export($constructorArguments),
+                Exporter::shortenedRecursiveExport($constructorArguments),
             ),
         );
     }

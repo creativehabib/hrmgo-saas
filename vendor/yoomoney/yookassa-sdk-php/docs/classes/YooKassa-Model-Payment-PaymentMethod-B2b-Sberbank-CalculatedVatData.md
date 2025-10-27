@@ -20,8 +20,8 @@
 | Visibility | Name | Flag | Summary |
 | ----------:| ---- | ---- | ------- |
 | public | [$amount](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-CalculatedVatData.md#property_amount) |  | Сумма НДС |
-| public | [$rate](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-CalculatedVatData.md#property_rate) |  | Налоговая ставка (в процентах). Возможные значения: ~`5`, ~`7`, ~`10`, ~`18` и ~`20`. |
-| public | [$type](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-AbstractVatData.md#property_type) |  | Способ расчёта НДС |
+| public | [$rate](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-CalculatedVatData.md#property_rate) |  | Налоговая ставка (в процентах). Возможные значения: ~`5`, ~`7`, ~`10` и ~`20`. |
+| public | [$type](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-AbstractVatData.md#property_type) |  | Код способа расчета НДС |
 | protected | [$_type](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-AbstractVatData.md#property__type) |  |  |
 
 ---
@@ -36,7 +36,7 @@
 | public | [fromArray()](../classes/YooKassa-Common-AbstractObject.md#method_fromArray) |  | Устанавливает значения свойств текущего объекта из массива. |
 | public | [getAmount()](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-CalculatedVatData.md#method_getAmount) |  | Возвращает сумму НДС |
 | public | [getRate()](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-CalculatedVatData.md#method_getRate) |  | Возвращает налоговую ставку НДС |
-| public | [getType()](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-AbstractVatData.md#method_getType) |  | Возвращает способ расчёта НДС |
+| public | [getType()](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-AbstractVatData.md#method_getType) |  | Возвращает код способа расчета НДС |
 | public | [getValidator()](../classes/YooKassa-Common-AbstractObject.md#method_getValidator) |  |  |
 | public | [jsonSerialize()](../classes/YooKassa-Common-AbstractObject.md#method_jsonSerialize) |  | Возвращает ассоциативный массив со свойствами текущего объекта для его дальнейшей JSON сериализации. |
 | public | [offsetExists()](../classes/YooKassa-Common-AbstractObject.md#method_offsetExists) |  | Проверяет наличие свойства. |
@@ -45,7 +45,7 @@
 | public | [offsetUnset()](../classes/YooKassa-Common-AbstractObject.md#method_offsetUnset) |  | Удаляет свойство. |
 | public | [setAmount()](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-CalculatedVatData.md#method_setAmount) |  | Устанавливает сумму НДС |
 | public | [setRate()](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-CalculatedVatData.md#method_setRate) |  | Устанавливает налоговую ставку НДС |
-| public | [setType()](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-AbstractVatData.md#method_setType) |  | Устанавливает способ расчёта НДС |
+| public | [setType()](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-AbstractVatData.md#method_setType) |  | Устанавливает код способа расчета НДС |
 | public | [toArray()](../classes/YooKassa-Common-AbstractObject.md#method_toArray) |  | Возвращает ассоциативный массив со свойствами текущего объекта для его дальнейшей JSON сериализации Является алиасом метода AbstractObject::jsonSerialize(). |
 | protected | [getUnknownProperties()](../classes/YooKassa-Common-AbstractObject.md#method_getUnknownProperties) |  | Возвращает массив свойств которые не существуют, но были заданы у объекта. |
 | protected | [validatePropertyValue()](../classes/YooKassa-Common-AbstractObject.md#method_validatePropertyValue) |  |  |
@@ -88,7 +88,7 @@
 ---
 ***Description***
 
-Налоговая ставка (в процентах). Возможные значения: ~`5`, ~`7`, ~`10`, ~`18` и ~`20`.
+Налоговая ставка (в процентах). Возможные значения: ~`5`, ~`7`, ~`10` и ~`20`.
 
 **Type:** <a href="../string"><abbr title="string">string</abbr></a>
 
@@ -100,7 +100,7 @@
 ---
 ***Description***
 
-Способ расчёта НДС
+Код способа расчета НДС
 
 **Type:** <a href="../string"><abbr title="string">string</abbr></a>
 
@@ -112,7 +112,7 @@
 #### protected $_type : ?string
 ---
 **Type:** <a href="../?string"><abbr title="?string">?string</abbr></a>
-Способ расчёта НДС
+Код способа расчета НДС
 **Details:**
 * Inherited From: [\YooKassa\Model\Payment\PaymentMethod\B2b\Sberbank\AbstractVatData](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-AbstractVatData.md)
 
@@ -292,12 +292,12 @@ public getType() : string|null
 
 **Summary**
 
-Возвращает способ расчёта НДС
+Возвращает код способа расчета НДС
 
 **Details:**
 * Inherited From: [\YooKassa\Model\Payment\PaymentMethod\B2b\Sberbank\AbstractVatData](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-AbstractVatData.md)
 
-**Returns:** string|null - Способ расчёта НДС
+**Returns:** string|null - Код способа расчета НДС
 
 
 <a name="method_getValidator" class="anchor"></a>
@@ -472,7 +472,7 @@ public setType(string|null $type) : self
 
 **Summary**
 
-Устанавливает способ расчёта НДС
+Устанавливает код способа расчета НДС
 
 **Details:**
 * Inherited From: [\YooKassa\Model\Payment\PaymentMethod\B2b\Sberbank\AbstractVatData](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-AbstractVatData.md)
@@ -480,7 +480,7 @@ public setType(string|null $type) : self
 ##### Parameters:
 | Type | Name | Description |
 | ---- | ---- | ----------- |
-| <code lang="php">string OR null</code> | type  | Способ расчёта НДС |
+| <code lang="php">string OR null</code> | type  | Код способа расчета НДС |
 
 **Returns:** self - 
 
@@ -551,10 +551,10 @@ protected validatePropertyValue(string $propertyName, mixed $propertyValue) : mi
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 33](../reports/deprecated.md)
+* [Deprecated - 40](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

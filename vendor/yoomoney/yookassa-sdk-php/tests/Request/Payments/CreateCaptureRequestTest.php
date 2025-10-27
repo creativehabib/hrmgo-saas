@@ -3,7 +3,7 @@
 /*
 * The MIT License
 *
-* Copyright (c) 2024 "YooMoney", NBСO LLC
+* Copyright (c) 2025 "YooMoney", NBСO LLC
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -214,6 +214,7 @@ class CreateCaptureRequestTest extends AbstractTestCase
                 'vat_code' => Random::int(1, 6),
                 'payment_subject' => PaymentSubject::COMMODITY,
                 'payment_mode' => PaymentMode::PARTIAL_PREPAYMENT,
+                'planned_status' => 6,
             ],
         ]);
         $instance->setReceipt($receipt);
@@ -225,6 +226,8 @@ class CreateCaptureRequestTest extends AbstractTestCase
         $receipt->getCustomer()->setPhone('123123');
         self::assertTrue($instance->validate());
         $item->setVatCode(3);
+        self::assertTrue($instance->validate());
+        $item->setPlannedStatus(6);
         self::assertTrue($instance->validate());
         $receipt->setTaxSystemCode(4);
         self::assertTrue($instance->validate());

@@ -16,10 +16,10 @@
 ### Properties
 | Visibility | Name | Flag | Summary |
 | ----------:| ---- | ---- | ------- |
-| public | [$items](../classes/YooKassa-Request-Receipts-ReceiptsResponse.md#property_items) |  | Список чеков. Чеки отсортированы по времени создания в порядке убывания (desc) |
+| public | [$items](../classes/YooKassa-Request-Receipts-ReceiptsResponse.md#property_items) |  | Список чеков, созданных за последние три года. Чеки отсортированы по времени создания в порядке убывания (от новых к старым). |
 | public | [$nextCursor](../classes/YooKassa-Request-AbstractListResponse.md#property_nextCursor) |  | Указатель на следующий фрагмент списка. Обязательный параметр, если размер списка больше размера выдачи (`limit`) и конец выдачи не достигнут. |
 | public | [$type](../classes/YooKassa-Request-AbstractListResponse.md#property_type) |  | Формат выдачи результатов запроса. Возможное значение: `list` (список). |
-| protected | [$_items](../classes/YooKassa-Request-Receipts-ReceiptsResponse.md#property__items) |  | Список чеков. |
+| protected | [$_items](../classes/YooKassa-Request-Receipts-ReceiptsResponse.md#property__items) |  | Список чеков, созданных за последние три года. |
 | protected | [$_next_cursor](../classes/YooKassa-Request-AbstractListResponse.md#property__next_cursor) |  | Указатель на следующий фрагмент списка. Обязательный параметр, если размер списка больше размера выдачи (`limit`) и конец выдачи не достигнут. |
 | protected | [$_type](../classes/YooKassa-Request-AbstractListResponse.md#property__type) |  | Формат выдачи результатов запроса. Возможное значение: `list` (список). |
 
@@ -73,7 +73,7 @@
 ---
 ***Description***
 
-Список чеков. Чеки отсортированы по времени создания в порядке убывания (desc)
+Список чеков, созданных за последние три года. Чеки отсортированы по времени создания в порядке убывания (от новых к старым).
 
 **Type:** <a href="../\YooKassa\Request\Receipts\AbstractReceiptResponse[]|\YooKassa\Common\ListObjectInterface|null"><abbr title="\YooKassa\Request\Receipts\AbstractReceiptResponse[]|\YooKassa\Common\ListObjectInterface|null">ListObjectInterface|null</abbr></a>
 
@@ -111,7 +111,13 @@
 ---
 **Summary**
 
-Список чеков.
+Список чеков, созданных за последние три года.
+
+***Description***
+
+Чеки отсортированы по времени создания в порядке убывания (от новых к старым).
+Если результатов больше, чем задано в limit, список будет выводиться фрагментами.
+В этом случае в ответе на запрос вернется фрагмент списка и параметр next_cursor с указателем на следующий фрагмент.
 
 **Type:** <a href="../?\YooKassa\Common\ListObject"><abbr title="?\YooKassa\Common\ListObject">ListObject</abbr></a>
 Список чеков
@@ -533,10 +539,10 @@ protected validatePropertyValue(string $propertyName, mixed $propertyValue) : mi
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 33](../reports/deprecated.md)
+* [Deprecated - 40](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

@@ -63,7 +63,7 @@ use YooKassa\Validator\Constraints as Assert;
  * @property array $receipt_industry_details Отраслевой реквизит предмета расчета.
  * @property OperationalDetails $receiptOperationalDetails Операционный реквизит чека.
  * @property OperationalDetails $receipt_operational_details Операционный реквизит чека.
- * @property array $items Список товаров в заказе. Для чеков по 54-ФЗ можно передать не более 100 товаров, для чеков самозанятых — не более шести.
+ * @property array $items Список товаров в заказе: для [Чеков от ЮKassa](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/yoomoney/basics) — не более 80 товаров, для [сторонних онлайн-касс](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/other-services/basics) — не более 100 товаров.
  * @property array $settlements Список платежей
  * @property string $objectId Идентификатор объекта оплаты
  * @property string $object_id Идентификатор объекта оплаты
@@ -113,7 +113,7 @@ class CreatePostReceiptRequest extends AbstractRequest implements CreatePostRece
     #[Assert\Valid]
     private ?OperationalDetails $_receipt_operational_details = null;
 
-    /** @var ReceiptItemInterface[]|ListObjectInterface Список товаров в заказе. Для чеков по 54-ФЗ можно передать не более 100 товаров, для чеков самозанятых — не более шести. */
+    /** @var ReceiptItemInterface[]|ListObjectInterface Список товаров в заказе: для [Чеков от ЮKassa](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/yoomoney/basics) — не более 80 товаров, для [сторонних онлайн-касс](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/other-services/basics) — не более 100 товаров. */
     #[Assert\NotBlank]
     #[Assert\Valid]
     #[Assert\AllType(ReceiptItem::class)]
@@ -244,7 +244,7 @@ class CreatePostReceiptRequest extends AbstractRequest implements CreatePostRece
      * позиций. Все передаваемые значения в массиве позиций должны быть объектами класса, реализующего интерфейс
      * ReceiptItemInterface, в противном случае будет выброшено исключение InvalidPropertyValueTypeException.
      *
-     * @param array|ListObjectInterface $items Список товаров в заказе
+     * @param array|ListObjectInterface $items Список товаров в заказе: для [Чеков от ЮKassa](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/yoomoney/basics) — не более 80 товаров, для [сторонних онлайн-касс](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/other-services/basics) — не более 100 товаров.
      *
      * @return self
      */

@@ -17,13 +17,14 @@ Interface DealInterface.
 | ----------:| ---- | ---- | ------- |
 | public | [getAmount()](../classes/YooKassa-Model-Payout-PayoutInterface.md#method_getAmount) |  | Возвращает баланс сделки. |
 | public | [getCancellationDetails()](../classes/YooKassa-Model-Payout-PayoutInterface.md#method_getCancellationDetails) |  | Возвращает комментарий к статусу canceled: кто отменил выплату и по какой причине. |
-| public | [getCreatedAt()](../classes/YooKassa-Model-Payout-PayoutInterface.md#method_getCreatedAt) |  | Возвращает время создания сделки. |
+| public | [getCreatedAt()](../classes/YooKassa-Model-Payout-PayoutInterface.md#method_getCreatedAt) |  | Возвращает время создания выплаты. |
 | public | [getDeal()](../classes/YooKassa-Model-Payout-PayoutInterface.md#method_getDeal) |  | Возвращает сделку, в рамках которой нужно провести выплату. |
 | public | [getDescription()](../classes/YooKassa-Model-Payout-PayoutInterface.md#method_getDescription) |  | Возвращает описание транзакции (не более 128 символов). |
 | public | [getId()](../classes/YooKassa-Model-Payout-PayoutInterface.md#method_getId) |  | Возвращает Id сделки. |
 | public | [getMetadata()](../classes/YooKassa-Model-Payout-PayoutInterface.md#method_getMetadata) |  | Возвращает дополнительные данные сделки. |
-| public | [getPayoutDestination()](../classes/YooKassa-Model-Payout-PayoutInterface.md#method_getPayoutDestination) |  | Возвращает платежное средство продавца, на которое ЮKassa переводит оплату. |
+| public | [getPayoutDestination()](../classes/YooKassa-Model-Payout-PayoutInterface.md#method_getPayoutDestination) |  | Возвращает платежное средство, на которое ЮKassa зачисляет выплату. |
 | public | [getStatus()](../classes/YooKassa-Model-Payout-PayoutInterface.md#method_getStatus) |  | Возвращает статус сделки. |
+| public | [getSucceededAt()](../classes/YooKassa-Model-Payout-PayoutInterface.md#method_getSucceededAt) |  | Возвращает время успешного проведения выплаты. |
 | public | [getTest()](../classes/YooKassa-Model-Payout-PayoutInterface.md#method_getTest) |  | Возвращает признак тестовой операции. |
 
 ---
@@ -47,6 +48,8 @@ Interface DealInterface.
 | property |  | Описание транзакции |
 | property |  | Время создания заказа |
 | property |  | Время создания заказа |
+| property |  | Время успешного проведения выплаты |
+| property |  | Время успешного проведения выплаты |
 | property |  | Сделка, в рамках которой нужно провести выплату |
 | property |  | Комментарий к отмене выплаты |
 | property |  | Комментарий к отмене выплаты |
@@ -115,12 +118,12 @@ public getPayoutDestination() : \YooKassa\Model\Payout\AbstractPayoutDestination
 
 **Summary**
 
-Возвращает платежное средство продавца, на которое ЮKassa переводит оплату.
+Возвращает платежное средство, на которое ЮKassa зачисляет выплату.
 
 **Details:**
 * Inherited From: [\YooKassa\Model\Payout\PayoutInterface](../classes/YooKassa-Model-Payout-PayoutInterface.md)
 
-**Returns:** \YooKassa\Model\Payout\AbstractPayoutDestination|null - Платежное средство продавца, на которое ЮKassa переводит оплату
+**Returns:** \YooKassa\Model\Payout\AbstractPayoutDestination|null - Платежное средство, на которое ЮKassa зачисляет выплату.
 
 
 <a name="method_getDescription" class="anchor"></a>
@@ -149,12 +152,29 @@ public getCreatedAt() : \DateTime|null
 
 **Summary**
 
-Возвращает время создания сделки.
+Возвращает время создания выплаты.
 
 **Details:**
 * Inherited From: [\YooKassa\Model\Payout\PayoutInterface](../classes/YooKassa-Model-Payout-PayoutInterface.md)
 
 **Returns:** \DateTime|null - Время создания сделки
+
+
+<a name="method_getSucceededAt" class="anchor"></a>
+#### public getSucceededAt() : \DateTime|null
+
+```php
+public getSucceededAt() : \DateTime|null
+```
+
+**Summary**
+
+Возвращает время успешного проведения выплаты.
+
+**Details:**
+* Inherited From: [\YooKassa\Model\Payout\PayoutInterface](../classes/YooKassa-Model-Payout-PayoutInterface.md)
+
+**Returns:** \DateTime|null - Время создания выплаты
 
 
 <a name="method_getDeal" class="anchor"></a>
@@ -238,10 +258,10 @@ public getTest() : bool|null
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 33](../reports/deprecated.md)
+* [Deprecated - 40](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

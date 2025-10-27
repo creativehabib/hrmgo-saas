@@ -51,7 +51,7 @@ class ConfirmationFactory
     /**
      * Возвращает объект, соответствующий типу подтверждения платежа.
      *
-     * @param string $type Тип подтверждения платежа
+     * @param string $type Код сценария подтверждения
      */
     public function factory(string $type): AbstractConfirmation
     {
@@ -67,7 +67,7 @@ class ConfirmationFactory
      * Возвращает объект, соответствующий типу подтверждения платежа, из массива данных.
      *
      * @param array $data Массив данных подтверждения платежа
-     * @param null|string $type Тип подтверждения платежа
+     * @param null|string $type Код сценария подтверждения
      */
     public function factoryFromArray(array $data, ?string $type = null): AbstractConfirmation
     {

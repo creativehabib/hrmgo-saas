@@ -41,7 +41,7 @@ use YooKassa\Validator\Constraints as Assert;
  * @author   cms@yoomoney.ru
  * @link     https://yookassa.ru/developers/api
  *
- * @property string $type Тип подтверждения платежа
+ * @property string $type Код сценария подтверждения
  *
  * @method string getConfirmationUrl() Для ConfirmationRedirect
  * @method string getConfirmationToken() Для ConfirmationEmbedded
@@ -50,7 +50,7 @@ use YooKassa\Validator\Constraints as Assert;
 abstract class AbstractConfirmation extends AbstractObject
 {
     /**
-     * Тип подтверждения платежа.
+     * Код сценария подтверждения.
      */
     #[Assert\NotBlank]
     #[Assert\Type('string')]
@@ -58,7 +58,7 @@ abstract class AbstractConfirmation extends AbstractObject
     protected ?string $_type = null;
 
     /**
-     * Возвращает тип подтверждения платежа.
+     * Возвращает код сценария подтверждения.
      */
     public function getType(): ?string
     {
@@ -66,9 +66,9 @@ abstract class AbstractConfirmation extends AbstractObject
     }
 
     /**
-     * Устанавливает тип подтверждения платежа
+     * Устанавливает код сценария подтверждения
      *
-     * @param string|null $type Тип подтверждения платежа
+     * @param string|null $type Код сценария подтверждения
      *
      * @return self
      */

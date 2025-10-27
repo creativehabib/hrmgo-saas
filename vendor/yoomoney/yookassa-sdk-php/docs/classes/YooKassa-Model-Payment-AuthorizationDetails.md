@@ -23,7 +23,7 @@
 | ----------:| ---- | ---- | ------- |
 | public | [$auth_code](../classes/YooKassa-Model-Payment-AuthorizationDetails.md#property_auth_code) |  | Код авторизации. Выдается эмитентом и подтверждает проведение авторизации. |
 | public | [$authСode](../classes/YooKassa-Model-Payment-AuthorizationDetails.html#property_auth%D0%A1ode) |  | Код авторизации. Выдается эмитентом и подтверждает проведение авторизации. |
-| public | [$rrn](../classes/YooKassa-Model-Payment-AuthorizationDetails.md#property_rrn) |  | Retrieval Reference Number — уникальный идентификатор транзакции в системе эмитента. |
+| public | [$rrn](../classes/YooKassa-Model-Payment-AuthorizationDetails.md#property_rrn) |  | Retrieval Reference Number — идентификатор банковской транзакции. |
 | public | [$three_d_secure](../classes/YooKassa-Model-Payment-AuthorizationDetails.md#property_three_d_secure) |  | Данные о прохождении пользователем аутентификации по 3‑D Secure. |
 | public | [$threeDSecure](../classes/YooKassa-Model-Payment-AuthorizationDetails.md#property_threeDSecure) |  | Данные о прохождении пользователем аутентификации по 3‑D Secure. |
 
@@ -104,7 +104,7 @@
 ---
 ***Description***
 
-Retrieval Reference Number — уникальный идентификатор транзакции в системе эмитента.
+Retrieval Reference Number — идентификатор банковской транзакции.
 
 **Type:** <a href="../string"><abbr title="string">string</abbr></a>
 
@@ -480,7 +480,7 @@ public setRrn(string|null $rrn = null) : self
 ##### Parameters:
 | Type | Name | Description |
 | ---- | ---- | ----------- |
-| <code lang="php">string OR null</code> | rrn  | Retrieval Reference Number — уникальный идентификатор транзакции в системе эмитента. |
+| <code lang="php">string OR null</code> | rrn  | Retrieval Reference Number — идентификатор банковской транзакции. |
 
 **Returns:** self - 
 
@@ -573,10 +573,10 @@ protected validatePropertyValue(string $propertyName, mixed $propertyValue) : mi
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 33](../reports/deprecated.md)
+* [Deprecated - 40](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

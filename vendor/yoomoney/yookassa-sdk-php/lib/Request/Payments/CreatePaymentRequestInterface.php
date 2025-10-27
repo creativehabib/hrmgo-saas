@@ -36,6 +36,7 @@ use YooKassa\Model\Payment\TransferInterface;
 use YooKassa\Model\Receipt\ReceiptInterface;
 use YooKassa\Request\Payments\ConfirmationAttributes\AbstractConfirmationAttributes;
 use YooKassa\Request\Payments\PaymentData\AbstractPaymentData;
+use YooKassa\Request\Payments\PaymentOrderData\AbstractPaymentOrder;
 use YooKassa\Request\Payments\ReceiverData\AbstractReceiver;
 
 /**
@@ -385,6 +386,26 @@ interface CreatePaymentRequestInterface
      */
     public function setMerchantCustomerId(?string $merchant_customer_id): self;
 
+    /**
+     * Возвращает платежное поручение.
+     *
+     * @return AbstractPaymentOrder|null Платежное поручение — распоряжение на перевод банку для оплаты жилищно-коммунальных услуг (ЖКУ), сведения о платеже для регистрации в ГИС ЖКХ.
+     */
+    public function getPaymentOrder(): ?AbstractPaymentOrder;
+
+    /**
+     * Проверяет, было ли установлено платежное поручение.
+     *
+     * @return bool True если платежное поручение было установлены, false если нет
+     */
+    public function hasPaymentOrder(): bool;
+
+    /**
+     * Устанавливает платежное поручение.
+     *
+     * @param AbstractPaymentOrder|array|null $payment_order Платежное поручение — распоряжение на перевод банку для оплаты жилищно-коммунальных услуг (ЖКУ), сведения о платеже для регистрации в ГИС ЖКХ.
+     */
+    public function setPaymentOrder(mixed $payment_order = null): self;
 
     /**
      * Возвращает реквизиты получателя оплаты.

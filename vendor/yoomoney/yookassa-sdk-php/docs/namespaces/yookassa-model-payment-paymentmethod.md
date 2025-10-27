@@ -31,6 +31,7 @@
 | [\YooKassa\Model\Payment\PaymentMethod\PaymentMethodPsb](../classes/YooKassa-Model-Payment-PaymentMethod-PaymentMethodPsb.md) | Класс, представляющий модель PaymentMethodPsb. |
 | [\YooKassa\Model\Payment\PaymentMethod\PaymentMethodQiwi](../classes/YooKassa-Model-Payment-PaymentMethod-PaymentMethodQiwi.md) | Класс, представляющий модель PaymentMethodQiwi. |
 | [\YooKassa\Model\Payment\PaymentMethod\PaymentMethodSberbank](../classes/YooKassa-Model-Payment-PaymentMethod-PaymentMethodSberbank.md) | Класс, представляющий модель PaymentMethodSberbank. |
+| [\YooKassa\Model\Payment\PaymentMethod\PaymentMethodSberBnpl](../classes/YooKassa-Model-Payment-PaymentMethod-PaymentMethodSberBnpl.md) | Класс, представляющий модель PaymentMethodSberBnpl. |
 | [\YooKassa\Model\Payment\PaymentMethod\PaymentMethodSberLoan](../classes/YooKassa-Model-Payment-PaymentMethod-PaymentMethodSberLoan.md) | Класс, представляющий модель PaymentMethodSberLoan. |
 | [\YooKassa\Model\Payment\PaymentMethod\PaymentMethodSbp](../classes/YooKassa-Model-Payment-PaymentMethod-PaymentMethodSbp.md) | Класс, представляющий модель PaymentMethodSbp. |
 | [\YooKassa\Model\Payment\PaymentMethod\PaymentMethodTinkoffBank](../classes/YooKassa-Model-Payment-PaymentMethod-PaymentMethodTinkoffBank.md) | Класс, представляющий модель PaymentMethodTinkoffBank. |
@@ -51,10 +52,10 @@
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 33](../reports/deprecated.md)
+* [Deprecated - 40](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

@@ -45,7 +45,7 @@ use YooKassa\Validator\Constraints as Assert;
 /**
  * Класс, представляющий модель Payment.
  *
- * Данные о платеже.
+ * Объект платежа (Payment) — актуальная информация о платеже.
  *
  * @category Class
  * @package  YooKassa\Model

@@ -47,6 +47,8 @@ use YooKassa\Model\Receipt\ReceiptItemAmount;
 use YooKassa\Request\Payments\ConfirmationAttributes\ConfirmationAttributesExternal;
 use YooKassa\Request\Payments\CreatePaymentRequestBuilder;
 use YooKassa\Request\Payments\PaymentData\PaymentDataQiwi;
+use YooKassa\Request\Payments\PaymentOrderData\PaymentOrderType;
+use YooKassa\Request\Payments\PaymentOrderData\PaymentOrderUtilities;
 use YooKassa\Request\Payments\ReceiverData\ReceiverDigitalWallet;
 use YooKassa\Request\Payments\ReceiverData\ReceiverType;
 use YooKassa\Request\Payments\Recipient;
@@ -929,6 +931,8 @@ class CreatePaymentRequestBuilderTest extends TestCase
         $receiptItem->setQuantity(1);
         $receiptItem->setDescription('test');
         $receiptItem->setVatCode(3);
+        $receiptItem->setPlannedStatus(6);
+
         $result = [
             [
                 [
@@ -965,6 +969,7 @@ class CreatePaymentRequestBuilderTest extends TestCase
                     'receiptIndustryDetails' => [],
                     'receiptOperationalDetails' => null,
                     'receiver' => null,
+                    'paymentOrder' => null,
                 ],
             ],
             [
@@ -982,6 +987,7 @@ class CreatePaymentRequestBuilderTest extends TestCase
                             'vatCode' => Random::int(1, 6),
                             'paymentMode' => PaymentMode::CREDIT_PAYMENT,
                             'paymentSubject' => PaymentSubject::ANOTHER,
+                            'planned_status' => 6,
                         ],
                         $receiptItem,
                     ],
@@ -1013,6 +1019,7 @@ class CreatePaymentRequestBuilderTest extends TestCase
                     'receiptIndustryDetails' => [],
                     'receiptOperationalDetails' => null,
                     'receiver' => null,
+                    'paymentOrder' => null,
                 ],
             ],
         ];
@@ -1050,6 +1057,37 @@ class CreatePaymentRequestBuilderTest extends TestCase
                 'phone' => Random::str(4, 15, '0123456789'),
             ],
         ];
+        $paymentOrderArr = [
+            'type' => PaymentOrderType::UTILITIES,
+            'amount' => [
+                'value' => Random::int(1, 100000),
+                'currency' => Random::value(CurrencyCode::getValidValues()),
+            ],
+            'payment_purpose' => Random::str(1, 210),
+            'recipient' => [
+                'name' => Random::str(1, 100),
+                'inn' => Random::str(10, 10, '0123456789'),
+                'kpp' => Random::str(9, 9, '0123456789'),
+                'bank' => [
+                    'name' => Random::str(1, 100),
+                    'bic' => Random::str(9, 9, '0123456789'),
+                    'account' => Random::str(20, 20, '0123456789'),
+                    'correspondent_account' => Random::str(20, 20, '0123456789'),
+                ]
+            ],
+            'kbk' => Random::str(20, 20, '0123456789'),
+            'oktmo' => Random::str(8, 8, '0123456789'),
+            'payment_period' => [
+                'month' => Random::int(1, 12),
+                'year' => Random::int(1900, 3000),
+            ],
+            'payment_document_id' => Random::str(18),
+            'payment_document_number' => '34СТ185329012352',
+            'account_number' => '34СТ185329012352',
+            'unified_account_number' => Random::str(10),
+            'service_id' => Random::str(13),
+        ];
+        $paymentOrders = [$paymentOrderArr, new PaymentOrderUtilities($paymentOrderArr)];
         for ($i = 0; $i < 10; $i++) {
             $request = [
                 'accountId' => uniqid('', true),
@@ -1104,6 +1142,7 @@ class CreatePaymentRequestBuilderTest extends TestCase
                 ],
                 'merchant_customer_id' => Random::str(3, 100),
                 'receiver' => Random::value($receivers),
+                'paymentOrder' => Random::value($paymentOrders),
             ];
             $result[] = [$request];
         }
@@ -1266,6 +1305,55 @@ class CreatePaymentRequestBuilderTest extends TestCase
      * @throws Exception
      */
     public static function invalidReceiverDataProvider(): array
+    {
+        return [
+            [true],
+            [false],
+            [new stdClass()],
+            [0],
+            [7],
+            [Random::int(-100, -1)],
+            [Random::int(7, 100)],
+        ];
+    }
+
+    /**
+     * @dataProvider validDataProvider
+     *
+     * @param mixed $options
+     *
+     * @throws Exception
+     */
+    public function testSetPaymentOrder(mixed $options): void
+    {
+        $builder = new CreatePaymentRequestBuilder();
+        $builder->setPaymentOrder($options['paymentOrder']);
+        $instance = $builder->build($this->getRequiredData());
+
+        if (empty($options['paymentOrder'])) {
+            self::assertNull($instance->getPaymentOrder());
+        } else {
+            self::assertNotNull($instance->getPaymentOrder());
+            self::assertEquals($options['paymentOrder'], is_array($options['paymentOrder']) ? $instance->getPaymentOrder()->toArray() : $instance->getPaymentOrder());
+        }
+    }
+
+    /**
+     * @dataProvider invalidPaymentOrderDataProvider
+     *
+     * @param mixed $value
+     */
+    public function testSetInvalidPaymentOrder(mixed $value): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $builder = new CreatePaymentRequestBuilder();
+        $builder->setPaymentOrder($value);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public static function invalidPaymentOrderDataProvider(): array
     {
         return [
             [true],

@@ -28,7 +28,7 @@
 | [\YooKassa\Model\Receipt\PaymentSubject](../classes/YooKassa-Model-Receipt-PaymentSubject.md) | Класс, представляющий модель PaymentSubject. |
 | [\YooKassa\Model\Receipt\Receipt](../classes/YooKassa-Model-Receipt-Receipt.md) | Класс данных для формирования чека в онлайн-кассе (для соблюдения 54-ФЗ). |
 | [\YooKassa\Model\Receipt\ReceiptCustomer](../classes/YooKassa-Model-Receipt-ReceiptCustomer.md) | Информация о плательщике. |
-| [\YooKassa\Model\Receipt\ReceiptItem](../classes/YooKassa-Model-Receipt-ReceiptItem.md) | Информация о товарной позиции в заказе, позиция фискального чека. |
+| [\YooKassa\Model\Receipt\ReceiptItem](../classes/YooKassa-Model-Receipt-ReceiptItem.md) | Информация о товарной позиции в заказе. Используется для формирования чека. |
 | [\YooKassa\Model\Receipt\ReceiptItemAmount](../classes/YooKassa-Model-Receipt-ReceiptItemAmount.md) | Class ReceiptItemAmount. |
 | [\YooKassa\Model\Receipt\ReceiptItemMeasure](../classes/YooKassa-Model-Receipt-ReceiptItemMeasure.md) | Класс, представляющий модель ReceiptItemMeasure. |
 | [\YooKassa\Model\Receipt\ReceiptType](../classes/YooKassa-Model-Receipt-ReceiptType.md) | ReceiptType - Тип чека в онлайн-кассе. |
@@ -47,10 +47,10 @@
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 33](../reports/deprecated.md)
+* [Deprecated - 40](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

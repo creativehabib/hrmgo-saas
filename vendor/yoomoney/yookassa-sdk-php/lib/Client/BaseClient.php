@@ -35,6 +35,7 @@ use YooKassa\Common\Exceptions\AuthorizeException;
 use YooKassa\Common\Exceptions\BadApiRequestException;
 use YooKassa\Common\Exceptions\ExtensionNotFoundException;
 use YooKassa\Common\Exceptions\ForbiddenException;
+use YooKassa\Common\Exceptions\GoneException;
 use YooKassa\Common\Exceptions\InternalServerError;
 use YooKassa\Common\Exceptions\NotFoundException;
 use YooKassa\Common\Exceptions\ResponseProcessingException;
@@ -90,6 +91,9 @@ class BaseClient
 
     /** Точка входа для запросов к API по счетам */
     public const INVOICES_PATH = '/invoices';
+
+    /** Точка входа для запросов к API по способам оплаты */
+    public const PAYMENT_METHODS_PATH = '/payment_methods';
 
     /** Имя HTTP заголовка, используемого для передачи idempotence key */
     public const IDEMPOTENCE_KEY_HEADER = 'Idempotence-Key';
@@ -341,6 +345,7 @@ class BaseClient
      * @throws ForbiddenException секретный ключ или OAuth-токен верный, но не хватает прав для совершения операции
      * @throws InternalServerError Технические неполадки на стороне ЮKassa. Результат обработки запроса неизвестен. Повторите запрос позднее с тем же ключом идемпотентности.
      * @throws NotFoundException ресурс не найден
+     * @throws GoneException ресурс удален
      * @throws ResponseProcessingException запрос был принят на обработку, но она не завершена
      * @throws TooManyRequestsException Превышен лимит запросов в единицу времени. Попробуйте снизить интенсивность запросов.
      * @throws UnauthorizedException неверное имя пользователя или пароль или невалидный OAuth-токен при аутентификации
@@ -352,37 +357,26 @@ class BaseClient
             case BadApiRequestException::HTTP_CODE:
                 throw new BadApiRequestException($response->getHeaders(), $response->getBody());
 
-                break;
-
             case ForbiddenException::HTTP_CODE:
                 throw new ForbiddenException($response->getHeaders(), $response->getBody());
-
-                break;
 
             case UnauthorizedException::HTTP_CODE:
                 throw new UnauthorizedException($response->getHeaders(), $response->getBody());
 
-                break;
-
             case InternalServerError::HTTP_CODE:
                 throw new InternalServerError($response->getHeaders(), $response->getBody());
-
-                break;
 
             case NotFoundException::HTTP_CODE:
                 throw new NotFoundException($response->getHeaders(), $response->getBody());
 
-                break;
+            case GoneException::HTTP_CODE:
+                throw new GoneException($response->getHeaders(), $response->getBody());
 
             case TooManyRequestsException::HTTP_CODE:
                 throw new TooManyRequestsException($response->getHeaders(), $response->getBody());
 
-                break;
-
             case ResponseProcessingException::HTTP_CODE:
                 throw new ResponseProcessingException($response->getHeaders(), $response->getBody());
-
-                break;
 
             default:
                 if ($response->getCode() > 399) {

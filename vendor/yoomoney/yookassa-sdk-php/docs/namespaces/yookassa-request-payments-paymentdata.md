@@ -26,6 +26,7 @@
 | [\YooKassa\Request\Payments\PaymentData\PaymentDataMobileBalance](../classes/YooKassa-Request-Payments-PaymentData-PaymentDataMobileBalance.md) | Класс, представляющий модель PaymentMethodDataMobileBalance. |
 | [\YooKassa\Request\Payments\PaymentData\PaymentDataQiwi](../classes/YooKassa-Request-Payments-PaymentData-PaymentDataQiwi.md) | Класс, представляющий модель PaymentMethodDataQiwi. |
 | [\YooKassa\Request\Payments\PaymentData\PaymentDataSberbank](../classes/YooKassa-Request-Payments-PaymentData-PaymentDataSberbank.md) | Класс, представляющий модель PaymentMethodDataSberbank. |
+| [\YooKassa\Request\Payments\PaymentData\PaymentDataSberBnpl](../classes/YooKassa-Request-Payments-PaymentData-PaymentDataSberBnpl.md) | Класс, представляющий модель PaymentDataSberBnpl. |
 | [\YooKassa\Request\Payments\PaymentData\PaymentDataSberLoan](../classes/YooKassa-Request-Payments-PaymentData-PaymentDataSberLoan.md) | Класс, представляющий модель PaymentDataSberLoan. |
 | [\YooKassa\Request\Payments\PaymentData\PaymentDataSbp](../classes/YooKassa-Request-Payments-PaymentData-PaymentDataSbp.md) | Класс, представляющий модель PaymentMethodDataSbp. |
 | [\YooKassa\Request\Payments\PaymentData\PaymentDataTinkoffBank](../classes/YooKassa-Request-Payments-PaymentData-PaymentDataTinkoffBank.md) | Класс, представляющий модель PaymentMethodDataTinkoffBank. |
@@ -42,10 +43,10 @@
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 33](../reports/deprecated.md)
+* [Deprecated - 40](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

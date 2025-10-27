@@ -32,7 +32,7 @@ use YooKassa\Validator\Constraints as Assert;
 /**
  * Класс, представляющий модель PaymentMethodDataYooMoney.
  *
- * Данные для проведения оплаты через ЮMoney.
+ * Данные для проведения оплаты из кошелька ЮMoney.
  *
  * @category Class
  * @package  YooKassa\Request

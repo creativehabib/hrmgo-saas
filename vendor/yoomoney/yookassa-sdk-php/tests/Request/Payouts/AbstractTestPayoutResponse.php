@@ -3,7 +3,7 @@
 /*
 * The MIT License
 *
-* Copyright (c) 2024 "YooMoney", NBСO LLC
+* Copyright (c) 2025 "YooMoney", NBСO LLC
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -108,6 +108,21 @@ abstract class AbstractTestPayoutResponse extends TestCase
     /**
      * @dataProvider validDataProvider
      */
+    public function testGetSucceededAt(array $options): void
+    {
+        $instance = $this->getTestInstance($options);
+        if (empty($options['succeeded_at'])) {
+            self::assertNull($instance->getSucceededAt());
+            self::assertNull($instance->succeeded_at);
+            self::assertNull($instance->succeededAt);
+        } else {
+            self::assertEquals($options['succeeded_at'], $instance->getSucceededAt()->format(YOOKASSA_DATE));
+        }
+    }
+
+    /**
+     * @dataProvider validDataProvider
+     */
     public function testGetDeal(array $options): void
     {
         $instance = $this->getTestInstance($options);
@@ -192,7 +207,7 @@ abstract class AbstractTestPayoutResponse extends TestCase
             PayoutDestinationType::SBP => [
                 'type' => PaymentMethodType::SBP,
                 'phone' => Random::str(4, 15, '0123456789'),
-                'bank_id' => Random::str(4, 12, '0123456789'),
+                'bank_id' => Random::str(12, 12, '0123456789'),
                 'recipient_checked' => Random::bool(),
             ]
         ];
@@ -205,6 +220,7 @@ abstract class AbstractTestPayoutResponse extends TestCase
                 'description' => Random::str(1, Payout::MAX_LENGTH_DESCRIPTION),
                 'payout_destination' => $payoutDestinations[Random::value(PayoutDestinationType::getValidValues())],
                 'created_at' => date(YOOKASSA_DATE, Random::int(111111111, time())),
+                'succeeded_at' => date(YOOKASSA_DATE, Random::int(111111111, time())),
                 'test' => true,
                 'deal' => ['id' => Random::str(36, 50)],
                 'metadata' => ['order_id' => '37'],
@@ -222,6 +238,7 @@ abstract class AbstractTestPayoutResponse extends TestCase
                 'description' => Random::str(1, Payout::MAX_LENGTH_DESCRIPTION),
                 'payout_destination' => $payoutDestinations[Random::value(PayoutDestinationType::getValidValues())],
                 'created_at' => date(YOOKASSA_DATE, Random::int(1, time())),
+                'succeeded_at' => date(YOOKASSA_DATE, Random::int(1, time())),
                 'test' => true,
                 'metadata' => null,
                 'cancellation_details' => null,
@@ -237,6 +254,7 @@ abstract class AbstractTestPayoutResponse extends TestCase
                     : Random::str(1, Payout::MAX_LENGTH_DESCRIPTION)))),
                 'payout_destination' => $payoutDestinations[Random::value(PayoutDestinationType::getValidValues())],
                 'created_at' => date(YOOKASSA_DATE, Random::int(1, time())),
+                'succeeded_at' => date(YOOKASSA_DATE, Random::int(1, time())),
                 'test' => (bool) ($i % 2),
                 'metadata' => [Random::str(3, 128, 'abcdefghijklmnopqrstuvwxyz') => Random::str(1, 512)],
                 'cancellation_details' => [

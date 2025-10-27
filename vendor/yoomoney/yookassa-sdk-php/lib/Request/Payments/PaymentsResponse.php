@@ -42,12 +42,17 @@ use YooKassa\Validator\Constraints as Assert;
  * @author   cms@yoomoney.ru
  * @link     https://yookassa.ru/developers/api
  *
- * @property PaymentInterface[]|ListObjectInterface|null $items Массив платежей
+ * @property PaymentInterface[]|ListObjectInterface|null $items Список платежей, созданных за последние три года. Платежи отсортированы по времени создания в порядке убывания (от новых к старым).
  */
 class PaymentsResponse extends AbstractListResponse
 {
     /**
-     * @var PaymentInterface[]|ListObjectInterface|null Массив платежей
+     * Список платежей, созданных за последние три года.
+     * Платежи отсортированы по времени создания в порядке убывания (от новых к старым).
+     * Если результатов больше, чем задано в limit, список будет выводиться фрагментами.
+     * В этом случае в ответе на запрос вернется фрагмент списка и параметр next_cursor с указателем на следующий фрагмент.
+     *
+     * @var PaymentInterface[]|ListObjectInterface|null Список платежей
      */
     #[Assert\Valid]
     #[Assert\AllType(PaymentResponse::class)]

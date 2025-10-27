@@ -15,7 +15,7 @@
 ### Constants
 | Visibility | Name | Flag | Summary |
 | ----------:| ---- | ---- | ------- |
-| public | [INVOICE_CANCELED](../classes/YooKassa-Model-Invoice-InvoiceCancellationDetailsReasonCode.md#constant_INVOICE_CANCELED) |  | [Счет отменен вручную](https://yookassa.ru/docs/support/merchant/payments/invoicing#invoicing__cancel) из личного кабинета ЮKassa. |
+| public | [INVOICE_CANCELED](../classes/YooKassa-Model-Invoice-InvoiceCancellationDetailsReasonCode.md#constant_INVOICE_CANCELED) |  | [Счет отменен вручную](https://yookassa.ru/docs/support/merchant/invoices-to-clients/invoicing#invoicing__cancel) из личного кабинета ЮKassa. |
 | public | [INVOICE_EXPIRED](../classes/YooKassa-Model-Invoice-InvoiceCancellationDetailsReasonCode.md#constant_INVOICE_EXPIRED) |  | Истек срок действия счета, который вы установили в запросе на создание счета в параметре `expires_at`, и по счету нет ни одного успешного платежа |
 | public | [GENERAL_DECLINE](../classes/YooKassa-Model-Invoice-InvoiceCancellationDetailsReasonCode.md#constant_GENERAL_DECLINE) |  | Причина не детализирована, поэтому пользователю следует обратиться к инициатору отмены счета за уточнением подробностей |
 | public | [PAYMENT_CANCELED](../classes/YooKassa-Model-Invoice-InvoiceCancellationDetailsReasonCode.md#constant_PAYMENT_CANCELED) |  | [Платеж отменен по API](https://yookassa.ru/developers/payment-acceptance/getting-started/payment-process#cancel) при оплате в две стадии |
@@ -57,7 +57,7 @@
 ## Constants
 <a name="constant_INVOICE_CANCELED" class="anchor"></a>
 ###### INVOICE_CANCELED
-[Счет отменен вручную](https://yookassa.ru/docs/support/merchant/payments/invoicing#invoicing__cancel) из личного кабинета ЮKassa.
+[Счет отменен вручную](https://yookassa.ru/docs/support/merchant/invoices-to-clients/invoicing#invoicing__cancel) из личного кабинета ЮKassa.
 
 ```php
 INVOICE_CANCELED = 'invoice_canceled'
@@ -182,10 +182,10 @@ Static public valueExists(mixed $value) : bool
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 33](../reports/deprecated.md)
+* [Deprecated - 40](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

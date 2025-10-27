@@ -219,4 +219,67 @@ class PaymentMethodSberLoanTest extends AbstractTestCase
         $instance = $this->getTestInstance();
         return $this->getInvalidDataProviderByType($instance->getValidator()->getRulesByPropName('_discount_amount'));
     }
+
+    /**
+     * Test property "suspended_until"
+     * @dataProvider validSuspendedUntilDataProvider
+     * @param mixed $value
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testSuspendedUntil(mixed $value): void
+    {
+        $instance = $this->getTestInstance();
+        self::assertEmpty($instance->getSuspendedUntil());
+        self::assertEmpty($instance->suspended_until);
+        $instance->setSuspendedUntil($value);
+        if (!empty($value)) {
+            self::assertNotNull($instance->getSuspendedUntil());
+            self::assertNotNull($instance->suspended_until);
+            if ($value instanceof Datetime) {
+                self::assertEquals($value, $instance->getSuspendedUntil());
+                self::assertEquals($value, $instance->suspended_until);
+            } else {
+                self::assertEquals(new Datetime($value), $instance->getSuspendedUntil());
+                self::assertEquals(new Datetime($value), $instance->suspended_until);
+            }
+        }
+    }
+
+    /**
+     * Test invalid property "suspended_until"
+     * @dataProvider invalidSuspendedUntilDataProvider
+     * @param mixed $value
+     * @param string $exceptionClass
+     *
+     * @return void
+     */
+    public function testInvalidSuspendedUntil(mixed $value, string $exceptionClass): void
+    {
+        $instance = $this->getTestInstance();
+
+        $this->expectException($exceptionClass);
+        $instance->setSuspendedUntil($value);
+    }
+
+    /**
+     * @return array[]
+     * @throws Exception
+     */
+    public function validSuspendedUntilDataProvider(): array
+    {
+        $instance = $this->getTestInstance();
+        return $this->getValidDataProviderByType($instance->getValidator()->getRulesByPropName('_suspended_until'));
+    }
+
+    /**
+     * @return array[]
+     * @throws Exception
+     */
+    public function invalidSuspendedUntilDataProvider(): array
+    {
+        $instance = $this->getTestInstance();
+        return $this->getInvalidDataProviderByType($instance->getValidator()->getRulesByPropName('_suspended_until'));
+    }
 }

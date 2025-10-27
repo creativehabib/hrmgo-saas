@@ -81,20 +81,20 @@ class FiscalizationProvider extends AbstractEnum
      */
     protected static array $validValues = [
         self::ATOL => true,
-        self::BUSINESS_RU => true,
-        self::SHTRIH_M => true,
-        self::MODUL_KASSA => true,
-        self::EVOTOR => true,
-        self::KIT_INVEST => true,
-        self::A_QSI => true,
-        self::FNS => true,
         self::AVANPOST => true,
-        self::MERTRADE => true,
-        self::FIRST_OFD => true,
-        self::LIFE_PAY => true,
-        self::ROCKET => true,
+        self::A_QSI => true,
+        self::BUSINESS_RU => true,
         self::DIGITAL_KASSA => true,
+        self::EVOTOR => true,
+        self::FIRST_OFD => true,
+        self::FNS => true,
+        self::KIT_INVEST => true,
         self::KOMTET => true,
+        self::LIFE_PAY => true,
+        self::MERTRADE => true,
+        self::MODUL_KASSA => true,
+        self::ROCKET => true,
+        self::SHTRIH_M => true,
     ];
 }
 

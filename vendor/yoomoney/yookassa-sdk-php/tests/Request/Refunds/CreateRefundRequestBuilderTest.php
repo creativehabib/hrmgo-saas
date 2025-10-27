@@ -610,12 +610,14 @@ class CreateRefundRequestBuilderTest extends TestCase
                 ],
                 'quantity' => Random::int(1, 9999),
                 'vatCode' => Random::int(1, 6),
+                'planned_status' => 6,
             ],
         ];
         $items[0]->setDescription('test1');
         $items[0]->setQuantity(Random::int(1, 9999));
         $items[0]->setPrice(new ReceiptItemAmount(Random::int(1, 999999)));
         $items[0]->setVatCode(Random::int(1, 6));
+        $items[0]->setPlannedStatus(Random::int(1, 6));
         for ($i = 0; $i < 10; $i++) {
             $request = [
                 'paymentId' => Random::str(36),

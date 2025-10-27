@@ -37,6 +37,8 @@ use YooKassa\Request\Payments\ConfirmationAttributes\AbstractConfirmationAttribu
 use YooKassa\Request\Payments\ConfirmationAttributes\ConfirmationAttributesFactory;
 use YooKassa\Request\Payments\PaymentData\AbstractPaymentData;
 use YooKassa\Request\Payments\PaymentData\PaymentDataFactory;
+use YooKassa\Request\Payments\PaymentOrderData\AbstractPaymentOrder;
+use YooKassa\Request\Payments\PaymentOrderData\PaymentOrderFactory;
 use YooKassa\Request\Payments\ReceiverData\AbstractReceiver;
 use YooKassa\Request\Payments\ReceiverData\ReceiverFactory;
 use YooKassa\Validator\Constraints as Assert;
@@ -73,6 +75,7 @@ use YooKassa\Validator\Constraints as Assert;
  * @property PaymentDealInfo $deal Данные о сделке, в составе которой проходит платеж
  * @property string $merchantCustomerId Идентификатор покупателя в вашей системе, например электронная почта или номер телефона
  * @property string $merchant_customer_id Идентификатор покупателя в вашей системе, например электронная почта или номер телефона
+ * @property AbstractPaymentOrder $payment_order Платежное поручение — распоряжение на перевод банку для оплаты жилищно-коммунальных услуг (ЖКУ), сведения о платеже для регистрации в ГИС ЖКХ. Необходимо передавать при [оплате ЖКУ](/developers/payment-acceptance/scenario-extensions/utility-payments).
  * @property AbstractReceiver|null $receiver Реквизиты получателя оплаты при пополнении электронного кошелька, банковского счета или баланса телефона
  */
 class CreatePaymentRequest extends AbstractPaymentRequest implements CreatePaymentRequestInterface
@@ -170,6 +173,17 @@ class CreatePaymentRequest extends AbstractPaymentRequest implements CreatePayme
     #[Assert\Type('string')]
     #[Assert\Length(max: Payment::MAX_LENGTH_MERCHANT_CUSTOMER_ID)]
     private ?string $_merchant_customer_id = null;
+
+    /**
+     * Платежное поручение — распоряжение на перевод банку для оплаты жилищно-коммунальных услуг (ЖКУ), сведения о платеже для регистрации в ГИС ЖКХ.
+     *
+     * Необходимо передавать при [оплате ЖКУ](/developers/payment-acceptance/scenario-extensions/utility-payments).
+     *
+     * @var AbstractPaymentOrder|null
+     */
+    #[Assert\Valid]
+    #[Assert\Type(AbstractPaymentOrder::class)]
+    private ?AbstractPaymentOrder $_payment_order = null;
 
     /**
      * Реквизиты получателя оплаты при пополнении электронного кошелька, банковского счета или баланса телефона
@@ -608,6 +622,42 @@ class CreatePaymentRequest extends AbstractPaymentRequest implements CreatePayme
     public function setMerchantCustomerId(?string $merchant_customer_id): self
     {
         $this->_merchant_customer_id = $this->validatePropertyValue('_merchant_customer_id', $merchant_customer_id);
+        return $this;
+    }
+
+    /**
+     * Возвращает платежное поручение.
+     *
+     * @return AbstractPaymentOrder|null
+     */
+    public function getPaymentOrder(): ?AbstractPaymentOrder
+    {
+        return $this->_payment_order;
+    }
+
+    /**
+     * Проверяет, было ли установлено платежное поручение.
+     *
+     * @return bool True если платежное поручение было установлены, false если нет
+     */
+    public function hasPaymentOrder(): bool
+    {
+        return null !== $this->_payment_order;
+    }
+
+    /**
+     * Устанавливает платежное поручение.
+     *
+     * @param AbstractPaymentOrder|array|null $payment_order Платежное поручение
+     *
+     * @return self
+     */
+    public function setPaymentOrder(mixed $payment_order = null): self
+    {
+        if (is_array($payment_order)) {
+            $payment_order = (new PaymentOrderFactory())->factoryFromArray($payment_order);
+        }
+        $this->_payment_order = $this->validatePropertyValue('_payment_order', $payment_order);
         return $this;
     }
 

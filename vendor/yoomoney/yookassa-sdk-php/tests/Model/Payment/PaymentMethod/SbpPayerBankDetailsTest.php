@@ -75,10 +75,10 @@ class SbpPayerBankDetailsTest extends AbstractTestCase
         self::assertNotNull($instance->bank_id);
         self::assertEquals($value, $instance->getBankId());
         self::assertEquals($value, $instance->bank_id);
-        self::assertMatchesRegularExpression("/\\d{12}/", $instance->getBankId());
-        self::assertMatchesRegularExpression("/\\d{12}/", $instance->bank_id);
-        self::assertLessThanOrEqual(12, is_string($instance->getBankId()) ? mb_strlen($instance->getBankId()) : $instance->getBankId());
-        self::assertLessThanOrEqual(12, is_string($instance->bank_id) ? mb_strlen($instance->bank_id) : $instance->bank_id);
+        self::assertMatchesRegularExpression("/[a-zA-Z0-9]{12}/", $instance->getBankId());
+        self::assertMatchesRegularExpression("/[a-zA-Z0-9]{12}/", $instance->bank_id);
+        self::assertEquals(12, is_string($instance->getBankId()) ? mb_strlen($instance->getBankId()) : $instance->getBankId());
+        self::assertEquals(12, is_string($instance->bank_id) ? mb_strlen($instance->bank_id) : $instance->bank_id);
     }
 
     /**

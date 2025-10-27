@@ -29,6 +29,7 @@ Interface ReceiptItemInterface.
 | public | [getPaymentMode()](../classes/YooKassa-Model-Receipt-ReceiptItemInterface.md#method_getPaymentMode) |  | Возвращает признак способа расчета. |
 | public | [getPaymentSubject()](../classes/YooKassa-Model-Receipt-ReceiptItemInterface.md#method_getPaymentSubject) |  | Возвращает признак предмета расчета. |
 | public | [getPaymentSubjectIndustryDetails()](../classes/YooKassa-Model-Receipt-ReceiptItemInterface.md#method_getPaymentSubjectIndustryDetails) |  | Возвращает отраслевой реквизит чека. |
+| public | [getPlannedStatus()](../classes/YooKassa-Model-Receipt-ReceiptItemInterface.md#method_getPlannedStatus) |  | Возвращает планируемый статус товара. |
 | public | [getPrice()](../classes/YooKassa-Model-Receipt-ReceiptItemInterface.md#method_getPrice) |  | Возвращает цену товара. |
 | public | [getProductCode()](../classes/YooKassa-Model-Receipt-ReceiptItemInterface.md#method_getProductCode) |  | Возвращает код товара — уникальный номер, который присваивается экземпляру товара при маркировке. |
 | public | [getQuantity()](../classes/YooKassa-Model-Receipt-ReceiptItemInterface.md#method_getQuantity) |  | Возвращает количество товара. |
@@ -69,6 +70,8 @@ Interface ReceiptItemInterface.
 | property |  | Сумма акциза товара с учетом копеек (тег в 54 ФЗ — 1229) |
 | property |  | Код товара — уникальный номер, который присваивается экземпляру товара при маркировке (тег в 54 ФЗ — 1162) |
 | property |  | Код товара — уникальный номер, который присваивается экземпляру товара при маркировке (тег в 54 ФЗ — 1162) |
+| property |  | Планируемый статус товара. Тег в 54 ФЗ — 2003 |
+| property |  | Планируемый статус товара. Тег в 54 ФЗ — 2003 |
 | property |  | Код товара (тег в 54 ФЗ — 1163) |
 | property |  | Код товара (тег в 54 ФЗ — 1163) |
 | property |  | Режим обработки кода маркировки (тег в 54 ФЗ — 2102) |
@@ -217,6 +220,23 @@ public getProductCode() : null|string
 * Inherited From: [\YooKassa\Model\Receipt\ReceiptItemInterface](../classes/YooKassa-Model-Receipt-ReceiptItemInterface.md)
 
 **Returns:** null|string - Код товара
+
+
+<a name="method_getPlannedStatus" class="anchor"></a>
+#### public getPlannedStatus() : int|null
+
+```php
+public getPlannedStatus() : int|null
+```
+
+**Summary**
+
+Возвращает планируемый статус товара.
+
+**Details:**
+* Inherited From: [\YooKassa\Model\Receipt\ReceiptItemInterface](../classes/YooKassa-Model-Receipt-ReceiptItemInterface.md)
+
+**Returns:** int|null - Планируемый статус товара
 
 
 <a name="method_getMarkCodeInfo" class="anchor"></a>
@@ -436,10 +456,10 @@ public isShipping() : bool
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 33](../reports/deprecated.md)
+* [Deprecated - 40](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

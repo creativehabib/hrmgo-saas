@@ -131,6 +131,7 @@ var_dump($response);
 | public | [setOptions()](../classes/YooKassa-Common-AbstractRequestBuilder.md#method_setOptions) |  | Устанавливает свойства запроса из массива. |
 | public | [setPaymentMethodData()](../classes/YooKassa-Request-Payments-CreatePaymentRequestBuilder.md#method_setPaymentMethodData) |  | Устанавливает объект с информацией для создания метода оплаты. |
 | public | [setPaymentMethodId()](../classes/YooKassa-Request-Payments-CreatePaymentRequestBuilder.md#method_setPaymentMethodId) |  | Устанавливает идентификатор записи о сохранённых данных покупателя. |
+| public | [setPaymentOrder()](../classes/YooKassa-Request-Payments-CreatePaymentRequestBuilder.md#method_setPaymentOrder) |  | Устанавливает платежное поручение. |
 | public | [setPaymentToken()](../classes/YooKassa-Request-Payments-CreatePaymentRequestBuilder.md#method_setPaymentToken) |  | Устанавливает одноразовый токен для проведения оплаты. |
 | public | [setReceipt()](../classes/YooKassa-Request-Payments-AbstractPaymentRequestBuilder.md#method_setReceipt) |  | Устанавливает чек. |
 | public | [setReceiptEmail()](../classes/YooKassa-Request-Payments-AbstractPaymentRequestBuilder.md#method_setReceiptEmail) |  | Устанавливает адрес электронной почты получателя чека. |
@@ -755,6 +756,33 @@ public setPaymentMethodId(string|null $value) : \YooKassa\Request\Payments\Creat
 **Returns:** \YooKassa\Request\Payments\CreatePaymentRequestBuilder - Инстанс текущего билдера
 
 
+<a name="method_setPaymentOrder" class="anchor"></a>
+#### public setPaymentOrder() : \YooKassa\Request\Payments\CreatePaymentRequestBuilder
+
+```php
+public setPaymentOrder(null|array|\YooKassa\Request\Payments\PaymentOrderData\AbstractPaymentOrder $value) : \YooKassa\Request\Payments\CreatePaymentRequestBuilder
+```
+
+**Summary**
+
+Устанавливает платежное поручение.
+
+**Details:**
+* Inherited From: [\YooKassa\Request\Payments\CreatePaymentRequestBuilder](../classes/YooKassa-Request-Payments-CreatePaymentRequestBuilder.md)
+
+##### Parameters:
+| Type | Name | Description |
+| ---- | ---- | ----------- |
+| <code lang="php">null OR array OR \YooKassa\Request\Payments\PaymentOrderData\AbstractPaymentOrder</code> | value  | Платежное поручение |
+
+##### Throws:
+| Type | Description |
+| ---- | ----------- |
+| \YooKassa\Common\Exceptions\InvalidPropertyValueTypeException |  |
+
+**Returns:** \YooKassa\Request\Payments\CreatePaymentRequestBuilder - Инстанс билдера запросов
+
+
 <a name="method_setPaymentToken" class="anchor"></a>
 #### public setPaymentToken() : \YooKassa\Request\Payments\CreatePaymentRequestBuilder
 
@@ -1096,10 +1124,10 @@ protected initCurrentObject() : \YooKassa\Request\Payments\CreatePaymentRequest
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 33](../reports/deprecated.md)
+* [Deprecated - 40](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

@@ -38,6 +38,7 @@ use YooKassa\Request\Payments\ConfirmationAttributes\AbstractConfirmationAttribu
 use YooKassa\Request\Payments\ConfirmationAttributes\ConfirmationAttributesFactory;
 use YooKassa\Request\Payments\PaymentData\AbstractPaymentData;
 use YooKassa\Request\Payments\PaymentData\PaymentDataFactory;
+use YooKassa\Request\Payments\PaymentOrderData\AbstractPaymentOrder;
 use YooKassa\Request\Payments\ReceiverData\AbstractReceiver;
 
 /**
@@ -385,6 +386,22 @@ class CreatePaymentRequestBuilder extends AbstractPaymentRequestBuilder
     public function setReceiver(mixed $value): CreatePaymentRequestBuilder
     {
         $this->currentObject->setReceiver($value);
+
+        return $this;
+    }
+
+    /**
+     * Устанавливает платежное поручение.
+     *
+     * @param null|array|AbstractPaymentOrder $value Платежное поручение
+     *
+     * @return CreatePaymentRequestBuilder Инстанс билдера запросов
+     *
+     * @throws InvalidPropertyValueTypeException
+     */
+    public function setPaymentOrder(mixed $value): CreatePaymentRequestBuilder
+    {
+        $this->currentObject->setPaymentOrder($value);
 
         return $this;
     }

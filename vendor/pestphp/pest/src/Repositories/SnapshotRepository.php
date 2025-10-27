@@ -19,8 +19,8 @@ final class SnapshotRepository
      * Creates a snapshot repository instance.
      */
     public function __construct(
-        readonly private string $testsPath,
-        readonly private string $snapshotsPath,
+        private readonly string $testsPath,
+        private readonly string $snapshotsPath,
     ) {}
 
     /**

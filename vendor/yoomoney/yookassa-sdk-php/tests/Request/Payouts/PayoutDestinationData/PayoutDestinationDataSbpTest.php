@@ -3,7 +3,7 @@
 /*
 * The MIT License
 *
-* Copyright (c) 2024 "YooMoney", NBСO LLC
+* Copyright (c) 2025 "YooMoney", NBСO LLC
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -172,10 +172,10 @@ class PayoutDestinationDataSbpTest extends AbstractTestCase
         $instance->setBankId($value);
         self::assertNotNull($instance->getBankId());
         self::assertNotNull($instance->bank_id);
-        self::assertEquals($value, is_array($value) ? $instance->getBankId()->toArray() : $instance->getBankId());
-        self::assertEquals($value, is_array($value) ? $instance->bank_id->toArray() : $instance->bank_id);
-        self::assertLessThanOrEqual(12, is_string($instance->getBankId()) ? mb_strlen($instance->getBankId()) : $instance->getBankId());
-        self::assertLessThanOrEqual(12, is_string($instance->bank_id) ? mb_strlen($instance->bank_id) : $instance->bank_id);
+        self::assertEquals($value, $instance->getBankId());
+        self::assertEquals($value, $instance->bank_id);
+        self::assertMatchesRegularExpression("/[a-zA-Z0-9]{12}/", $instance->bank_id);
+        self::assertMatchesRegularExpression("/[a-zA-Z0-9]{12}/", $instance->getBankId());
     }
 
     /**

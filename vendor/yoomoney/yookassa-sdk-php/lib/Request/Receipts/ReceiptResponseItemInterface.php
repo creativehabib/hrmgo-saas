@@ -65,6 +65,8 @@ use YooKassa\Model\Receipt\SupplierInterface;
  * @property string $measure Мера количества предмета расчета (тег в 54 ФЗ — 2108)
  * @property string $productCode Код товара — уникальный номер, который присваивается экземпляру товара при маркировке (тег в 54 ФЗ — 1162)
  * @property string $product_code Код товара — уникальный номер, который присваивается экземпляру товара при маркировке (тег в 54 ФЗ — 1162)
+ * @property int $plannedStatus Планируемый статус товара. Тег в 54 ФЗ — 2003
+ * @property int $planned_status Планируемый статус товара. Тег в 54 ФЗ — 2003
  * @property string $markMode Режим обработки кода маркировки (тег в 54 ФЗ — 2102)
  * @property string $mark_mode Режим обработки кода маркировки (тег в 54 ФЗ — 2102)
  * @property MarkQuantity $markQuantity Дробное количество маркированного товара (тег в 54 ФЗ — 1291)
@@ -127,6 +129,13 @@ interface ReceiptResponseItemInterface
      * @return null|string Код товара
      */
     public function getProductCode(): ?string;
+
+    /**
+     * Возвращает планируемый статус товара.
+     *
+     * @return int|null Планируемый статус товара
+     */
+    public function getPlannedStatus(): ?int;
 
     /**
      * Возвращает код товара.

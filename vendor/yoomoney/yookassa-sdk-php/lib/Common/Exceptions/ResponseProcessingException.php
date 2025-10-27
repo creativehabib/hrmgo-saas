@@ -35,20 +35,7 @@ class ResponseProcessingException extends ApiException
 
     public function __construct(array $responseHeaders = [], ?string $responseBody = '')
     {
-        $errorData = json_decode($responseBody, true);
-        $message = '';
-
-        if (isset($errorData['description'])) {
-            $message .= $errorData['description'] . '. ';
-        }
-
-        if (isset($errorData['retry_after'])) {
-            $this->retryAfter = $errorData['retry_after'];
-        }
-
-        if (isset($errorData['type'])) {
-            $this->type = $errorData['type'];
-        }
+        $message = $this->createMessageFromError($responseBody);
 
         parent::__construct(trim($message), self::HTTP_CODE, $responseHeaders, $responseBody);
     }

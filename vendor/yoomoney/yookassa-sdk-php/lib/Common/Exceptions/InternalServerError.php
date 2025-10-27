@@ -37,7 +37,7 @@ class InternalServerError extends ApiException
 
     public function __construct($responseHeaders = [], $responseBody = '')
     {
-        $message = $this->parseErrorResponse($responseBody);
+        $message = $this->createMessageFromError($responseBody);
 
         parent::__construct(trim($message), self::HTTP_CODE, $responseHeaders, $responseBody);
     }

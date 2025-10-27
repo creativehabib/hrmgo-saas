@@ -19,7 +19,7 @@
 ### Properties
 | Visibility | Name | Flag | Summary |
 | ----------:| ---- | ---- | ------- |
-| public | [$type](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-AbstractVatData.md#property_type) |  | Способ расчёта НДС |
+| public | [$type](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-AbstractVatData.md#property_type) |  | Код способа расчета НДС |
 | protected | [$_type](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-AbstractVatData.md#property__type) |  |  |
 
 ---
@@ -32,14 +32,14 @@
 | public | [__set()](../classes/YooKassa-Common-AbstractObject.md#method___set) |  | Устанавливает значение свойства. |
 | public | [__unset()](../classes/YooKassa-Common-AbstractObject.md#method___unset) |  | Удаляет свойство. |
 | public | [fromArray()](../classes/YooKassa-Common-AbstractObject.md#method_fromArray) |  | Устанавливает значения свойств текущего объекта из массива. |
-| public | [getType()](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-AbstractVatData.md#method_getType) |  | Возвращает способ расчёта НДС |
+| public | [getType()](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-AbstractVatData.md#method_getType) |  | Возвращает код способа расчета НДС |
 | public | [getValidator()](../classes/YooKassa-Common-AbstractObject.md#method_getValidator) |  |  |
 | public | [jsonSerialize()](../classes/YooKassa-Common-AbstractObject.md#method_jsonSerialize) |  | Возвращает ассоциативный массив со свойствами текущего объекта для его дальнейшей JSON сериализации. |
 | public | [offsetExists()](../classes/YooKassa-Common-AbstractObject.md#method_offsetExists) |  | Проверяет наличие свойства. |
 | public | [offsetGet()](../classes/YooKassa-Common-AbstractObject.md#method_offsetGet) |  | Возвращает значение свойства. |
 | public | [offsetSet()](../classes/YooKassa-Common-AbstractObject.md#method_offsetSet) |  | Устанавливает значение свойства. |
 | public | [offsetUnset()](../classes/YooKassa-Common-AbstractObject.md#method_offsetUnset) |  | Удаляет свойство. |
-| public | [setType()](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-AbstractVatData.md#method_setType) |  | Устанавливает способ расчёта НДС |
+| public | [setType()](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-AbstractVatData.md#method_setType) |  | Устанавливает код способа расчета НДС |
 | public | [toArray()](../classes/YooKassa-Common-AbstractObject.md#method_toArray) |  | Возвращает ассоциативный массив со свойствами текущего объекта для его дальнейшей JSON сериализации Является алиасом метода AbstractObject::jsonSerialize(). |
 | protected | [getUnknownProperties()](../classes/YooKassa-Common-AbstractObject.md#method_getUnknownProperties) |  | Возвращает массив свойств которые не существуют, но были заданы у объекта. |
 | protected | [validatePropertyValue()](../classes/YooKassa-Common-AbstractObject.md#method_validatePropertyValue) |  |  |
@@ -70,7 +70,7 @@
 ---
 ***Description***
 
-Способ расчёта НДС
+Код способа расчета НДС
 
 **Type:** <a href="../string"><abbr title="string">string</abbr></a>
 
@@ -82,7 +82,7 @@
 #### protected $_type : ?string
 ---
 **Type:** <a href="../?string"><abbr title="?string">?string</abbr></a>
-Способ расчёта НДС
+Код способа расчета НДС
 **Details:**
 * Inherited From: [\YooKassa\Model\Payment\PaymentMethod\B2b\Sberbank\AbstractVatData](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-AbstractVatData.md)
 
@@ -228,12 +228,12 @@ public getType() : string|null
 
 **Summary**
 
-Возвращает способ расчёта НДС
+Возвращает код способа расчета НДС
 
 **Details:**
 * Inherited From: [\YooKassa\Model\Payment\PaymentMethod\B2b\Sberbank\AbstractVatData](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-AbstractVatData.md)
 
-**Returns:** string|null - Способ расчёта НДС
+**Returns:** string|null - Код способа расчета НДС
 
 
 <a name="method_getValidator" class="anchor"></a>
@@ -364,7 +364,7 @@ public setType(string|null $type) : self
 
 **Summary**
 
-Устанавливает способ расчёта НДС
+Устанавливает код способа расчета НДС
 
 **Details:**
 * Inherited From: [\YooKassa\Model\Payment\PaymentMethod\B2b\Sberbank\AbstractVatData](../classes/YooKassa-Model-Payment-PaymentMethod-B2b-Sberbank-AbstractVatData.md)
@@ -372,7 +372,7 @@ public setType(string|null $type) : self
 ##### Parameters:
 | Type | Name | Description |
 | ---- | ---- | ----------- |
-| <code lang="php">string OR null</code> | type  | Способ расчёта НДС |
+| <code lang="php">string OR null</code> | type  | Код способа расчета НДС |
 
 **Returns:** self - 
 
@@ -443,10 +443,10 @@ protected validatePropertyValue(string $propertyName, mixed $propertyValue) : mi
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 33](../reports/deprecated.md)
+* [Deprecated - 40](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

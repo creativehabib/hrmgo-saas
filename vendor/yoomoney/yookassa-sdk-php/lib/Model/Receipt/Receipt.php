@@ -44,7 +44,7 @@ use YooKassa\Model\AmountInterface;
  * @link     https://yookassa.ru/developers/api
  *
  * @property ReceiptCustomer $customer Информация о плательщике
- * @property ListObjectInterface|ReceiptItemInterface[] $items Список товаров в заказе
+ * @property ListObjectInterface|ReceiptItemInterface[] $items Список товаров в заказе. Для чеков по 54-ФЗ: если используете Чеки от ЮKassa, можно передать максимум 80 товаров, если используете стороннюю онлайн-кассу, максимум 100 товаров.  Для чеков самозанятых — максимум 6 товаров.
  * @property ListObjectInterface|SettlementInterface[] $settlements Массив оплат, обеспечивающих выдачу товара
  * @property ListObjectInterface|ReceiptItemInterface[] $shippingItems Список товаров в заказе, являющихся доставкой
  * @property ListObjectInterface|ReceiptItemInterface[] $shipping_items Список товаров в заказе, являющихся доставкой
@@ -67,7 +67,7 @@ class Receipt extends AbstractObject implements ReceiptInterface
     private ?ReceiptCustomer $_customer = null;
 
     /**
-     * @var ReceiptItemInterface[]|ListObjectInterface Список товаров в заказе
+     * @var ReceiptItemInterface[]|ListObjectInterface Список товаров в заказе. Для чеков по 54-ФЗ: если используете Чеки от ЮKassa, можно передать максимум 80 товаров, если используете стороннюю онлайн-кассу, максимум 100 товаров.  Для чеков самозанятых — максимум 6 товаров.
      */
     #[Assert\NotBlank]
     #[Assert\Valid]
@@ -167,7 +167,7 @@ class Receipt extends AbstractObject implements ReceiptInterface
      * позиций. Все передаваемые значения в массиве позиций должны быть объектами класса, реализующего интерфейс
      * ReceiptItemInterface, в противном случае будет выброшено исключение InvalidPropertyValueTypeException.
      *
-     * @param array|ListObjectInterface $items Список товаров в заказе
+     * @param array|ListObjectInterface $items Список товаров в заказе: для [Чеков от ЮKassa](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/yoomoney/basics) — не более 80 товаров, для [сторонних онлайн-касс](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/other-services/basics) — не более 100 товаров
      *
      * @throws EmptyPropertyValueException Выбрасывается если передали пустой массив значений
      * @throws InvalidPropertyValueTypeException Выбрасывается если в качестве значения был передан не массив и не

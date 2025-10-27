@@ -41,7 +41,7 @@ use YooKassa\Common\AbstractEnum;
 class InvoiceCancellationDetailsReasonCode extends AbstractEnum
 {
     /**
-     * [Счет отменен вручную](https://yookassa.ru/docs/support/merchant/payments/invoicing#invoicing__cancel) из личного кабинета ЮKassa.
+     * [Счет отменен вручную](https://yookassa.ru/docs/support/merchant/invoices-to-clients/invoicing#invoicing__cancel) из личного кабинета ЮKassa.
      */
     public const INVOICE_CANCELED = 'invoice_canceled';
 

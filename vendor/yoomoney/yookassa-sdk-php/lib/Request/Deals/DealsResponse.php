@@ -42,12 +42,17 @@ use YooKassa\Validator\Constraints as Assert;
  * @author   cms@yoomoney.ru
  * @link     https://yookassa.ru/developers/api
  *
- * @property SafeDeal[]|ListObjectInterface|null $items Массив сделок
+ * @property SafeDeal[]|ListObjectInterface|null $items Список сделок, созданных за последние три года. Сделки отсортированы по времени создания в порядке убывания (от новых к старым).
  */
 class DealsResponse extends AbstractListResponse
 {
     /**
-     * @var SafeDeal[]|ListObjectInterface|null Массив сделок
+     * Список сделок, созданных за последние три года.
+     * Сделки отсортированы по времени создания в порядке убывания (от новых к старым).
+     * Если результатов больше, чем задано в limit, список будет выводиться фрагментами.
+     * В этом случае в ответе на запрос вернется фрагмент списка и параметр next_cursor с указателем на следующий фрагмент.
+     *
+     * @var SafeDeal[]|ListObjectInterface|null Список сделок
      */
     #[Assert\Valid]
     #[Assert\AllType(SafeDeal::class)]

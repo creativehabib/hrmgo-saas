@@ -33,7 +33,7 @@ use YooKassa\Validator\Constraints as Assert;
 /**
  * Класс, представляющий модель SelfEmployed.
  *
- * Объект самозанятого.
+ * Объект самозанятого (SelfEmployed) — актуальная информация о самозанятом.
  *
  * @category Class
  * @package  YooKassa\Model

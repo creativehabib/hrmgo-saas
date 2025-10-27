@@ -19,7 +19,7 @@
 ### Properties
 | Visibility | Name | Flag | Summary |
 | ----------:| ---- | ---- | ------- |
-| public | [$id](../classes/YooKassa-Model-Payment-PaymentInvoiceDetails.md#property_id) |  | Идентификатор счета в ЮКасса. |
+| public | [$id](../classes/YooKassa-Model-Payment-PaymentInvoiceDetails.md#property_id) |  | Идентификатор счета в ЮKassa. |
 
 ---
 ### Methods
@@ -68,7 +68,7 @@
 ---
 ***Description***
 
-Идентификатор счета в ЮКасса.
+Идентификатор счета в ЮKassa.
 
 **Type:** <a href="../string"><abbr title="string">string</abbr></a>
 
@@ -225,7 +225,7 @@ public getId() : string|null
 **Details:**
 * Inherited From: [\YooKassa\Model\Payment\PaymentInvoiceDetails](../classes/YooKassa-Model-Payment-PaymentInvoiceDetails.md)
 
-**Returns:** string|null - Идентификатор счета в ЮКасса.
+**Returns:** string|null - Идентификатор счета в ЮKassa.
 
 
 <a name="method_getValidator" class="anchor"></a>
@@ -364,7 +364,7 @@ public setId(string|null $id = null) : self
 ##### Parameters:
 | Type | Name | Description |
 | ---- | ---- | ----------- |
-| <code lang="php">string OR null</code> | id  | Идентификатор счета в ЮКасса. |
+| <code lang="php">string OR null</code> | id  | Идентификатор счета в ЮKassa. |
 
 **Returns:** self - 
 
@@ -435,10 +435,10 @@ protected validatePropertyValue(string $propertyName, mixed $propertyValue) : mi
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 33](../reports/deprecated.md)
+* [Deprecated - 40](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney
