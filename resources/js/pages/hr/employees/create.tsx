@@ -61,12 +61,12 @@ export default function EmployeeCreate() {
   
   // Filter departments based on selected branch
   const filteredDepartments = formData.branch_id
-    ? departments.filter((dept: any) => dept.branch_id === parseInt(formData.branch_id))
+    ? departments.filter((dept: any) => String(dept.branch_id) === formData.branch_id)
     : departments;
-  
+
   // Filter designations based on selected department
   const filteredDesignations = formData.department_id
-    ? designations.filter((desig: any) => desig.department_id === parseInt(formData.department_id))
+    ? designations.filter((desig: any) => String(desig.department_id) === formData.department_id)
     : designations;
   
   const handleChange = (name: string, value: any) => {
