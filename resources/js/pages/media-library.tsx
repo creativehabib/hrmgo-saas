@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { usePage } from '@inertiajs/react';
 import { Upload, Search, X, Plus, Info, Copy, Download, MoreHorizontal, Image as ImageIcon, Calendar, HardDrive, BarChart3 } from 'lucide-react';
 import { hasPermission } from '@/utils/authorization';
+import { getCsrfToken } from '@/utils/csrf';
 
 interface MediaItem {
   id: number;
@@ -44,20 +45,48 @@ export default function MediaLibraryDemo() {
   const [selectedMediaInfo, setSelectedMediaInfo] = useState<MediaItem | null>(null);
   const itemsPerPage = 12;
 
+  const buildHeaders = useCallback(
+    (additional: Record<string, string> = {}) => {
+      const headers: Record<string, string> = {
+        'X-Requested-With': 'XMLHttpRequest',
+        ...additional,
+      };
+
+      const token = getCsrfToken() ?? csrf_token ?? null;
+      if (token) {
+        headers['X-CSRF-TOKEN'] = token;
+      }
+
+      return headers;
+    },
+    [csrf_token]
+  );
+
   const createDirectory = async () => {
     if (!newDirectoryName.trim()) return;
 
     try {
       const response = await fetch(route('api.media.directories.create'), {
         method: 'POST',
-        headers: {
+        credentials: 'same-origin',
+        headers: buildHeaders({
           'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': csrf_token,
-        },
+          Accept: 'application/json',
+        }),
         body: JSON.stringify({ name: newDirectoryName }),
       });
 
-      const result = await response.json();
+      let result: any = null;
+      try {
+        result = await response.json();
+      } catch (error) {
+        result = null;
+      }
+
+      if (response.status === 419) {
+        toast.error(result?.message || t('Your session has expired. Please refresh the page and try again.'));
+        return;
+      }
 
       if (response.ok) {
         toast.success(result.message || t('Directory created successfully'));
@@ -86,11 +115,13 @@ export default function MediaLibraryDemo() {
 
       const response = await fetch(`${route('api.media.index')}?${params}`, {
         credentials: 'same-origin',
-        headers: {
-          'Accept': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest',
-        },
+        headers: buildHeaders({ Accept: 'application/json' }),
       });
+
+      if (response.status === 419) {
+        toast.error(t('Your session has expired. Please refresh the page and try again.'));
+        return;
+      }
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -150,13 +181,20 @@ export default function MediaLibraryDemo() {
         method: 'POST',
         body: formData,
         credentials: 'same-origin',
-        headers: {
-          'X-CSRF-TOKEN': csrf_token,
-          'X-Requested-With': 'XMLHttpRequest',
-        },
+        headers: buildHeaders(),
       });
 
-      const result = await response.json();
+      let result: any = null;
+      try {
+        result = await response.json();
+      } catch (error) {
+        result = null;
+      }
+
+      if (response.status === 419) {
+        toast.error(result?.message || t('Your session has expired. Please refresh the page and try again.'));
+        return;
+      }
 
       if (response.ok) {
         setMedia(prev => [...result.data, ...prev]);
@@ -221,13 +259,20 @@ export default function MediaLibraryDemo() {
       const response = await fetch(route('api.media.destroy', id), {
         method: 'DELETE',
         credentials: 'same-origin',
-        headers: {
-          'X-CSRF-TOKEN': csrf_token,
-          'X-Requested-With': 'XMLHttpRequest',
-        },
+        headers: buildHeaders(),
       });
 
-      const result = await response.json();
+      let result: any = null;
+      try {
+        result = await response.json();
+      } catch (error) {
+        result = null;
+      }
+
+      if (response.status === 419) {
+        toast.error(result?.message || t('Your session has expired. Please refresh the page and try again.'));
+        return;
+      }
 
       if (response.ok) {
         setMedia(prev => prev.filter(item => item.id !== id));
@@ -253,18 +298,26 @@ export default function MediaLibraryDemo() {
     try {
       const response = await fetch(route('api.media.download', id), {
         credentials: 'same-origin',
-        headers: {
-          'X-CSRF-TOKEN': csrf_token,
-          'X-Requested-With': 'XMLHttpRequest',
-        },
+        headers: buildHeaders(),
       });
 
+      if (response.status === 419) {
+        toast.error(t('Your session has expired. Please refresh the page and try again.'));
+        return;
+      }
+
       if (!response.ok) {
-        const errorData = await response.json();
-        if (errorData.errors && Array.isArray(errorData.errors)) {
+        let errorData: any = null;
+        try {
+          errorData = await response.json();
+        } catch (error) {
+          errorData = null;
+        }
+
+        if (errorData?.errors && Array.isArray(errorData.errors)) {
           errorData.errors.forEach((error: string) => toast.error(error));
         } else {
-          toast.error(errorData.error || errorData.message || t('Download failed'));
+          toast.error(errorData?.error || errorData?.message || t('Download failed'));
         }
         return;
       }
