@@ -13,7 +13,6 @@ class DynamicStorageService
      */
     public static function configureDynamicDisks(): void
     {
-        $config = StorageConfigService::getStorageConfig();
         try {
             $config = StorageConfigService::getStorageConfig();
 
@@ -26,6 +25,11 @@ class DynamicStorageService
             if (!empty($config['wasabi']['key']) && !empty($config['wasabi']['secret'])) {
                 self::configureWasabiDisk($config['wasabi']);
             }
+
+            $activeDisk = StorageConfigService::getActiveDisk();
+
+            Config::set('filesystems.default', $activeDisk);
+            Config::set('media-library.disk_name', $activeDisk);
         } catch (\Exception $e) {
             Log::error('Failed to configure dynamic storage disks', [
                 'error' => $e->getMessage(),
