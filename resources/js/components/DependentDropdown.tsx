@@ -17,7 +17,7 @@ interface DependentDropdownProps {
 }
 
 export default function DependentDropdown({ fields, values, onChange, disabled = false }: DependentDropdownProps) {
-    const { base_url } = usePage().props as any
+    const { base_url } = usePage().props as any;
 
     const [availableOptions, setAvailableOptions] = useState<Record<string, { value: string; label: string }[]>>(() => {
         const initial: Record<string, { value: string; label: string }[]> = {};
@@ -49,8 +49,35 @@ export default function DependentDropdown({ fields, values, onChange, disabled =
                 }
             }
 
+            const sanitizePath = (path: string) => path.replace(/([^:]\/)\/+/g, '$1/');
+            const buildUrl = (path: string) => {
+                if (/^https?:\/\//i.test(path)) {
+                    return path;
+                }
+
+                const origin =
+                    base_url && typeof base_url === 'string' && base_url.trim().length > 0
+                        ? base_url
+                        : typeof window !== 'undefined'
+                        ? window.location.origin
+                        : '';
+
+                if (!origin) {
+                    return sanitizePath(path);
+                }
+
+                const normalizedOrigin = origin.replace(/\/$/, '');
+                const normalizedPath = path.replace(/^\//, '');
+
+                return sanitizePath(`${normalizedOrigin}/${normalizedPath}`);
+            };
+
+            const requestUrl = buildUrl(endpoint);
+
             // Loading options from API endpoint
-            const response = await fetch(`${base_url}${endpoint}`);
+            const response = await fetch(requestUrl, {
+                credentials: 'same-origin',
+            });
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
