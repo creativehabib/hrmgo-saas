@@ -18,7 +18,19 @@ import { getImagePath } from '@/utils/helpers';
 
 export default function EmployeeCreate() {
   const { t } = useTranslation();
-  const { branches, departments, designations, documentTypes, shifts, attendancePolicies } = usePage().props as any;
+  const { branches = [], departments, designations, documentTypes = [], shifts = [], attendancePolicies = [] } = usePage().props as any;
+
+  const departmentList = Array.isArray(departments)
+    ? departments
+    : Array.isArray((departments as any)?.data)
+      ? (departments as any).data
+      : [];
+
+  const designationList = Array.isArray(designations)
+    ? designations
+    : Array.isArray((designations as any)?.data)
+      ? (designations as any).data
+      : [];
   
   // State
   const [formData, setFormData] = useState<Record<string, any>>({
@@ -61,17 +73,44 @@ export default function EmployeeCreate() {
   
   // Filter departments based on selected branch
   const filteredDepartments = formData.branch_id
-    ? departments.filter((dept: any) => String(dept.branch_id) === formData.branch_id)
-    : departments;
+    ? departmentList.filter((dept: any) => Number(dept.branch_id) === Number(formData.branch_id))
+    : departmentList;
 
   // Filter designations based on selected department
   const filteredDesignations = formData.department_id
-    ? designations.filter((desig: any) => String(desig.department_id) === formData.department_id)
-    : designations;
+    ? designationList.filter((desig: any) => Number(desig.department_id) === Number(formData.department_id))
+    : designationList;
   
   const handleChange = (name: string, value: any) => {
-    setFormData(prev => ({ ...prev, [name]: value }));
-    
+    setFormData(prev => {
+      const updatedData = { ...prev, [name]: value };
+
+      if (name === 'branch_id') {
+        updatedData.branch_id = value;
+        updatedData.department_id = '';
+        updatedData.designation_id = '';
+      }
+
+      if (name === 'department_id') {
+        updatedData.department_id = value;
+        updatedData.designation_id = '';
+
+        const selectedDepartment = departmentList.find(
+          (dept: any) => String(dept.id) === String(value)
+        );
+
+        if (selectedDepartment) {
+          updatedData.branch_id = String(selectedDepartment.branch_id ?? '');
+        }
+      }
+
+      if (name === 'designation_id') {
+        updatedData.designation_id = value;
+      }
+
+      return updatedData;
+    });
+
     // Clear error when field is changed
     if (errors[name]) {
       setErrors(prev => {
@@ -80,24 +119,13 @@ export default function EmployeeCreate() {
         return newErrors;
       });
     }
-    
-    // Handle branch change - reset department and designation
-    if (name === 'branch_id') {
-      setFormData(prev => ({ 
-        ...prev, 
-        branch_id: value,
-        department_id: '',
-        designation_id: ''
-      }));
-    }
-    
-    // Handle department change - reset designation
-    if (name === 'department_id') {
-      setFormData(prev => ({ 
-        ...prev, 
-        department_id: value,
-        designation_id: ''
-      }));
+
+    if (name === 'department_id' && errors.branch_id) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors.branch_id;
+        return newErrors;
+      });
     }
   };
   
@@ -407,19 +435,36 @@ export default function EmployeeCreate() {
                     <Select
                       value={formData.department_id}
                       onValueChange={(value) => handleChange('department_id', value)}
-                      disabled={!formData.branch_id}
+                      disabled={departmentList.length === 0}
                     >
                       <SelectTrigger className={errors.department_id ? 'border-red-500' : ''}>
-                        <SelectValue placeholder={formData.branch_id ? t('Select Department') : t('Select Branch First')} />
+                        <SelectValue placeholder={t('Select Department')} />
                       </SelectTrigger>
                       <SelectContent>
-                        {filteredDepartments.map((department: any) => (
-                          <SelectItem key={department.id} value={department.id.toString()}>
-                            {department.name}
+                        {filteredDepartments.length > 0 ? (
+                          filteredDepartments.map((department: any) => (
+                            <SelectItem key={department.id} value={department.id.toString()}>
+                              {department.name}
+                            </SelectItem>
+                          ))
+                        ) : (
+                          <SelectItem value="__no_departments" disabled>
+                            {formData.branch_id
+                              ? t('No departments available for the selected branch')
+                              : t('Select a branch to view departments')}
                           </SelectItem>
-                        ))}
+                        )}
                       </SelectContent>
                     </Select>
+                    {!formData.branch_id && departmentList.length > 0 && (
+                      <p className="text-muted-foreground text-xs">{t('Select a branch to view departments.')}</p>
+                    )}
+                    {formData.branch_id && filteredDepartments.length === 0 && departmentList.length > 0 && (
+                      <p className="text-muted-foreground text-xs">{t('No departments are assigned to the selected branch.')}</p>
+                    )}
+                    {departmentList.length === 0 && (
+                      <p className="text-muted-foreground text-xs">{t('Create a department to assign employees.')}</p>
+                    )}
                     {errors.department_id && <p className="text-red-500 text-xs">{errors.department_id}</p>}
                   </div>
                   
