@@ -33,6 +33,7 @@ export default function MediaLibraryDemo() {
   const [currentDirectory, setCurrentDirectory] = useState<number | null>(null);
   const [filteredMedia, setFilteredMedia] = useState<MediaItem[]>([]);
   const [loading, setLoading] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
@@ -61,6 +62,10 @@ export default function MediaLibraryDemo() {
     },
     [csrf_token]
   );
+
+  const canManageMedia = hasPermission(permissions, 'manage-media');
+  const canCreateMedia = hasPermission(permissions, 'create-media');
+  const canManageDirectories = hasPermission(permissions, 'manage-media-directories');
 
   const createDirectory = async () => {
     if (!newDirectoryName.trim()) return;
@@ -106,6 +111,16 @@ export default function MediaLibraryDemo() {
   };
 
   const fetchMedia = useCallback(async () => {
+    if (!canManageMedia) {
+      const permissionMessage = t('You do not have permission to view media.');
+      setLoadError(permissionMessage);
+      setMedia([]);
+      setDirectories([]);
+      setFilteredMedia([]);
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     try {
       const params = new URLSearchParams();
@@ -119,12 +134,30 @@ export default function MediaLibraryDemo() {
       });
 
       if (response.status === 419) {
-        toast.error(t('Your session has expired. Please refresh the page and try again.'));
+        const message = t('Your session has expired. Please refresh the page and try again.');
+        setLoadError(message);
+        toast.error(message);
         return;
       }
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        let errorMessage = t('Failed to load media');
+        let errorData: any = null;
+        try {
+          errorData = await response.json();
+        } catch (error) {
+          errorData = null;
+        }
+
+        if (response.status === 403) {
+          errorMessage = errorData?.message || errorData?.error || t('You do not have permission to view media.');
+        } else if (errorData) {
+          errorMessage = errorData.message || errorData.error || errorMessage;
+        }
+
+        setLoadError(errorMessage);
+        toast.error(errorMessage);
+        return;
       }
 
       const data = await response.json();
@@ -132,13 +165,16 @@ export default function MediaLibraryDemo() {
       setMedia(mediaArray);
       setDirectories(data.directories || []);
       setFilteredMedia(mediaArray);
+      setLoadError(null);
     } catch (error) {
       console.error('Failed to load media:', error);
-      toast.error('Failed to load media');
+      const message = t('Network error: Failed to load media.');
+      setLoadError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
-  }, [currentDirectory]);
+  }, [buildHeaders, canManageMedia, currentDirectory, t]);
 
   useEffect(() => {
     fetchMedia();
@@ -373,14 +409,16 @@ export default function MediaLibraryDemo() {
     { title: t('Media Library') }
   ];
 
-  const pageActions = [
-    {
-      label: t('Upload Media'),
-      icon: <Plus className="h-4 w-4" />,
-      variant: 'default' as const,
-      onClick: () => setIsUploadModalOpen(true)
-    }
-  ];
+  const pageActions = canCreateMedia && !loadError
+    ? [
+        {
+          label: t('Upload Media'),
+          icon: <Plus className="h-4 w-4" />,
+          variant: 'default' as const,
+          onClick: () => setIsUploadModalOpen(true)
+        }
+      ]
+    : [];
 
   return (
     <PageTemplate
@@ -399,22 +437,22 @@ export default function MediaLibraryDemo() {
                 variant={currentDirectory === null ? "default" : "outline"}
                 size="sm"
                 onClick={() => setCurrentDirectory(null)}
+                disabled={!!loadError}
               >
                 All Files
               </Button>
-              {directories.map((dir: any) => (
-                hasPermission(permissions, `manage-media-directories`) && (
-                  <Button
-                    key={dir.id}
-                    variant={currentDirectory === dir.id ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setCurrentDirectory(dir.id)}
-                  >
-                    {dir.name}
-                  </Button>
-                )
+              {canManageDirectories && directories.map((dir: any) => (
+                <Button
+                  key={dir.id}
+                  variant={currentDirectory === dir.id ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setCurrentDirectory(dir.id)}
+                  disabled={!!loadError}
+                >
+                  {dir.name}
+                </Button>
               ))}
-              {hasPermission(permissions, 'create-media-directories') && (
+              {hasPermission(permissions, 'create-media-directories') && !loadError && (
                 <Button
                   variant="ghost"
                   size="sm"
@@ -433,10 +471,13 @@ export default function MediaLibraryDemo() {
                     value={newDirectoryName}
                     onChange={(e) => setNewDirectoryName(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && createDirectory()}
+                    disabled={!!loadError}
                   />
-                  {hasPermission(permissions, 'create-media-directories') && <Button onClick={createDirectory} size="sm">
-                    Create
-                  </Button>}
+                  {hasPermission(permissions, 'create-media-directories') && (
+                    <Button onClick={createDirectory} size="sm" disabled={!!loadError}>
+                      Create
+                    </Button>
+                  )}
 
                   <Button
                     variant="outline"
@@ -445,6 +486,7 @@ export default function MediaLibraryDemo() {
                       setShowCreateDirectory(false);
                       setNewDirectoryName('');
                     }}
+                    disabled={!!loadError}
                   >
                     Cancel
                   </Button>
@@ -467,6 +509,7 @@ export default function MediaLibraryDemo() {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="pl-10"
+                    disabled={!!loadError}
                   />
                 </div>
                 {searchTerm && (
@@ -515,6 +558,16 @@ export default function MediaLibraryDemo() {
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
                 <p className="text-muted-foreground">{t('Loading media...')}</p>
               </div>
+            ) : loadError ? (
+              <div className="text-center py-16">
+                <div className="mx-auto w-24 h-24 bg-destructive/10 text-destructive rounded-full flex items-center justify-center mb-4">
+                  <Info className="h-10 w-10" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">{t('Unable to display media')}</h3>
+                <p className="text-muted-foreground max-w-md mx-auto">
+                  {loadError}
+                </p>
+              </div>
             ) : currentMedia.length === 0 ? (
               <div className="text-center py-16">
                 <div className="mx-auto w-24 h-24 bg-muted rounded-full flex items-center justify-center mb-4">
@@ -524,7 +577,7 @@ export default function MediaLibraryDemo() {
                 <p className="text-muted-foreground mb-6">
                   {searchTerm ? t('No results found for "{{term}}"', { term: searchTerm }) : t('Get started by uploading your first media file')}
                 </p>
-                {!searchTerm && (
+                {!searchTerm && canCreateMedia && !loadError && (
                   <Button
                     onClick={() => setIsUploadModalOpen(true)}
                     size="lg"
