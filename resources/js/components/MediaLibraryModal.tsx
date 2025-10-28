@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { Upload, X, Image as ImageIcon, Search, Plus, Check } from 'lucide-react';
 import { usePage } from '@inertiajs/react';
 import { hasPermission } from '@/utils/authorization';
+import { getCsrfToken } from '@/utils/csrf';
 
 interface MediaItem {
   id: number;
@@ -32,7 +33,7 @@ export default function MediaLibraryModal({
   onSelect,
   multiple = false
 }: MediaLibraryModalProps) {
-  const { auth } = usePage().props as any;
+  const { auth, csrf_token } = usePage().props as any;
   const permissions = auth?.permissions || [];
   const canCreateMedia = hasPermission(permissions, 'create-media');
   const canManageMedia = hasPermission(permissions, 'manage-media');
@@ -49,6 +50,23 @@ export default function MediaLibraryModal({
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 24;
 
+  const buildHeaders = useCallback(
+    (additional: Record<string, string> = {}) => {
+      const headers: Record<string, string> = {
+        'X-Requested-With': 'XMLHttpRequest',
+        ...additional,
+      };
+
+      const token = getCsrfToken() ?? csrf_token ?? null;
+      if (token) {
+        headers['X-CSRF-TOKEN'] = token;
+      }
+
+      return headers;
+    },
+    [csrf_token]
+  );
+
   const fetchMedia = useCallback(async () => {
     setLoading(true);
     try {
@@ -59,11 +77,13 @@ export default function MediaLibraryModal({
 
       const response = await fetch(`${route('api.media.index')}?${params}`, {
         credentials: 'same-origin',
-        headers: {
-          'Accept': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest',
-        },
+        headers: buildHeaders({ Accept: 'application/json' }),
       });
+
+      if (response.status === 419) {
+        toast.error('Your session has expired. Please refresh the page and try again.');
+        return;
+      }
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -79,7 +99,7 @@ export default function MediaLibraryModal({
     } finally {
       setLoading(false);
     }
-  }, [currentDirectory]);
+  }, [buildHeaders, currentDirectory]);
 
   useEffect(() => {
     if (isOpen) {
@@ -127,13 +147,20 @@ export default function MediaLibraryModal({
         method: 'POST',
         body: formData,
         credentials: 'same-origin',
-        headers: {
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
-          'X-Requested-With': 'XMLHttpRequest',
-        },
+        headers: buildHeaders(),
       });
 
-      const result = await response.json();
+      let result: any = null;
+      try {
+        result = await response.json();
+      } catch (error) {
+        result = null;
+      }
+
+      if (response.status === 419) {
+        toast.error(result?.message || 'Your session has expired. Please refresh the page and try again.');
+        return;
+      }
 
       if (response.ok) {
         if (result.data && result.data.length > 0) {
