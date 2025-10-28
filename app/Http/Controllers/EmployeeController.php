@@ -170,6 +170,27 @@ class EmployeeController extends Controller
     }
 
     /**
+     * Return active departments for the authenticated company context.
+     */
+    public function getDepartments($branchId = null)
+    {
+        $query = Department::whereIn('created_by', getCompanyAndUsersId())
+            ->where('status', 'active')
+            ->select('id', 'name', 'branch_id')
+            ->orderBy('name');
+
+        if (!empty($branchId) && $branchId !== 'all') {
+            $query->where('branch_id', $branchId);
+        }
+
+        $departments = $query->get();
+
+        return response()->json([
+            'departments' => $departments,
+        ]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)

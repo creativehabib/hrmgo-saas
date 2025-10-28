@@ -1,5 +1,5 @@
 // pages/hr/employees/create.tsx
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { PageTemplate } from '@/components/page-template';
 import { usePage, router } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
@@ -15,16 +15,65 @@ import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Plus, Trash2 } from 'lucide-react';
 import MediaPicker from '@/components/MediaPicker';
 import { getImagePath } from '@/utils/helpers';
+import axios from 'axios';
 
 export default function EmployeeCreate() {
   const { t } = useTranslation();
   const { branches = [], departments, designations, documentTypes = [], shifts = [], attendancePolicies = [] } = usePage().props as any;
 
-  const departmentList = Array.isArray(departments)
-    ? departments
-    : Array.isArray((departments as any)?.data)
-      ? (departments as any).data
-      : [];
+  const normalizeDepartmentData = (departmentData: any) => {
+    if (Array.isArray(departmentData)) {
+      return departmentData;
+    }
+
+    if (departmentData && typeof departmentData === 'object') {
+      if (Array.isArray(departmentData.data)) {
+        return departmentData.data;
+      }
+
+      return Object.values(departmentData).filter(
+        value =>
+          value &&
+          typeof value === 'object' &&
+          !Array.isArray(value) &&
+          'id' in (value as Record<string, unknown>)
+      ) as any[];
+    }
+
+    return [];
+  };
+
+  const [departmentList, setDepartmentList] = useState<any[]>(normalizeDepartmentData(departments));
+  const [isLoadingDepartments, setIsLoadingDepartments] = useState(false);
+  const [departmentLoadError, setDepartmentLoadError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setDepartmentList(normalizeDepartmentData(departments));
+  }, [departments]);
+
+  const fetchDepartments = useCallback(
+    async () => {
+      try {
+        setIsLoadingDepartments(true);
+        setDepartmentLoadError(null);
+        const response = await axios.get(route('hr.employees.get-departments'));
+        const fetchedDepartments = normalizeDepartmentData(response.data?.departments ?? response.data);
+        setDepartmentList(fetchedDepartments);
+      } catch (error) {
+        console.error('Failed to load departments', error);
+        setDepartmentLoadError(t('Failed to load departments'));
+      } finally {
+        setIsLoadingDepartments(false);
+      }
+    },
+    [t]
+  );
+
+  useEffect(() => {
+    if (departmentList.length === 0 && !isLoadingDepartments) {
+      fetchDepartments();
+    }
+  }, [departmentList.length, fetchDepartments, isLoadingDepartments]);
 
   const designationList = Array.isArray(designations)
     ? designations
@@ -435,13 +484,21 @@ export default function EmployeeCreate() {
                     <Select
                       value={formData.department_id}
                       onValueChange={(value) => handleChange('department_id', value)}
-                      disabled={departmentList.length === 0}
+                      disabled={departmentList.length === 0 && !isLoadingDepartments}
                     >
                       <SelectTrigger className={errors.department_id ? 'border-red-500' : ''}>
                         <SelectValue placeholder={t('Select Department')} />
                       </SelectTrigger>
                       <SelectContent>
-                        {filteredDepartments.length > 0 ? (
+                        {isLoadingDepartments ? (
+                          <SelectItem value="__loading" disabled>
+                            {t('Loading...')}
+                          </SelectItem>
+                        ) : departmentLoadError ? (
+                          <SelectItem value="__error" disabled>
+                            {departmentLoadError}
+                          </SelectItem>
+                        ) : filteredDepartments.length > 0 ? (
                           filteredDepartments.map((department: any) => (
                             <SelectItem key={department.id} value={department.id.toString()}>
                               {department.name}
