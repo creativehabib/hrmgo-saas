@@ -811,7 +811,6 @@ class ReceiptTest extends AbstractTestCase
         $receiptItem->setDescription('test');
         $receiptItem->setQuantity(322);
         $receiptItem->setVatCode(4);
-        $receiptItem->setPlannedStatus(6);
         $receiptItem->setPrice(new ReceiptItemAmount(5, 'USD'));
 
         $settlement = new Settlement();
@@ -841,7 +840,6 @@ class ReceiptTest extends AbstractTestCase
                             ],
                             'quantity' => 322,
                             'vat_code' => 4,
-                            'planned_status' => 6,
                         ],
                     ],
                     'settlements' => [
@@ -885,14 +883,12 @@ class ReceiptTest extends AbstractTestCase
                                 'currency' => 'USD',
                             ],
                             'vat_code' => 4,
-                            'planned_status' => 6,
                         ],
                         [
                             'description' => 'test',
                             'quantity' => 322,
                             'amount' => new ReceiptItemAmount(5, 'USD'),
                             'vat_code' => 4,
-                            'planned_status' => 6,
                         ],
                         [
                             'description' => 'test',
@@ -902,7 +898,6 @@ class ReceiptTest extends AbstractTestCase
                                 'currency' => 'USD',
                             ]),
                             'vat_code' => 4,
-                            'planned_status' => 6,
                         ],
                     ],
                     'settlements' => [

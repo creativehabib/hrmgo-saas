@@ -37,6 +37,7 @@ use YooKassa\Common\AbstractEnum;
  * - 5 - 5%
  * - 7 - 7%
  * - 10 - 10%
+ * - 18 - 18%
  * - 20 - 20%
  *
  * @category Class
@@ -55,10 +56,7 @@ class VatDataRate extends AbstractEnum
     /** 10% */
     public const RATE_10 = '10';
 
-    /**
-     * 18%
-     * @deprecated Больше не применяется
-     */
+    /** 18% */
     public const RATE_18 = '18';
 
     /** 20% */

@@ -27,8 +27,6 @@
 namespace YooKassa\Common\Exceptions;
 
 use Exception;
-use YooKassa\Common\Errors\AbstractError;
-use YooKassa\Common\Errors\ErrorFactory;
 
 /**
  * Неожиданный код ошибки.
@@ -45,22 +43,14 @@ class ApiException extends Exception
      */
     protected array $responseHeaders = [];
 
-    /**
-     * @var AbstractError|null Объект ошибки
-     */
-    protected ?AbstractError $error = null;
-
-    /**
-     * @var mixed|null Тип ошибки
-     * @deprecated Устарело. Вместо него нужно использовать getError()->getType().
-     */
     public mixed $type = null;
 
-    /**
-     * @var mixed|null Время в секундах до повторной попытки
-     * @deprecated Устарело. Вместо него нужно использовать getError()->getRetryAfter().
-     */
     public mixed $retryAfter = null;
+
+    private ?string $errorId = null;
+    private ?string $errorCode = null;
+    private ?string $errorDescription = null;
+    private ?string $errorParameter = null;
 
     /**
      * Constructor.
@@ -78,7 +68,6 @@ class ApiException extends Exception
     }
 
     /**
-     *
      * @return string[]
      */
     public function getResponseHeaders(): array
@@ -91,90 +80,59 @@ class ApiException extends Exception
         return $this->responseBody;
     }
 
-    /**
-     * Создает сообщение из объекта ошибки
-     * @param mixed $responseBody
-     * @return string
-     */
-    protected function createMessageFromError(mixed $responseBody): string
+    protected function parseErrorResponse(mixed $responseBody): string
     {
         $errorData = json_decode($responseBody, true);
-        $this->parseErrorBody($errorData ?? []);
         $message = '';
 
-        if (!$this->getError()) {
-            return $message;
+        if (isset($errorData['description'])) {
+            $this->errorDescription = $errorData['description'];
+            $message .= $errorData['description'] . '. ';
         }
 
-        if ($this->getError()->getType() !== null) {
-            $this->type = $this->getError()->getType();
+        if (isset($errorData['code'])) {
+            $this->errorCode = $errorData['code'];
+            $message .= sprintf('Error code: %s. ', $errorData['code']);
         }
 
-        if ($this->getError()->getRetryAfter() !== null) {
-            $this->retryAfter = $this->getError()->getRetryAfter();
+        if (isset($errorData['parameter'])) {
+            $this->errorParameter = $errorData['parameter'];
+            $message .= sprintf('Parameter name: %s. ', $errorData['parameter']);
         }
 
-        if ($this->getError()->getDescription() !== null) {
-            $message .= $this->getError()->getDescription() . '. ';
+        if (isset($errorData['retry_after'])) {
+            $this->retryAfter = $errorData['retry_after'];
         }
 
-        if ($this->getError()->getCode() !== null) {
-            $message .= sprintf('Error code: %s. ', $this->getError()->getCode());
+        if (isset($errorData['type'])) {
+            $this->type = $errorData['type'];
         }
 
-        if ($this->getError()->getParameter() !== null) {
-            $message .= sprintf('Parameter name: %s. ', $this->getError()->getParameter());
+        if (isset($errorData['id'])) {
+            $this->errorId = $errorData['id'];
         }
 
         return $message;
     }
 
-    /**
-     * Подготавливает объект ошибки
-     * @param array $errorData
-     * @return void
-     */
-    protected function parseErrorBody(array $errorData): void
-    {
-        $this->error = (new ErrorFactory())->factoryFromArray($errorData);
-    }
-
-    /**
-     * Возвращает объект ошибки
-     * @return AbstractError|null
-     */
-    public function getError(): ?AbstractError
-    {
-        return $this->error;
-    }
-
-    /**
-     * @deprecated Устарело. Вместо него нужно использовать getError()->getId()
-     */
     public function getErrorId(): ?string
     {
-        return $this->getError()?->getId();
+        return $this->errorId;
     }
-    /**
-     * @deprecated Устарело. Вместо него нужно использовать getError()->getCode()
-     */
+
     public function getErrorCode(): ?string
     {
-        return $this->getError()?->getCode();
+        return $this->errorCode;
     }
-    /**
-     * @deprecated Устарело. Вместо него нужно использовать getError()->getDescription()
-     */
+
     public function getErrorDescription(): ?string
     {
-        return $this->getError()?->getDescription();
+        return $this->errorDescription;
     }
-    /**
-     * @deprecated Устарело. Вместо него нужно использовать getError()->getParameter()
-     */
+
     public function getErrorParameter(): ?string
     {
-        return $this->getError()?->getParameter();
+        return $this->errorParameter;
     }
 
 }

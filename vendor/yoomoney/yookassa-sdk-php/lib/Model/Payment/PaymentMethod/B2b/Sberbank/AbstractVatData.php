@@ -40,12 +40,12 @@ use YooKassa\Validator\Constraints as Assert;
  * @author   cms@yoomoney.ru
  * @link     https://yookassa.ru/developers/api
  *
- * @property string $type Код способа расчета НДС
+ * @property string $type Способ расчёта НДС
  */
 abstract class AbstractVatData extends AbstractObject
 {
     /**
-     * @var string|null Код способа расчета НДС
+     * @var string|null Способ расчёта НДС
      */
     #[Assert\NotBlank]
     #[Assert\Type('string')]
@@ -53,9 +53,9 @@ abstract class AbstractVatData extends AbstractObject
     protected ?string $_type = null;
 
     /**
-     * Возвращает код способа расчета НДС
+     * Возвращает способ расчёта НДС
      *
-     * @return string|null Код способа расчета НДС
+     * @return string|null Способ расчёта НДС
      */
     public function getType(): ?string
     {
@@ -63,8 +63,8 @@ abstract class AbstractVatData extends AbstractObject
     }
 
     /**
-     * Устанавливает код способа расчета НДС
-     * @param string|null $type Код способа расчета НДС
+     * Устанавливает способ расчёта НДС
+     * @param string|null $type Способ расчёта НДС
      */
     public function setType(?string $type): self
     {

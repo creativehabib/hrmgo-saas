@@ -51,13 +51,11 @@ class Sequence implements Countable
     /**
      * Get the next value in the sequence.
      *
-     * @param  array<string, mixed>  $attributes
-     * @param  \Illuminate\Database\Eloquent\Model|null  $parent
      * @return mixed
      */
-    public function __invoke($attributes = [], $parent = null)
+    public function __invoke()
     {
-        return tap(value($this->sequence[$this->index % $this->count], $this, $attributes, $parent), function () {
+        return tap(value($this->sequence[$this->index % $this->count], $this), function () {
             $this->index = $this->index + 1;
         });
     }

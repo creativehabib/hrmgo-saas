@@ -206,17 +206,15 @@ class Attachment
      */
     public function isEquivalent(Attachment $attachment, $options = [])
     {
-        $newOptions = [
+        return with([
             'as' => $options['as'] ?? $attachment->as,
             'mime' => $options['mime'] ?? $attachment->mime,
-        ];
-
-        return $this->attachWith(
+        ], fn ($options) => $this->attachWith(
             fn ($path) => [$path, ['as' => $this->as, 'mime' => $this->mime]],
             fn ($data) => [$data(), ['as' => $this->as, 'mime' => $this->mime]],
         ) === $attachment->attachWith(
-            fn ($path) => [$path, $newOptions],
-            fn ($data) => [$data(), $newOptions],
-        );
+            fn ($path) => [$path, $options],
+            fn ($data) => [$data(), $options],
+        ));
     }
 }

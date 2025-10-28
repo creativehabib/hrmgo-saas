@@ -127,14 +127,14 @@ class PreventRequestsDuringMaintenance
     }
 
     /**
-     * Redirect the user to their intended destination with a maintenance mode bypass cookie.
+     * Redirect the user back to the root of the application with a maintenance mode bypass cookie.
      *
      * @param  string  $secret
      * @return \Illuminate\Http\RedirectResponse
      */
     protected function bypassResponse(string $secret)
     {
-        return redirect()->intended('/')->withCookie(
+        return redirect('/')->withCookie(
             MaintenanceModeBypassCookie::create($secret)
         );
     }

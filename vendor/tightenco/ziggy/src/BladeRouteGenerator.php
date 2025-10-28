@@ -2,7 +2,6 @@
 
 namespace Tighten\Ziggy;
 
-use Tighten\Ziggy\Output\Json;
 use Tighten\Ziggy\Output\MergeScript;
 use Tighten\Ziggy\Output\Script;
 
@@ -10,15 +9,9 @@ class BladeRouteGenerator
 {
     public static $generated;
 
-    public function generate(array|string|null $group = null, ?string $nonce = null, ?bool $json = false): string
+    public function generate(array|string|null $group = null, ?string $nonce = null): string
     {
         $ziggy = new Ziggy($group);
-
-        if ($json) {
-            $output = config('ziggy.output.json', Json::class);
-
-            return (string) new $output($ziggy);
-        }
 
         $nonce = $nonce ? " nonce=\"{$nonce}\"" : '';
 

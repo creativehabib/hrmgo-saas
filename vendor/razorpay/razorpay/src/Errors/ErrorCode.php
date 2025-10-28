@@ -12,6 +12,6 @@ class ErrorCode
     {
         $code = strtoupper($code);
 
-        return defined(__CLASS__ . '::' . $code);
+        return defined(get_class() . '::' . $code);
     }
 }

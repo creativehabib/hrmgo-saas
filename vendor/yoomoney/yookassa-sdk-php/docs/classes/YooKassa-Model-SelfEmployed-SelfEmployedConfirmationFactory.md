@@ -56,7 +56,7 @@ public factory(string $type) : \YooKassa\Model\SelfEmployed\SelfEmployedConfirma
 ##### Parameters:
 | Type | Name | Description |
 | ---- | ---- | ----------- |
-| <code lang="php">string</code> | type  | Код сценария подтверждения |
+| <code lang="php">string</code> | type  | Тип подтверждения платежа |
 
 **Returns:** \YooKassa\Model\SelfEmployed\SelfEmployedConfirmation - 
 
@@ -79,7 +79,7 @@ public factoryFromArray(array $data, null|string $type = null) : \YooKassa\Model
 | Type | Name | Description |
 | ---- | ---- | ----------- |
 | <code lang="php">array</code> | data  | Массив данных подтверждения платежа |
-| <code lang="php">null OR string</code> | type  | Код сценария подтверждения |
+| <code lang="php">null OR string</code> | type  | Тип подтверждения платежа |
 
 **Returns:** \YooKassa\Model\SelfEmployed\SelfEmployedConfirmation - 
 
@@ -96,10 +96,10 @@ public factoryFromArray(array $data, null|string $type = null) : \YooKassa\Model
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 40](../reports/deprecated.md)
+* [Deprecated - 33](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

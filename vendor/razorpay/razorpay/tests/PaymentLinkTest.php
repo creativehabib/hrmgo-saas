@@ -10,7 +10,7 @@ class PaymentLinkTest extends TestCase
      * Specify unique paymentlink id
      * for example plink_IEjOvfQs5AyjMN 
      */
-    protected static $paymentLinkId;
+    private $paymentLinkId = "plink_IEjOvfQs5AyjMN";
 
     public function setUp(): void
     {
@@ -27,8 +27,7 @@ class PaymentLinkTest extends TestCase
         'email' => 'gaurav.kumar@example.com', 'contact'=>'9000090000'),  'notify'=>array('sms'=>true, 'email'=>true) ,
         'reminder_enable'=>true ,'notes'=>array('policy_name'=> 'Jeevan Bima'),'callback_url' => 'https://example-callback-url.com/',
         'callback_method'=>'get'));
-        
-        self::$paymentLinkId = $data->id;
+
         $this->cancelLinkId = $data->id;
 
         $this->assertTrue(is_array($data->toArray()));
@@ -53,7 +52,7 @@ class PaymentLinkTest extends TestCase
      */
     public function testFetchRefund()
     {
-        $data = $this->api->paymentLink->fetch(self::$paymentLinkId);
+        $data = $this->api->paymentLink->fetch($this->paymentLinkId);
 
         $this->assertTrue(is_array($data->toArray()));
         
@@ -84,7 +83,7 @@ class PaymentLinkTest extends TestCase
      */
     public function testSendNotification()
     {
-        $data = $this->api->paymentLink->fetch(self::$paymentLinkId)->notifyBy('email');
+        $data = $this->api->paymentLink->fetch($this->paymentLinkId)->notifyBy('email');
 
         $this->assertTrue(is_array($data));
 

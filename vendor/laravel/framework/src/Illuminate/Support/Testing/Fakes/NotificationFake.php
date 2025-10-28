@@ -195,7 +195,7 @@ class NotificationFake implements Fake, NotificationDispatcher, NotificationFact
         }
 
         PHPUnit::assertEmpty(
-            $this->notifications[get_class($notifiable)][$notifiable->getKey() ?? ''] ?? [],
+            $this->notifications[get_class($notifiable)][$notifiable->getKey()] ?? [],
             'Notifications were sent unexpectedly.',
         );
     }
@@ -215,11 +215,7 @@ class NotificationFake implements Fake, NotificationDispatcher, NotificationFact
 
         PHPUnit::assertSame(
             $expectedCount, $actualCount,
-            sprintf(
-                "Expected [{$notification}] to be sent {$expectedCount} %s, but was sent {$actualCount} %s.",
-                Str::plural('time', $expectedCount),
-                Str::plural('time', $actualCount)
-            )
+            "Expected [{$notification}] to be sent {$expectedCount} times, but was sent {$actualCount} times."
         );
     }
 
@@ -289,7 +285,7 @@ class NotificationFake implements Fake, NotificationDispatcher, NotificationFact
     /**
      * Send the given notification to the given notifiable entities.
      *
-     * @param  \Illuminate\Support\Collection|mixed  $notifiables
+     * @param  \Illuminate\Support\Collection|array|mixed  $notifiables
      * @param  mixed  $notification
      * @return void
      */
@@ -301,7 +297,7 @@ class NotificationFake implements Fake, NotificationDispatcher, NotificationFact
     /**
      * Send the given notification immediately.
      *
-     * @param  \Illuminate\Support\Collection|mixed  $notifiables
+     * @param  \Illuminate\Support\Collection|array|mixed  $notifiables
      * @param  mixed  $notification
      * @param  array|null  $channels
      * @return void
@@ -314,7 +310,7 @@ class NotificationFake implements Fake, NotificationDispatcher, NotificationFact
 
         foreach ($notifiables as $notifiable) {
             if (! $notification->id) {
-                $notification->id = (string) Str::uuid();
+                $notification->id = Str::uuid()->toString();
             }
 
             $notifiableChannels = $channels ?: $notification->via($notifiable);

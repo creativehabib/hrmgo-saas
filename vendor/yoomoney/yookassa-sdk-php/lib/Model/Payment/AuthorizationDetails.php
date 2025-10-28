@@ -41,7 +41,7 @@ use YooKassa\Validator\Constraints as Assert;
  * @author   cms@yoomoney.ru
  * @link     https://yookassa.ru/developers/api
  *
- * @property string $rrn Retrieval Reference Number — идентификатор банковской транзакции.
+ * @property string $rrn Retrieval Reference Number — уникальный идентификатор транзакции в системе эмитента.
  * @property string $authСode Код авторизации. Выдается эмитентом и подтверждает проведение авторизации.
  * @property string $auth_code Код авторизации. Выдается эмитентом и подтверждает проведение авторизации.
  * @property ThreeDSecure $threeDSecure Данные о прохождении пользователем аутентификации по 3‑D Secure.
@@ -50,7 +50,7 @@ use YooKassa\Validator\Constraints as Assert;
 class AuthorizationDetails extends AbstractObject implements AuthorizationDetailsInterface
 {
     /**
-     * Retrieval Reference Number — идентификатор банковской транзакции.
+     * Retrieval Reference Number — уникальный идентификатор транзакции в системе эмитента.
      *
      * @var string|null
      */
@@ -86,7 +86,7 @@ class AuthorizationDetails extends AbstractObject implements AuthorizationDetail
     /**
      * Устанавливает rrn.
      *
-     * @param string|null $rrn Retrieval Reference Number — идентификатор банковской транзакции.
+     * @param string|null $rrn Retrieval Reference Number — уникальный идентификатор транзакции в системе эмитента.
      *
      * @return self
      */

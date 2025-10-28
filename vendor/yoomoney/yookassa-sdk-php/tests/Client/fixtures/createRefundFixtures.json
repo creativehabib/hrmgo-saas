@@ -13,8 +13,5 @@
     "currency": "RUB"
   },
   "receipt_registered": "succeeded",
-  "description": "string",
-  "refund_authorization_details": {
-    "rrn": "603668680243"
-  }
+  "description": "string"
 }

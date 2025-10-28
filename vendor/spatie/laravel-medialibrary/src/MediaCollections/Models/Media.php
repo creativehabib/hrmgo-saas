@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\MediaCollections\Models;
 
+use App\Models\BaseModel;
 use Closure;
 use DateTimeInterface;
 use Illuminate\Contracts\Mail\Attachable;
@@ -61,7 +62,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
  * @property-read ?\Illuminate\Support\Carbon $created_at
  * @property-read ?\Illuminate\Support\Carbon $updated_at
  */
-class Media extends Model implements Attachable, Htmlable, Responsable
+class Media extends BaseModel implements Attachable, Htmlable, Responsable
 {
     use CustomMediaProperties;
     use HasUuid;
@@ -106,9 +107,8 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return $urlGenerator->getUrl();
     }
 
-    public function getTemporaryUrl(?DateTimeInterface $expiration = null, string $conversionName = '', array $options = []): string
+    public function getTemporaryUrl(DateTimeInterface $expiration, string $conversionName = '', array $options = []): string
     {
-        $expiration = $expiration ?: now()->addMinutes(config('media-library.temporary_url_default_lifetime'));
         $urlGenerator = $this->getUrlGenerator($conversionName);
 
         return $urlGenerator->getTemporaryUrl($expiration, $options);

@@ -16,7 +16,7 @@ Interface ReceiptInterface.
 | Visibility | Name | Flag | Summary |
 | ----------:| ---- | ---- | ------- |
 | public | [getId()](../classes/YooKassa-Request-Receipts-ReceiptResponseInterface.md#method_getId) |  | Возвращает идентификатор чека в ЮKassa. |
-| public | [getItems()](../classes/YooKassa-Request-Receipts-ReceiptResponseInterface.md#method_getItems) |  | Возвращает Список товаров в заказе: для [Чеков от ЮKassa](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/yoomoney/basics) — не более 80 товаров, для [сторонних онлайн-касс](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/other-services/basics) — не более 100 товаров. |
+| public | [getItems()](../classes/YooKassa-Request-Receipts-ReceiptResponseInterface.md#method_getItems) |  | Возвращает список товаров в заказ. |
 | public | [getOnBehalfOf()](../classes/YooKassa-Request-Receipts-ReceiptResponseInterface.md#method_getOnBehalfOf) |  | Возвращает идентификатор магазин |
 | public | [getSettlements()](../classes/YooKassa-Request-Receipts-ReceiptResponseInterface.md#method_getSettlements) |  | Возвращает список расчетов. |
 | public | [getStatus()](../classes/YooKassa-Request-Receipts-ReceiptResponseInterface.md#method_getStatus) |  | Возвращает статус доставки данных для чека в онлайн-кассу. |
@@ -44,8 +44,8 @@ Interface ReceiptInterface.
 | property |  | Статус доставки данных для чека в онлайн-кассу ("pending", "succeeded" или "canceled"). |
 | property |  | Код системы налогообложения. Число 1-6. |
 | property |  | Код системы налогообложения. Число 1-6. |
-| property |  | Список товаров в заказе: для [Чеков от ЮKassa](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/yoomoney/basics) — не более 80 товаров, для [сторонних онлайн-касс](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/other-services/basics) — не более 100 товаров. |
-| property |  | Перечень совершенных расчетов. |
+| property |  | Список товаров в заказе |
+| property |  | Список товаров в заказе |
 
 ---
 ## Methods
@@ -126,7 +126,7 @@ public getItems() : \YooKassa\Common\ListObjectInterface
 
 **Summary**
 
-Возвращает Список товаров в заказе: для [Чеков от ЮKassa](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/yoomoney/basics) — не более 80 товаров, для [сторонних онлайн-касс](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/other-services/basics) — не более 100 товаров.
+Возвращает список товаров в заказ.
 
 **Description**
 
@@ -206,10 +206,10 @@ public notEmpty() : bool
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 40](../reports/deprecated.md)
+* [Deprecated - 33](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

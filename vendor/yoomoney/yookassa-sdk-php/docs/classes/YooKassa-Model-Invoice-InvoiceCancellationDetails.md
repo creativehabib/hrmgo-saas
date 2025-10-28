@@ -418,7 +418,7 @@ public setReason(string|null $reason = null) : self
 ##### Parameters:
 | Type | Name | Description |
 | ---- | ---- | ----------- |
-| <code lang="php">string OR null</code> | reason  | Причина отмены счета. Возможные значения:  * ~`invoice_canceled` — %[счет отменен вручную](/docs/support/merchant/invoices-to-clients/invoicing#invoicing__cancel) из личного кабинета ЮKassa; * ~`invoice_expired` — истек срок действия счета, который вы установили в запросе на создание счета в параметре `expires_at`, и по счету нет ни одного успешного платежа; * ~`general_decline` — причина не детализирована, поэтому пользователю следует обратиться к инициатору отмены счета за уточнением подробностей; * ~`payment_canceled` — %[платеж отменен по API](/developers/payment-acceptance/getting-started/payment-process#cancel) при оплате в две стадии; * ~`payment_expired_on_capture` — %[истек срок списания оплаты](/developers/payment-acceptance/getting-started/payment-process#hold) для платежа в две стадии. |
+| <code lang="php">string OR null</code> | reason  | Причина отмены счета. Возможные значения:  * ~`invoice_canceled` — %[счет отменен вручную](/docs/support/merchant/payments/invoicing#invoicing__cancel) из личного кабинета ЮKassa; * ~`invoice_expired` — истек срок действия счета, который вы установили в запросе на создание счета в параметре `expires_at`, и по счету нет ни одного успешного платежа; * ~`general_decline` — причина не детализирована, поэтому пользователю следует обратиться к инициатору отмены счета за уточнением подробностей; * ~`payment_canceled` — %[платеж отменен по API](/developers/payment-acceptance/getting-started/payment-process#cancel) при оплате в две стадии; * ~`payment_expired_on_capture` — %[истек срок списания оплаты](/developers/payment-acceptance/getting-started/payment-process#hold) для платежа в две стадии. |
 
 **Returns:** self - 
 
@@ -489,10 +489,10 @@ protected validatePropertyValue(string $propertyName, mixed $propertyValue) : mi
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 40](../reports/deprecated.md)
+* [Deprecated - 33](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

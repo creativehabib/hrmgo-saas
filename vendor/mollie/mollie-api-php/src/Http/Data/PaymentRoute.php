@@ -11,15 +11,12 @@ class PaymentRoute implements Resolvable
 
     public string $organizationId;
 
-    /**
-     * @var Date|DateTimeInterface
-     */
-    public $delayUntil;
+    public ?DateTimeInterface $delayUntil;
 
     public function __construct(
         Money $amount,
         string $organizationId,
-        $delayUntil = null
+        ?DateTimeInterface $delayUntil = null
     ) {
         $this->amount = $amount;
         $this->organizationId = $organizationId;

@@ -54,7 +54,7 @@ class PaymentDataBankCardCard extends AbstractObject
      */
     #[Assert\NotBlank]
     #[Assert\Type('string')]
-    #[Assert\Regex('/^[0-9]{14,19}$/')]
+    #[Assert\Regex('/^[0-9]{16,19}$/')]
     private ?string $_number = null;
 
     /**

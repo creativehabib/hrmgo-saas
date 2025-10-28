@@ -13,8 +13,6 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use ReflectionException;
 use ReflectionMethod;
-use stdClass;
-use TypeError;
 use YooKassa\Client;
 use YooKassa\Client\ApiClientInterface;
 use YooKassa\Client\CurlClient;
@@ -24,7 +22,6 @@ use YooKassa\Common\Exceptions\AuthorizeException;
 use YooKassa\Common\Exceptions\BadApiRequestException;
 use YooKassa\Common\Exceptions\ExtensionNotFoundException;
 use YooKassa\Common\Exceptions\ForbiddenException;
-use YooKassa\Common\Exceptions\GoneException;
 use YooKassa\Common\Exceptions\InternalServerError;
 use YooKassa\Common\Exceptions\NotFoundException;
 use YooKassa\Common\Exceptions\ResponseProcessingException;
@@ -43,8 +40,6 @@ use YooKassa\Model\Receipt\ReceiptCustomer;
 use YooKassa\Model\Receipt\ReceiptItem;
 use YooKassa\Model\Receipt\ReceiptType;
 use YooKassa\Model\Receipt\Settlement;
-use YooKassa\Model\SavePaymentMethod\Confirmation\ConfirmationType;
-use YooKassa\Model\SavePaymentMethod\SavePaymentMethodType;
 use YooKassa\Request\Deals\CreateDealRequest;
 use YooKassa\Request\Deals\CreateDealResponse;
 use YooKassa\Request\Deals\DealResponse;
@@ -53,11 +48,6 @@ use YooKassa\Request\Deals\DealsResponse;
 use YooKassa\Request\Invoices\CreateInvoiceRequest;
 use YooKassa\Request\Invoices\InvoiceResponse;
 use YooKassa\Request\Invoices\PaymentData;
-use YooKassa\Request\PaymentMethods\ConfirmationData\ConfirmationRedirect;
-use YooKassa\Request\PaymentMethods\CreatePaymentMethodRequest;
-use YooKassa\Request\PaymentMethods\PaymentMethodCard;
-use YooKassa\Request\PaymentMethods\PaymentMethodHolder;
-use YooKassa\Request\PaymentMethods\PaymentMethodResponse;
 use YooKassa\Request\Payments\CancelResponse;
 use YooKassa\Request\Payments\CreateCaptureRequest;
 use YooKassa\Request\Payments\CreateCaptureResponse;
@@ -194,7 +184,6 @@ class ClientTest extends TestCase
             self::fail('Исключение не было выброшено');
         } catch (ResponseProcessingException $e) {
             self::assertEquals(Client::DEFAULT_DELAY, $e->retryAfter);
-            self::assertEquals(Client::DEFAULT_DELAY, $e->getError()->getRetryAfter());
 
             return;
         }
@@ -986,7 +975,7 @@ class ClientTest extends TestCase
             ->method('sendRequest')
             ->willReturn([
                 ['Header-Name' => 'HeaderValue'],
-                '{"description": "error_msg", "code": "invalid_request", "parameter": "parameter_name"}',
+                '{"description": "error_msg", "code": "error_code", "parameter_name": "parameter_name"}',
                 ['http_code' => 400],
             ])
         ;
@@ -1014,7 +1003,7 @@ class ClientTest extends TestCase
             ->method('sendRequest')
             ->willReturn([
                 ['Header-Name' => 'HeaderValue'],
-                '{"description": "error_msg", "code": "internal_server_error"}',
+                '{"description": "error_msg", "code": "error_code"}',
                 ['http_code' => 500],
             ])
         ;
@@ -1070,7 +1059,7 @@ class ClientTest extends TestCase
             ->method('sendRequest')
             ->willReturn([
                 ['Header-Name' => 'HeaderValue'],
-                '{"type": "error", "description": "error_msg", "code": "forbidden", "parameter": "parameter_name", "operation_name": "operation_name"}',
+                '{"description": "error_msg","error_code": "error_code", "parameter_name": "parameter_name", "operation_name": "operation_name"}',
                 ['http_code' => 403],
             ])
         ;
@@ -1092,33 +1081,11 @@ class ClientTest extends TestCase
             ->method('sendRequest')
             ->willReturn([
                 ['Header-Name' => 'HeaderValue'],
-                '{"type": "error", "description": "error_msg", "code": "not_found", "parameter": "parameter_name", "operation": "operation_name"}',
+                '{"description": "error_msg","error_code": "error_code", "parameter_name": "parameter_name", "operation_name": "operation_name"}',
                 ['http_code' => 404],
             ])
         ;
         $this->expectException(NotFoundException::class);
-
-        $apiClient = new Client();
-        $response = $apiClient
-            ->setApiClient($curlClientStub)
-            ->setAuth('123456', 'shopPassword')
-            ->getPaymentInfo(Random::str(36))
-        ;
-    }
-
-    public function testGoneException(): void
-    {
-        $curlClientStub = $this->getCurlClientStub();
-        $curlClientStub
-            ->expects($this->any())
-            ->method('sendRequest')
-            ->willReturn([
-                ['Header-Name' => 'HeaderValue'],
-                '{"type": "error", "description": "error_msg", "code": "gone", "parameter": "parameter_name", "operation": "operation_name"}',
-                ['http_code' => 410],
-            ])
-        ;
-        $this->expectException(GoneException::class);
 
         $apiClient = new Client();
         $response = $apiClient
@@ -1136,7 +1103,7 @@ class ClientTest extends TestCase
             ->method('sendRequest')
             ->willReturn([
                 ['Header-Name' => 'HeaderValue'],
-                '{"type": "error", "description": "error_msg", "code": "too_many_requests", "parameter": "parameter_name", "operation": "operation_name"}',
+                '{"description": "error_msg","error_code": "error_code", "parameter_name": "parameter_name", "operation_name": "operation_name"}',
                 ['http_code' => 429],
             ])
         ;
@@ -1432,7 +1399,6 @@ class ClientTest extends TestCase
             self::fail('Исключение не было выброшено');
         } catch (ResponseProcessingException $e) {
             self::assertEquals(Client::DEFAULT_DELAY, $e->retryAfter);
-            self::assertEquals(Client::DEFAULT_DELAY, $e->getError()->getRetryAfter());
 
             return;
         }
@@ -1537,7 +1503,6 @@ class ClientTest extends TestCase
             self::fail('Исключение не было выброшено');
         } catch (ResponseProcessingException $e) {
             self::assertEquals(Client::DEFAULT_DELAY, $e->retryAfter);
-            self::assertEquals(Client::DEFAULT_DELAY, $e->getError()->getRetryAfter());
 
             return;
         }
@@ -1785,7 +1750,6 @@ class ClientTest extends TestCase
             self::fail('Исключение не было выброшено');
         } catch (ResponseProcessingException $e) {
             self::assertEquals(Client::DEFAULT_DELAY, $e->retryAfter);
-            self::assertEquals(Client::DEFAULT_DELAY, $e->getError()->getRetryAfter());
 
             return;
         }
@@ -1818,7 +1782,6 @@ class ClientTest extends TestCase
             self::fail('Исключение не было выброшено');
         } catch (ResponseProcessingException $e) {
             self::assertEquals(Client::DEFAULT_DELAY, $e->retryAfter);
-            self::assertEquals(Client::DEFAULT_DELAY, $e->getError()->getRetryAfter());
 
             return;
         }
@@ -2014,7 +1977,6 @@ class ClientTest extends TestCase
             self::fail('Исключение не было выброшено');
         } catch (ResponseProcessingException $e) {
             self::assertEquals(Client::DEFAULT_DELAY, $e->retryAfter);
-            self::assertEquals(Client::DEFAULT_DELAY, $e->getError()->getRetryAfter());
 
             return;
         }
@@ -2046,7 +2008,6 @@ class ClientTest extends TestCase
             self::fail('Исключение не было выброшено');
         } catch (ResponseProcessingException $e) {
             self::assertEquals(Client::DEFAULT_DELAY, $e->retryAfter);
-            self::assertEquals(Client::DEFAULT_DELAY, $e->getError()->getRetryAfter());
 
             return;
         }
@@ -2113,7 +2074,6 @@ class ClientTest extends TestCase
             self::fail('Исключение не было выброшено');
         } catch (ResponseProcessingException $e) {
             self::assertEquals(Client::DEFAULT_DELAY, $e->retryAfter);
-            self::assertEquals(Client::DEFAULT_DELAY, $e->getError()->getRetryAfter());
 
             return;
         }
@@ -2298,7 +2258,6 @@ class ClientTest extends TestCase
             self::fail('Исключение не было выброшено');
         } catch (ResponseProcessingException $e) {
             self::assertEquals(Client::DEFAULT_DELAY, $e->retryAfter);
-            self::assertEquals(Client::DEFAULT_DELAY, $e->getError()->getRetryAfter());
 
             return;
         }
@@ -2328,7 +2287,6 @@ class ClientTest extends TestCase
             self::fail('Исключение не было выброшено');
         } catch (ResponseProcessingException $e) {
             self::assertEquals(Client::DEFAULT_DELAY, $e->retryAfter);
-            self::assertEquals(Client::DEFAULT_DELAY, $e->getError()->getRetryAfter());
 
             return;
         }
@@ -2397,7 +2355,6 @@ class ClientTest extends TestCase
             self::fail('Исключение не было выброшено');
         } catch (ResponseProcessingException $e) {
             self::assertEquals(Client::DEFAULT_DELAY, $e->retryAfter);
-            self::assertEquals(Client::DEFAULT_DELAY, $e->getError()->getRetryAfter());
 
             return;
         }
@@ -2586,7 +2543,6 @@ class ClientTest extends TestCase
             self::fail('Исключение не было выброшено');
         } catch (ResponseProcessingException $e) {
             self::assertEquals(Client::DEFAULT_DELAY, $e->retryAfter);
-            self::assertEquals(Client::DEFAULT_DELAY, $e->getError()->getRetryAfter());
 
             return;
         }
@@ -2632,7 +2588,6 @@ class ClientTest extends TestCase
             self::fail('Исключение не было выброшено');
         } catch (ResponseProcessingException $e) {
             self::assertEquals(Client::DEFAULT_DELAY, $e->retryAfter);
-            self::assertEquals(Client::DEFAULT_DELAY, $e->getError()->getRetryAfter());
 
             return;
         }
@@ -2705,7 +2660,6 @@ class ClientTest extends TestCase
             self::fail('Исключение не было выброшено');
         } catch (ResponseProcessingException $e) {
             self::assertEquals(Client::DEFAULT_DELAY, $e->retryAfter);
-            self::assertEquals(Client::DEFAULT_DELAY, $e->getError()->getRetryAfter());
 
             return;
         }
@@ -2726,217 +2680,6 @@ class ClientTest extends TestCase
         ];
     }
 
-    public function testCreatePaymentMethod()
-    {
-        $paymentMethod = CreatePaymentMethodRequest::builder()
-            ->setType(SavePaymentMethodType::BANK_CARD)
-            ->setCard([
-                'number' => Random::str(16, 19, '0123456789'),
-                'expiry_year' => (string) Random::int(2023, 2045),
-                'expiry_month' => str_pad((string) Random::int(1, 12), 2, '0', STR_PAD_LEFT),
-                'cardholder' => Random::str(1, 26, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ \'-'),
-                'csc' => Random::str(3, 4, '0123456789'),
-            ])
-            ->setHolder(['gateway_id' => Random::str(1, 256),])
-            ->setClientIp(Internet::localIpv4())
-            ->setConfirmation([
-                'type' => ConfirmationType::REDIRECT,
-                'enforce' => Random::bool(),
-                'return_url' => Random::str(1,2048),
-                'locale' => Random::value(['ru_RU', 'en_US']),
-            ])
-            ->build()
-        ;
-
-        $curlClientStub = $this->getCurlClientStub();
-        $curlClientStub
-            ->expects($this->once())
-            ->method('sendRequest')
-            ->willReturn([
-                ['Header-Name' => 'HeaderValue'],
-                $this->getFixtures('createPaymentMethodFixtures.json'),
-                ['http_code' => 200],
-            ])
-        ;
-
-        $apiClient = new Client();
-        $response = $apiClient
-            ->setApiClient($curlClientStub)
-            ->setAuth('123456', 'shopPassword')
-            ->createPaymentMethod($paymentMethod)
-        ;
-
-        self::assertSame($curlClientStub, $apiClient->getApiClient());
-        self::assertInstanceOf(PaymentMethodResponse::class, $response);
-
-        $curlClientStub = $this->getCurlClientStub();
-        $curlClientStub
-            ->expects($this->once())
-            ->method('sendRequest')
-            ->willReturn([
-                ['Header-Name' => 'HeaderValue'],
-                $this->getFixtures('createInvoiceFixtures.json'),
-                ['http_code' => 200],
-            ])
-        ;
-
-        $apiClient = new Client();
-        $response = $apiClient
-            ->setApiClient($curlClientStub)
-            ->setAuth('123456', 'shopPassword')
-            ->createPaymentMethod([
-                'type' => SavePaymentMethodType::BANK_CARD,
-                'card' => new PaymentMethodCard([
-                    'number' => Random::str(16, 19, '0123456789'),
-                    'expiry_year' => (string) Random::int(2023, 2045),
-                    'expiry_month' => str_pad((string) Random::int(1, 12), 2, '0', STR_PAD_LEFT),
-                    'cardholder' => Random::str(1, 26, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ \'-'),
-                    'csc' => Random::str(3, 4, '0123456789'),
-                ]),
-                'holder' => new PaymentMethodHolder([
-                    'gateway_id' => Random::str(1, 256),
-                ]),
-                'client_ip' => Internet::localIpv4(),
-                'confirmation' => new ConfirmationRedirect([
-                    'type' => ConfirmationType::REDIRECT,
-                    'enforce' => Random::bool(),
-                    'return_url' => Random::str(1,2048),
-                    'locale' => Random::value(['ru_RU', 'en_US']),
-                ]),
-            ], 123)
-        ;
-
-        self::assertSame($curlClientStub, $apiClient->getApiClient());
-        self::assertInstanceOf(PaymentMethodResponse::class, $response);
-
-        $curlClientStub = $this->getCurlClientStub();
-        $curlClientStub
-            ->expects($this->any())
-            ->method('sendRequest')
-            ->willReturn([
-                ['Header-Name' => 'HeaderValue'],
-                '{"type":"error","code":"request_accepted","retry_after":1800}',
-                ['http_code' => 202],
-            ])
-        ;
-
-        try {
-            $response = $apiClient
-                ->setApiClient($curlClientStub)
-                ->setAuth('123456', 'shopPassword')
-                ->createPaymentMethod($paymentMethod, 123)
-            ;
-            self::fail('Исключение не было выброшено');
-        } catch (ApiException $e) {
-            self::assertInstanceOf(ResponseProcessingException::class, $e);
-        }
-
-        $curlClientStub = $this->getCurlClientStub();
-        $curlClientStub
-            ->expects($this->any())
-            ->method('sendRequest')
-            ->willReturn([
-                ['Header-Name' => 'HeaderValue'],
-                '{"type":"error","code":"request_accepted","retry_after":1800}',
-                ['http_code' => 202],
-            ])
-        ;
-
-        try {
-            $apiClient->setRetryTimeout(0);
-            $response = $apiClient
-                ->setApiClient($curlClientStub)
-                ->setAuth('123456', 'shopPassword')
-                ->createPaymentMethod($paymentMethod, 123)
-            ;
-            self::fail('Исключение не было выброшено');
-        } catch (ResponseProcessingException $e) {
-            self::assertEquals(Client::DEFAULT_DELAY, $e->retryAfter);
-            self::assertEquals(Client::DEFAULT_DELAY, $e->getError()->getRetryAfter());
-        }
-    }
-
-    /**
-     * @dataProvider paymentMethodInfoDataProvider
-     *
-     * @param mixed $paymentMethodId
-     * @param string|null $exceptionClassName
-     *
-     * @throws ApiConnectionException
-     * @throws ApiException
-     * @throws AuthorizeException
-     * @throws BadApiRequestException
-     * @throws ExtensionNotFoundException
-     * @throws ForbiddenException
-     * @throws InternalServerError
-     * @throws JsonException
-     * @throws NotFoundException
-     * @throws ResponseProcessingException
-     * @throws TooManyRequestsException
-     * @throws UnauthorizedException
-     */
-    public function testGetPaymentMethodInfo(mixed $paymentMethodId, ?string $exceptionClassName = null): void
-    {
-        $curlClientStub = $this->getCurlClientStub();
-        $curlClientStub
-            ->expects(null !== $exceptionClassName ? self::never() : self::once())
-            ->method('sendRequest')
-            ->willReturn([
-                ['Header-Name' => 'HeaderValue'],
-                $this->getFixtures('paymentMethodInfoFixtures.json'),
-                ['http_code' => 200],
-            ])
-        ;
-
-        $apiClient = new Client();
-
-        if (null !== $exceptionClassName) {
-            $this->expectException($exceptionClassName);
-        }
-
-        $response = $apiClient
-            ->setApiClient($curlClientStub)
-            ->setAuth('123456', 'shopPassword')
-            ->getPaymentMethodInfo($paymentMethodId)
-        ;
-
-        self::assertInstanceOf(PaymentMethodResponse::class, $response);
-
-        $curlClientStub = $this->getCurlClientStub();
-        $curlClientStub
-            ->expects($this->any())
-            ->method('sendRequest')
-            ->willReturn([
-                ['Header-Name' => 'HeaderValue'],
-                '{"type":"error","code":"request_accepted","retry_after":1800}',
-                ['http_code' => 202],
-            ])
-        ;
-
-        try {
-            $apiClient->setRetryTimeout(0);
-            $response = $apiClient
-                ->setApiClient($curlClientStub)
-                ->setAuth('123456', 'shopPassword')
-                ->getPaymentMethodInfo($paymentMethodId)
-            ;
-            self::fail('Исключение не было выброшено');
-        } catch (ResponseProcessingException $e) {
-            self::assertEquals(Client::DEFAULT_DELAY, $e->retryAfter);
-            self::assertEquals(Client::DEFAULT_DELAY, $e->getError()->getRetryAfter());
-        }
-    }
-
-    public static function paymentMethodInfoDataProvider(): array
-    {
-        return [
-            [Random::str(39)],
-            [new StringObject(Random::str(39))],
-            [[], TypeError::class],
-            [new stdClass(), TypeError::class],
-        ];
-    }
-
     public function getCurlClientStub(): MockObject
     {
         return $this->getMockBuilder(CurlClient::class)
@@ -2949,7 +2692,7 @@ class ClientTest extends TestCase
     {
         return [
             [NotFoundException::HTTP_CODE, '{}', NotFoundException::class],
-            [GoneException::HTTP_CODE, '{}', GoneException::class],
+            [BadApiRequestException::HTTP_CODE, '{}', BadApiRequestException::class],
             [BadApiRequestException::HTTP_CODE, '{}', BadApiRequestException::class],
             [ForbiddenException::HTTP_CODE, '{}', ForbiddenException::class],
             [UnauthorizedException::HTTP_CODE, '{}', UnauthorizedException::class],
@@ -2981,7 +2724,6 @@ class ClientTest extends TestCase
                     'country_of_origin_code' => 'RU',
                     'customs_declaration_number' => '10714040/140917/0090376',
                     'excise' => '20.00',
-                    'planned_status'=> 6
                 ],
             ],
             'tax_system_code' => 1,
@@ -3024,7 +2766,6 @@ class ClientTest extends TestCase
             ],
             'vat_code' => 1,
             'payment_subject' => 'commodity',
-            'planned_status' => 6,
             'payment_mode' => 'full_prepayment',
             'product_code' => '00 00 00 01 00 21 FA 41 00 23 05 41 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 12 00 AB 00',
             'country_of_origin_code' => 'RU',

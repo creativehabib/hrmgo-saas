@@ -39,14 +39,14 @@ use YooKassa\Validator\Constraints as Assert;
 /**
  * Класс, представляющий модель Invoice.
  *
- * Объект счета (Invoice) — актуальная информация о счете.
+ * Данные о счете.
  *
  * @category Class
  * @package  YooKassa\Model
  * @author   cms@yoomoney.ru
  * @link     https://yookassa.ru/developers/api
  *
- * @property string $id Идентификатор счета в ЮKassa.
+ * @property string $id Идентификатор счета в ЮКасса.
  * @property string $status Статус счета. Возможные значения: `pending`, `succeeded`, `canceled`.
  * @property LineItem[]|ListObjectInterface $cart Корзина заказа — список товаров или услуг, который отобразится на странице счета перед оплатой.
  * @property AbstractDeliveryMethod|null $delivery_method Данные о выбранном способе доставки счета. Присутствует только для счетов в статусе `pending`.
@@ -65,7 +65,7 @@ use YooKassa\Validator\Constraints as Assert;
 class Invoice extends AbstractObject implements InvoiceInterface
 {
     /**
-     * Идентификатор счета в ЮKassa.
+     * Идентификатор счета в ЮКасса.
      *
      * @var string|null
      */
@@ -167,7 +167,7 @@ class Invoice extends AbstractObject implements InvoiceInterface
     /**
      * Возвращает id.
      *
-     * @return string|null Идентификатор счета в ЮKassa
+     * @return string|null Идентификатор счета в ЮКасса
      */
     public function getId(): ?string
     {
@@ -177,7 +177,7 @@ class Invoice extends AbstractObject implements InvoiceInterface
     /**
      * Устанавливает id.
      *
-     * @param string|null $id Идентификатор счета в ЮKassa.
+     * @param string|null $id Идентификатор счета в ЮКасса.
      *
      * @return self
      */

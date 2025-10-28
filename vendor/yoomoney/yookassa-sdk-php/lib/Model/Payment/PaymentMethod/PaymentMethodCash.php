@@ -31,7 +31,7 @@ use YooKassa\Model\Payment\PaymentMethodType;
 /**
  * Класс, представляющий модель PaymentMethodCash.
  *
- * Оплата наличными в терминалах.
+ * Оплата наличными в терминалах РФ или СНГ.
  *
  * @category Class
  * @package  YooKassa\Model

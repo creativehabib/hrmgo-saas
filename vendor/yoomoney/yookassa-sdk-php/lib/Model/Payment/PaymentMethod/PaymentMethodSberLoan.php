@@ -26,7 +26,6 @@
 
 namespace YooKassa\Model\Payment\PaymentMethod;
 
-use DateTime;
 use YooKassa\Model\AmountInterface;
 use YooKassa\Model\MonetaryAmount;
 use YooKassa\Model\Payment\PaymentMethodType;
@@ -46,8 +45,6 @@ use YooKassa\Validator\Constraints as Assert;
  * @property string $loanOption Тариф кредита
  * @property AmountInterface $discount_amount Сумма скидки для рассрочки
  * @property AmountInterface $discountAmount Сумма скидки для рассрочки
- * @property DateTime $suspended_until Время, когда заканчивается период охлаждения кредита или рассрочки.
- * @property DateTime $suspendedUntil Время, когда заканчивается период охлаждения кредита или рассрочки.
  */
 class PaymentMethodSberLoan extends AbstractPaymentMethod
 {
@@ -76,17 +73,6 @@ class PaymentMethodSberLoan extends AbstractPaymentMethod
     #[Assert\Valid]
     #[Assert\Type(MonetaryAmount::class)]
     private ?AmountInterface $_discount_amount = null;
-
-    /**
-     * Время, когда заканчивается [период охлаждения](https://yookassa.ru/docs/support/payments/credit-purchases-by-sberbank-with-cooling-off) кредита или рассрочки.
-     * Указывается по [UTC](https://ru.wikipedia.org/wiki/Всемирное_координированное_время) и передается в формате [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601).
-     * Присутствует для платежей в статусе ~`pending`, которые по [закону](https://www.consultant.ru/document/cons_doc_LAW_498604/) попадают под процедуру охлаждения.
-     *
-     * @var DateTime|null
-     */
-    #[Assert\DateTime(format: YOOKASSA_DATE)]
-    #[Assert\Type('DateTime')]
-    private ?DateTime $_suspended_until = null;
 
     public function __construct(?array $data = [])
     {
@@ -131,29 +117,6 @@ class PaymentMethodSberLoan extends AbstractPaymentMethod
     public function setDiscountAmount(mixed $discount_amount = null): self
     {
         $this->_discount_amount = $this->validatePropertyValue('_discount_amount', $discount_amount);
-        return $this;
-    }
-
-    /**
-     * Возвращает время, когда заканчивается период охлаждения кредита или рассрочки.
-     *
-     * @return DateTime|null
-     */
-    public function getSuspendedUntil(): ?DateTime
-    {
-        return $this->_suspended_until;
-    }
-
-    /**
-     * Устанавливает время, когда заканчивается период охлаждения кредита или рассрочки.
-     *
-     * @param DateTime|string|null $suspended_until Время, когда заканчивается период охлаждения кредита или рассрочки.
-     *
-     * @return self
-     */
-    public function setSuspendedUntil(DateTime|string|null $suspended_until = null): self
-    {
-        $this->_suspended_until = $this->validatePropertyValue('_suspended_until', $suspended_until);
         return $this;
     }
 }

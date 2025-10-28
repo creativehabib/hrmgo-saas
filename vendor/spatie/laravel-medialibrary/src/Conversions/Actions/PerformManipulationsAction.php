@@ -21,10 +21,6 @@ class PerformManipulationsAction
             return $imageFile;
         }
 
-        if (! File::exists($imageFile)) {
-            return '';
-        }
-
         $conversionTempFile = $this->getConversionTempFileName($media, $conversion, $imageFile);
 
         File::copy($imageFile, $conversionTempFile);

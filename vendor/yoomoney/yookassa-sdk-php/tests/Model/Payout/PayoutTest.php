@@ -401,69 +401,6 @@ class PayoutTest extends AbstractTestCase
     }
 
     /**
-     * Test property "succeeded_at"
-     * @dataProvider validSucceededAtDataProvider
-     * @param mixed $value
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testSucceededAt(mixed $value): void
-    {
-        $instance = $this->getTestInstance();
-        self::assertEmpty($instance->getSucceededAt());
-        self::assertEmpty($instance->succeeded_at);
-        $instance->setSucceededAt($value);
-        if (!empty($value)) {
-            self::assertNotNull($instance->getSucceededAt());
-            self::assertNotNull($instance->succeeded_at);
-            if ($value instanceof Datetime) {
-                self::assertEquals($value, $instance->getSucceededAt());
-                self::assertEquals($value, $instance->succeeded_at);
-            } else {
-                self::assertEquals(new Datetime($value), $instance->getSucceededAt());
-                self::assertEquals(new Datetime($value), $instance->succeeded_at);
-            }
-        }
-    }
-
-    /**
-     * Test invalid property "succeeded_at"
-     * @dataProvider invalidSucceededAtDataProvider
-     * @param mixed $value
-     * @param string $exceptionClass
-     *
-     * @return void
-     */
-    public function testInvalidSucceededAt(mixed $value, string $exceptionClass): void
-    {
-        $instance = $this->getTestInstance();
-
-        $this->expectException($exceptionClass);
-        $instance->setSucceededAt($value);
-    }
-
-    /**
-     * @return array[]
-     * @throws Exception
-     */
-    public function validSucceededAtDataProvider(): array
-    {
-        $instance = $this->getTestInstance();
-        return $this->getValidDataProviderByType($instance->getValidator()->getRulesByPropName('_succeeded_at'));
-    }
-
-    /**
-     * @return array[]
-     * @throws Exception
-     */
-    public function invalidSucceededAtDataProvider(): array
-    {
-        $instance = $this->getTestInstance();
-        return $this->getInvalidDataProviderByType($instance->getValidator()->getRulesByPropName('_succeeded_at'));
-    }
-
-    /**
      * Test property "deal"
      * @dataProvider validDealDataProvider
      * @param mixed $value

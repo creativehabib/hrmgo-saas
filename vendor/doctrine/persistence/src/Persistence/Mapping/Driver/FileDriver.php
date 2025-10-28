@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Doctrine\Persistence\Mapping\Driver;
 
+use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\Persistence\Mapping\MappingException;
 
 use function array_keys;
@@ -121,7 +122,7 @@ abstract class FileDriver implements MappingDriver
             return $this->locator->getAllClassNames($this->globalBasename);
         }
 
-        /** @phpstan-var non-empty-array<class-string, T> $classCache */
+        /** @phpstan-var array<class-string, ClassMetadata<object>> $classCache */
         $classCache = $this->classCache;
 
         /** @var list<class-string> $keys */

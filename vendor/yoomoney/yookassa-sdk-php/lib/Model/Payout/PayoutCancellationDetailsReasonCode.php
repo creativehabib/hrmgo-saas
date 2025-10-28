@@ -42,7 +42,6 @@ use YooKassa\Common\AbstractEnum;
  * - `recipient_not_found` - Для выплат через СБП: получатель не найден
  * - `recipient_check_failed` - Только для выплат с проверкой получателя. Получатель выплаты не прошел проверку
  * - `identification_required` - Кошелек ЮMoney не идентифицирован. Пополнение анонимного кошелька запрещено
- * - `self_employed_annual_limit_exceeded` - Превышен лимит на годовой доход самозанятого.
  *
  * @category Class
  * @package  YooKassa\Model
@@ -81,9 +80,6 @@ class PayoutCancellationDetailsReasonCode extends AbstractEnum
     /** Кошелек ЮMoney не идентифицирован. Пополнение анонимного кошелька запрещено. Пользователю необходимо [идентифицировать кошелек](https://yoomoney.ru/page?id=536136) */
     public const IDENTIFICATION_REQUIRED = 'identification_required';
 
-    /** Только для [выплат самозанятым](https://yookassa.ru/developers/payouts/scenario-extensions/self-employed). Превышен лимит на годовой доход самозанятого. Порекомендуйте получателю выплаты проверить свой доход. */
-    public const SELF_EMPLOYED_ANNUAL_LIMIT_EXCEEDED = 'self_employed_annual_limit_exceeded';
-
     /**
      * Возвращает список доступных значений
      * @return string[]
@@ -99,6 +95,5 @@ class PayoutCancellationDetailsReasonCode extends AbstractEnum
         self::RECIPIENT_CHECK_FAILED => true,
         self::REJECTED_BY_PAYEE => true,
         self::IDENTIFICATION_REQUIRED => true,
-        self::SELF_EMPLOYED_ANNUAL_LIMIT_EXCEEDED => true,
     ];
 }

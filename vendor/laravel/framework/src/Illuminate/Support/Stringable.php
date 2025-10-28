@@ -223,18 +223,6 @@ class Stringable implements JsonSerializable, ArrayAccess, BaseStringable
     }
 
     /**
-     * Determine if a given string doesn't contain a given substring.
-     *
-     * @param  string|iterable<string>  $needles
-     * @param  bool  $ignoreCase
-     * @return bool
-     */
-    public function doesntContain($needles, $ignoreCase = false)
-    {
-        return Str::doesntContain($this->value, $needles, $ignoreCase);
-    }
-
-    /**
      * Convert the case of a string.
      *
      * @param  int  $mode
@@ -394,23 +382,21 @@ class Stringable implements JsonSerializable, ArrayAccess, BaseStringable
     /**
      * Determine if a given value is a valid URL.
      *
-     * @param  array  $protocols
      * @return bool
      */
-    public function isUrl(array $protocols = [])
+    public function isUrl()
     {
-        return Str::isUrl($this->value, $protocols);
+        return Str::isUrl($this->value);
     }
 
     /**
      * Determine if a given string is a valid UUID.
      *
-     * @param  int<0, 8>|'max'|null  $version
      * @return bool
      */
-    public function isUuid($version = null)
+    public function isUuid()
     {
-        return Str::isUuid($this->value, $version);
+        return Str::isUuid($this->value);
     }
 
     /**
@@ -641,12 +627,11 @@ class Stringable implements JsonSerializable, ArrayAccess, BaseStringable
      * Get the plural form of an English word.
      *
      * @param  int|array|\Countable  $count
-     * @param  bool  $prependCount
      * @return static
      */
-    public function plural($count = 2, $prependCount = false)
+    public function plural($count = 2)
     {
-        return new static(Str::plural($this->value, $count, $prependCount));
+        return new static(Str::plural($this->value, $count));
     }
 
     /**
@@ -1057,7 +1042,7 @@ class Stringable implements JsonSerializable, ArrayAccess, BaseStringable
     /**
      * Trim the string of the given characters.
      *
-     * @param  string|null  $characters
+     * @param  string  $characters
      * @return static
      */
     public function trim($characters = null)
@@ -1068,7 +1053,7 @@ class Stringable implements JsonSerializable, ArrayAccess, BaseStringable
     /**
      * Left trim the string of the given characters.
      *
-     * @param  string|null  $characters
+     * @param  string  $characters
      * @return static
      */
     public function ltrim($characters = null)
@@ -1079,7 +1064,7 @@ class Stringable implements JsonSerializable, ArrayAccess, BaseStringable
     /**
      * Right trim the string of the given characters.
      *
-     * @param  string|null  $characters
+     * @param  string  $characters
      * @return static
      */
     public function rtrim($characters = null)

@@ -6,7 +6,6 @@ use DateTimeInterface;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Http\Data\ApplicationFee;
-use Mollie\Api\Http\Data\Date;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Traits\HasJsonPayload;
@@ -38,10 +37,7 @@ class CreateSubscriptionRequest extends ResourceHydratableRequest implements Has
 
     private ?int $times;
 
-    /**
-     * @var Date|DateTimeInterface
-     */
-    private $startDate;
+    private ?DateTimeInterface $startDate;
 
     private ?string $paymentMethod;
 
@@ -55,9 +51,6 @@ class CreateSubscriptionRequest extends ResourceHydratableRequest implements Has
 
     private ?string $profileId;
 
-    /**
-     * @param Date|DateTimeInterface|null $startDate
-     */
     public function __construct(
         string $customerId,
         Money $amount,
@@ -65,7 +58,7 @@ class CreateSubscriptionRequest extends ResourceHydratableRequest implements Has
         string $description,
         ?string $status = null,
         ?int $times = null,
-        $startDate = null,
+        ?DateTimeInterface $startDate = null,
         ?string $method = null,
         ?ApplicationFee $applicationFee = null,
         ?array $metadata = null,

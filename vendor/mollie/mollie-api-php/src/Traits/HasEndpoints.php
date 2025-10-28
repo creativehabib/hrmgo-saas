@@ -40,8 +40,6 @@ use Mollie\Api\EndpointCollection\SubscriptionEndpointCollection;
 use Mollie\Api\EndpointCollection\SubscriptionPaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\TerminalEndpointCollection;
 use Mollie\Api\EndpointCollection\WalletEndpointCollection;
-use Mollie\Api\EndpointCollection\WebhookEndpointCollection;
-use Mollie\Api\EndpointCollection\WebhookEventEndpointCollection;
 use Mollie\Api\MollieApiClient;
 
 /**
@@ -98,8 +96,6 @@ trait HasEndpoints
             'subscriptionPayments' => SubscriptionPaymentEndpointCollection::class,
             'terminals' => TerminalEndpointCollection::class,
             'wallets' => WalletEndpointCollection::class,
-            'webhooks' => WebhookEndpointCollection::class,
-            'webhookEvents' => WebhookEventEndpointCollection::class,
         ];
 
         foreach ($endpointClasses as $name => $class) {

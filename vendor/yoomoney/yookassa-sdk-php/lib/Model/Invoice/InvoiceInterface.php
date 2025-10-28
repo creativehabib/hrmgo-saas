@@ -42,7 +42,7 @@ use YooKassa\Model\Metadata;
  * @author   cms@yoomoney.ru
  * @link     https://yookassa.ru/developers/api
  *
- * @property string $id Идентификатор счета в ЮKassa.
+ * @property string $id Идентификатор счета в ЮКасса.
  * @property string $status Статус счета. Возможные значения: `pending`, `succeeded`, `canceled`.
  * @property LineItem[]|ListObjectInterface $cart Корзина заказа — список товаров или услуг, который отобразится на странице счета перед оплатой.
  * @property AbstractDeliveryMethod|null $delivery_method Данные о выбранном способе доставки счета. Присутствует только для счетов в статусе `pending`.
@@ -79,7 +79,7 @@ interface InvoiceInterface
     /**
      * Устанавливает id.
      *
-     * @param string|null $id Идентификатор счета в ЮKassa.
+     * @param string|null $id Идентификатор счета в ЮКасса.
      *
      * @return self
      */

@@ -32,7 +32,7 @@ use YooKassa\Validator\Constraints as Assert;
 /**
  * Класс, представляющий модель PayoutDestination.
  *
- * Платежное средство, на которое ЮKassa зачисляет выплату.
+ * Платежное средство продавца, на которое ЮKassa переводит оплату.
  *
  * @category Abstract Class
  * @package  YooKassa\Model

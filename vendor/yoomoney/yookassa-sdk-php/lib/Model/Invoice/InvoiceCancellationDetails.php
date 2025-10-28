@@ -62,7 +62,7 @@ class InvoiceCancellationDetails extends AbstractObject
      * Причина отмены счета.
      *
      * Возможные значения:
-     * - `invoice_canceled` — [счет отменен вручную](https://yookassa.ru/docs/support/merchant/invoices-to-clients/invoicing#invoicing__cancel) из личного кабинета ЮKassa;
+     * - `invoice_canceled` — [счет отменен вручную](https://yookassa.ru/docs/support/merchant/payments/invoicing#invoicing__cancel) из личного кабинета ЮKassa;
      * - `invoice_expired` — истек срок действия счета, который вы установили в запросе на создание счета в параметре `expires_at`, и по счету нет ни одного успешного платежа;
      * - `general_decline` — причина не детализирована, поэтому пользователю следует обратиться к инициатору отмены счета за уточнением подробностей;
      * - `payment_canceled` — [платеж отменен по API](https://yookassa.ru/developers/payment-acceptance/getting-started/payment-process#cancel) при оплате в две стадии;
@@ -111,7 +111,7 @@ class InvoiceCancellationDetails extends AbstractObject
     /**
      * Устанавливает reason.
      *
-     * @param string|null $reason Причина отмены счета. Возможные значения:  * ~`invoice_canceled` — %[счет отменен вручную](/docs/support/merchant/invoices-to-clients/invoicing#invoicing__cancel) из личного кабинета ЮKassa; * ~`invoice_expired` — истек срок действия счета, который вы установили в запросе на создание счета в параметре `expires_at`, и по счету нет ни одного успешного платежа; * ~`general_decline` — причина не детализирована, поэтому пользователю следует обратиться к инициатору отмены счета за уточнением подробностей; * ~`payment_canceled` — %[платеж отменен по API](/developers/payment-acceptance/getting-started/payment-process#cancel) при оплате в две стадии; * ~`payment_expired_on_capture` — %[истек срок списания оплаты](/developers/payment-acceptance/getting-started/payment-process#hold) для платежа в две стадии.
+     * @param string|null $reason Причина отмены счета. Возможные значения:  * ~`invoice_canceled` — %[счет отменен вручную](/docs/support/merchant/payments/invoicing#invoicing__cancel) из личного кабинета ЮKassa; * ~`invoice_expired` — истек срок действия счета, который вы установили в запросе на создание счета в параметре `expires_at`, и по счету нет ни одного успешного платежа; * ~`general_decline` — причина не детализирована, поэтому пользователю следует обратиться к инициатору отмены счета за уточнением подробностей; * ~`payment_canceled` — %[платеж отменен по API](/developers/payment-acceptance/getting-started/payment-process#cancel) при оплате в две стадии; * ~`payment_expired_on_capture` — %[истек срок списания оплаты](/developers/payment-acceptance/getting-started/payment-process#hold) для платежа в две стадии.
      *
      * @return self
      */

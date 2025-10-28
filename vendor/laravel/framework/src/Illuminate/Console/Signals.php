@@ -51,21 +51,21 @@ class Signals
     {
         $this->previousHandlers[$signal] ??= $this->initializeSignal($signal);
 
-        $handlers = $this->getHandlers();
+        with($this->getHandlers(), function ($handlers) use ($signal) {
+            $handlers[$signal] ??= $this->initializeSignal($signal);
 
-        $handlers[$signal] ??= $this->initializeSignal($signal);
-
-        $this->setHandlers($handlers);
+            $this->setHandlers($handlers);
+        });
 
         $this->registry->register($signal, $callback);
 
-        $handlers = $this->getHandlers();
+        with($this->getHandlers(), function ($handlers) use ($signal) {
+            $lastHandlerInserted = array_pop($handlers[$signal]);
 
-        $lastHandlerInserted = array_pop($handlers[$signal]);
+            array_unshift($handlers[$signal], $lastHandlerInserted);
 
-        array_unshift($handlers[$signal], $lastHandlerInserted);
-
-        $this->setHandlers($handlers);
+            $this->setHandlers($handlers);
+        });
     }
 
     /**

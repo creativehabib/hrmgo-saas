@@ -12,12 +12,10 @@ use Inertia\Ssr\HttpGateway;
 use Inertia\Support\Header;
 use Inertia\Testing\TestResponseMacros;
 use LogicException;
+use ReflectionException;
 
 class ServiceProvider extends BaseServiceProvider
 {
-    /**
-     * Register the service provider.
-     */
     public function register(): void
     {
         $this->app->singleton(ResponseFactory::class);
@@ -34,14 +32,6 @@ class ServiceProvider extends BaseServiceProvider
         $this->registerTestingMacros();
         $this->registerMiddleware();
 
-        $this->app->bind('inertia.view-finder', function ($app) {
-            return new FileViewFinder(
-                $app['files'],
-                $app['config']->get('inertia.page_paths'),
-                $app['config']->get('inertia.page_extensions')
-            );
-        });
-
         $this->app->bind('inertia.testing.view-finder', function ($app) {
             return new FileViewFinder(
                 $app['files'],
@@ -51,9 +41,6 @@ class ServiceProvider extends BaseServiceProvider
         });
     }
 
-    /**
-     * Boot the service provider.
-     */
     public function boot(): void
     {
         $this->registerConsoleCommands();
@@ -63,10 +50,6 @@ class ServiceProvider extends BaseServiceProvider
         ]);
     }
 
-    /**
-     * Register @inertia and @inertiaHead directives for rendering the Inertia
-     * root element and SSR head content in Blade templates.
-     */
     protected function registerBladeDirectives(): void
     {
         $this->callAfterResolving('blade.compiler', function ($blade) {
@@ -75,10 +58,6 @@ class ServiceProvider extends BaseServiceProvider
         });
     }
 
-    /**
-     * Register Artisan commands for managing Inertia middleware creation
-     * and server-side rendering operations when running in console mode.
-     */
     protected function registerConsoleCommands(): void
     {
         if (! $this->app->runningInConsole()) {
@@ -89,14 +68,9 @@ class ServiceProvider extends BaseServiceProvider
             Commands\CreateMiddleware::class,
             Commands\StartSsr::class,
             Commands\StopSsr::class,
-            Commands\CheckSsr::class,
         ]);
     }
 
-    /**
-     * Add an 'inertia' method to the Request class that returns true
-     * if the current request is an Inertia request.
-     */
     protected function registerRequestMacro(): void
     {
         Request::macro('inertia', function () {
@@ -104,14 +78,8 @@ class ServiceProvider extends BaseServiceProvider
         });
     }
 
-    /**
-     * Register the router macro.
-     */
     protected function registerRouterMacro(): void
     {
-        /**
-         * @param  array<array-key, mixed>  $props
-         */
         Router::macro('inertia', function ($uri, $component, $props = []) {
             return $this->match(['GET', 'HEAD'], $uri, '\\'.Controller::class)
                 ->defaults('component', $component)
@@ -120,9 +88,7 @@ class ServiceProvider extends BaseServiceProvider
     }
 
     /**
-     * Register the testing macros.
-     *
-     * @throws \LogicException
+     * @throws ReflectionException|LogicException
      */
     protected function registerTestingMacros(): void
     {
@@ -135,9 +101,6 @@ class ServiceProvider extends BaseServiceProvider
         throw new LogicException('Could not detect TestResponse class.');
     }
 
-    /**
-     * Register the middleware aliases.
-     */
     protected function registerMiddleware(): void
     {
         $this->app['router']->aliasMiddleware(

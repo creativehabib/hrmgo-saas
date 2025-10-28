@@ -60,8 +60,8 @@ class ApcStore extends TaggableStore
      * Increment the value of an item in the cache.
      *
      * @param  string  $key
-     * @param  int  $value
-     * @return int|false
+     * @param  mixed  $value
+     * @return int|bool
      */
     public function increment($key, $value = 1)
     {
@@ -72,8 +72,8 @@ class ApcStore extends TaggableStore
      * Decrement the value of an item in the cache.
      *
      * @param  string  $key
-     * @param  int  $value
-     * @return int|false
+     * @param  mixed  $value
+     * @return int|bool
      */
     public function decrement($key, $value = 1)
     {

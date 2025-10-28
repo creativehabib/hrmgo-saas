@@ -36,7 +36,6 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PureUnlessCallableIsImpureTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\RequireExtendsTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\RequireImplementsTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\SealedTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\SelfOutTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\TemplateTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ThrowsTagValueNode;
@@ -325,10 +324,6 @@ final class Printer
 			return trim("{$type} {$node->description}");
 		}
 		if ($node instanceof RequireImplementsTagValueNode) {
-			$type = $this->printType($node->type);
-			return trim("{$type} {$node->description}");
-		}
-		if ($node instanceof SealedTagValueNode) {
 			$type = $this->printType($node->type);
 			return trim("{$type} {$node->description}");
 		}

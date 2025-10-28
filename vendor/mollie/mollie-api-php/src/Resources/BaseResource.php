@@ -24,9 +24,4 @@ abstract class BaseResource implements IsResponseAware
     {
         $this->connector = $connector;
     }
-
-    public function getConnector(): Connector
-    {
-        return $this->connector;
-    }
 }

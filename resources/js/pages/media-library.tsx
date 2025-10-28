@@ -11,7 +11,6 @@ import { useTranslation } from 'react-i18next';
 import { usePage } from '@inertiajs/react';
 import { Upload, Search, X, Plus, Info, Copy, Download, MoreHorizontal, Image as ImageIcon, Calendar, HardDrive, BarChart3 } from 'lucide-react';
 import { hasPermission } from '@/utils/authorization';
-import { getCsrfToken } from '@/utils/csrf';
 
 interface MediaItem {
   id: number;
@@ -33,7 +32,6 @@ export default function MediaLibraryDemo() {
   const [currentDirectory, setCurrentDirectory] = useState<number | null>(null);
   const [filteredMedia, setFilteredMedia] = useState<MediaItem[]>([]);
   const [loading, setLoading] = useState(false);
-  const [loadError, setLoadError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
@@ -46,52 +44,20 @@ export default function MediaLibraryDemo() {
   const [selectedMediaInfo, setSelectedMediaInfo] = useState<MediaItem | null>(null);
   const itemsPerPage = 12;
 
-  const buildHeaders = useCallback(
-    (additional: Record<string, string> = {}) => {
-      const headers: Record<string, string> = {
-        'X-Requested-With': 'XMLHttpRequest',
-        ...additional,
-      };
-
-      const token = getCsrfToken() ?? csrf_token ?? null;
-      if (token) {
-        headers['X-CSRF-TOKEN'] = token;
-      }
-
-      return headers;
-    },
-    [csrf_token]
-  );
-
-  const canManageMedia = hasPermission(permissions, 'manage-media');
-  const canCreateMedia = hasPermission(permissions, 'create-media');
-  const canManageDirectories = hasPermission(permissions, 'manage-media-directories');
-
   const createDirectory = async () => {
     if (!newDirectoryName.trim()) return;
 
     try {
       const response = await fetch(route('api.media.directories.create'), {
         method: 'POST',
-        credentials: 'same-origin',
-        headers: buildHeaders({
+        headers: {
           'Content-Type': 'application/json',
-          Accept: 'application/json',
-        }),
+          'X-CSRF-TOKEN': csrf_token,
+        },
         body: JSON.stringify({ name: newDirectoryName }),
       });
 
-      let result: any = null;
-      try {
-        result = await response.json();
-      } catch (error) {
-        result = null;
-      }
-
-      if (response.status === 419) {
-        toast.error(result?.message || t('Your session has expired. Please refresh the page and try again.'));
-        return;
-      }
+      const result = await response.json();
 
       if (response.ok) {
         toast.success(result.message || t('Directory created successfully'));
@@ -111,16 +77,6 @@ export default function MediaLibraryDemo() {
   };
 
   const fetchMedia = useCallback(async () => {
-    if (!canManageMedia) {
-      const permissionMessage = t('You do not have permission to view media.');
-      setLoadError(permissionMessage);
-      setMedia([]);
-      setDirectories([]);
-      setFilteredMedia([]);
-      setLoading(false);
-      return;
-    }
-
     setLoading(true);
     try {
       const params = new URLSearchParams();
@@ -130,34 +86,14 @@ export default function MediaLibraryDemo() {
 
       const response = await fetch(`${route('api.media.index')}?${params}`, {
         credentials: 'same-origin',
-        headers: buildHeaders({ Accept: 'application/json' }),
+        headers: {
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+        },
       });
 
-      if (response.status === 419) {
-        const message = t('Your session has expired. Please refresh the page and try again.');
-        setLoadError(message);
-        toast.error(message);
-        return;
-      }
-
       if (!response.ok) {
-        let errorMessage = t('Failed to load media');
-        let errorData: any = null;
-        try {
-          errorData = await response.json();
-        } catch (error) {
-          errorData = null;
-        }
-
-        if (response.status === 403) {
-          errorMessage = errorData?.message || errorData?.error || t('You do not have permission to view media.');
-        } else if (errorData) {
-          errorMessage = errorData.message || errorData.error || errorMessage;
-        }
-
-        setLoadError(errorMessage);
-        toast.error(errorMessage);
-        return;
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
@@ -165,16 +101,13 @@ export default function MediaLibraryDemo() {
       setMedia(mediaArray);
       setDirectories(data.directories || []);
       setFilteredMedia(mediaArray);
-      setLoadError(null);
     } catch (error) {
       console.error('Failed to load media:', error);
-      const message = t('Network error: Failed to load media.');
-      setLoadError(message);
-      toast.error(message);
+      toast.error('Failed to load media');
     } finally {
       setLoading(false);
     }
-  }, [buildHeaders, canManageMedia, currentDirectory, t]);
+  }, [currentDirectory]);
 
   useEffect(() => {
     fetchMedia();
@@ -217,20 +150,13 @@ export default function MediaLibraryDemo() {
         method: 'POST',
         body: formData,
         credentials: 'same-origin',
-        headers: buildHeaders(),
+        headers: {
+          'X-CSRF-TOKEN': csrf_token,
+          'X-Requested-With': 'XMLHttpRequest',
+        },
       });
 
-      let result: any = null;
-      try {
-        result = await response.json();
-      } catch (error) {
-        result = null;
-      }
-
-      if (response.status === 419) {
-        toast.error(result?.message || t('Your session has expired. Please refresh the page and try again.'));
-        return;
-      }
+      const result = await response.json();
 
       if (response.ok) {
         setMedia(prev => [...result.data, ...prev]);
@@ -295,20 +221,13 @@ export default function MediaLibraryDemo() {
       const response = await fetch(route('api.media.destroy', id), {
         method: 'DELETE',
         credentials: 'same-origin',
-        headers: buildHeaders(),
+        headers: {
+          'X-CSRF-TOKEN': csrf_token,
+          'X-Requested-With': 'XMLHttpRequest',
+        },
       });
 
-      let result: any = null;
-      try {
-        result = await response.json();
-      } catch (error) {
-        result = null;
-      }
-
-      if (response.status === 419) {
-        toast.error(result?.message || t('Your session has expired. Please refresh the page and try again.'));
-        return;
-      }
+      const result = await response.json();
 
       if (response.ok) {
         setMedia(prev => prev.filter(item => item.id !== id));
@@ -334,26 +253,18 @@ export default function MediaLibraryDemo() {
     try {
       const response = await fetch(route('api.media.download', id), {
         credentials: 'same-origin',
-        headers: buildHeaders(),
+        headers: {
+          'X-CSRF-TOKEN': csrf_token,
+          'X-Requested-With': 'XMLHttpRequest',
+        },
       });
 
-      if (response.status === 419) {
-        toast.error(t('Your session has expired. Please refresh the page and try again.'));
-        return;
-      }
-
       if (!response.ok) {
-        let errorData: any = null;
-        try {
-          errorData = await response.json();
-        } catch (error) {
-          errorData = null;
-        }
-
-        if (errorData?.errors && Array.isArray(errorData.errors)) {
+        const errorData = await response.json();
+        if (errorData.errors && Array.isArray(errorData.errors)) {
           errorData.errors.forEach((error: string) => toast.error(error));
         } else {
-          toast.error(errorData?.error || errorData?.message || t('Download failed'));
+          toast.error(errorData.error || errorData.message || t('Download failed'));
         }
         return;
       }
@@ -409,16 +320,14 @@ export default function MediaLibraryDemo() {
     { title: t('Media Library') }
   ];
 
-  const pageActions = canCreateMedia && !loadError
-    ? [
-        {
-          label: t('Upload Media'),
-          icon: <Plus className="h-4 w-4" />,
-          variant: 'default' as const,
-          onClick: () => setIsUploadModalOpen(true)
-        }
-      ]
-    : [];
+  const pageActions = [
+    {
+      label: t('Upload Media'),
+      icon: <Plus className="h-4 w-4" />,
+      variant: 'default' as const,
+      onClick: () => setIsUploadModalOpen(true)
+    }
+  ];
 
   return (
     <PageTemplate
@@ -437,22 +346,22 @@ export default function MediaLibraryDemo() {
                 variant={currentDirectory === null ? "default" : "outline"}
                 size="sm"
                 onClick={() => setCurrentDirectory(null)}
-                disabled={!!loadError}
               >
                 All Files
               </Button>
-              {canManageDirectories && directories.map((dir: any) => (
-                <Button
-                  key={dir.id}
-                  variant={currentDirectory === dir.id ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setCurrentDirectory(dir.id)}
-                  disabled={!!loadError}
-                >
-                  {dir.name}
-                </Button>
+              {directories.map((dir: any) => (
+                hasPermission(permissions, `manage-media-directories`) && (
+                  <Button
+                    key={dir.id}
+                    variant={currentDirectory === dir.id ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setCurrentDirectory(dir.id)}
+                  >
+                    {dir.name}
+                  </Button>
+                )
               ))}
-              {hasPermission(permissions, 'create-media-directories') && !loadError && (
+              {hasPermission(permissions, 'create-media-directories') && (
                 <Button
                   variant="ghost"
                   size="sm"
@@ -471,13 +380,10 @@ export default function MediaLibraryDemo() {
                     value={newDirectoryName}
                     onChange={(e) => setNewDirectoryName(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && createDirectory()}
-                    disabled={!!loadError}
                   />
-                  {hasPermission(permissions, 'create-media-directories') && (
-                    <Button onClick={createDirectory} size="sm" disabled={!!loadError}>
-                      Create
-                    </Button>
-                  )}
+                  {hasPermission(permissions, 'create-media-directories') && <Button onClick={createDirectory} size="sm">
+                    Create
+                  </Button>}
 
                   <Button
                     variant="outline"
@@ -486,7 +392,6 @@ export default function MediaLibraryDemo() {
                       setShowCreateDirectory(false);
                       setNewDirectoryName('');
                     }}
-                    disabled={!!loadError}
                   >
                     Cancel
                   </Button>
@@ -509,7 +414,6 @@ export default function MediaLibraryDemo() {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="pl-10"
-                    disabled={!!loadError}
                   />
                 </div>
                 {searchTerm && (
@@ -558,16 +462,6 @@ export default function MediaLibraryDemo() {
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
                 <p className="text-muted-foreground">{t('Loading media...')}</p>
               </div>
-            ) : loadError ? (
-              <div className="text-center py-16">
-                <div className="mx-auto w-24 h-24 bg-destructive/10 text-destructive rounded-full flex items-center justify-center mb-4">
-                  <Info className="h-10 w-10" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2">{t('Unable to display media')}</h3>
-                <p className="text-muted-foreground max-w-md mx-auto">
-                  {loadError}
-                </p>
-              </div>
             ) : currentMedia.length === 0 ? (
               <div className="text-center py-16">
                 <div className="mx-auto w-24 h-24 bg-muted rounded-full flex items-center justify-center mb-4">
@@ -577,7 +471,7 @@ export default function MediaLibraryDemo() {
                 <p className="text-muted-foreground mb-6">
                   {searchTerm ? t('No results found for "{{term}}"', { term: searchTerm }) : t('Get started by uploading your first media file')}
                 </p>
-                {!searchTerm && canCreateMedia && !loadError && (
+                {!searchTerm && (
                   <Button
                     onClick={() => setIsUploadModalOpen(true)}
                     size="lg"

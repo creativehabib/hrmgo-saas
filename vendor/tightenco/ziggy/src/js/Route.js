@@ -1,4 +1,4 @@
-import { parse } from 'qs-esm';
+import { parse } from 'qs';
 
 /**
  * A Laravel route. This class represents one route and its configuration and metadata.

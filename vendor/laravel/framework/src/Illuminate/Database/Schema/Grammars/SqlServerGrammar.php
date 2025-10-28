@@ -272,11 +272,10 @@ class SqlServerGrammar extends Grammar
      */
     public function compileUnique(Blueprint $blueprint, Fluent $command)
     {
-        return sprintf('create unique index %s on %s (%s)%s',
+        return sprintf('create unique index %s on %s (%s)',
             $this->wrap($command->index),
             $this->wrapTable($blueprint),
-            $this->columnize($command->columns),
-            $command->online ? ' with (online = on)' : ''
+            $this->columnize($command->columns)
         );
     }
 
@@ -289,11 +288,10 @@ class SqlServerGrammar extends Grammar
      */
     public function compileIndex(Blueprint $blueprint, Fluent $command)
     {
-        return sprintf('create index %s on %s (%s)%s',
+        return sprintf('create index %s on %s (%s)',
             $this->wrap($command->index),
             $this->wrapTable($blueprint),
-            $this->columnize($command->columns),
-            $command->online ? ' with (online = on)' : ''
+            $this->columnize($command->columns)
         );
     }
 

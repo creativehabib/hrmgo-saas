@@ -35,10 +35,11 @@ use YooKassa\Validator\Exceptions\EmptyPropertyValueException;
 use YooKassa\Validator\Exceptions\InvalidPropertyValueException;
 use YooKassa\Validator\Exceptions\InvalidPropertyValueTypeException;
 use YooKassa\Helpers\ProductCode;
+use YooKassa\Helpers\TypeCast;
 use YooKassa\Model\AmountInterface;
 
 /**
- * Информация о товарной позиции в заказе. Используется для формирования чека.
+ * Информация о товарной позиции в заказе, позиция фискального чека.
  *
  * @category Class
  * @package  YooKassa\Model
@@ -60,8 +61,6 @@ use YooKassa\Model\AmountInterface;
  * @property string $payment_mode Признак способа расчета (тег в 54 ФЗ — 1214)
  * @property string $productCode Код товара (тег в 54 ФЗ — 1162)
  * @property string $product_code Код товара (тег в 54 ФЗ — 1162)
- * @property int $plannedStatus Планируемый статус товара. Тег в 54 ФЗ — 2003
- * @property int $planned_status Планируемый статус товара. Тег в 54 ФЗ — 2003
  * @property MarkCodeInfo $markCodeInfo Код товара (тег в 54 ФЗ — 1163)
  * @property MarkCodeInfo $mark_code_info Код товара (тег в 54 ФЗ — 1163)
  * @property string $measure Мера количества предмета расчета (тег в 54 ФЗ — 2108)
@@ -181,14 +180,6 @@ class ReceiptItem extends AbstractObject implements ReceiptItemInterface
     #[Assert\Length(max: 96)]
     #[Assert\Regex(pattern: '/^[0-9A-F ]{2,96}$/')]
     private ?string $_product_code = null;
-
-    /**
-     * @var int|null Планируемый статус товара. Тег в 54 ФЗ — 2003. Указывается только для товаров, которые подлежат обязательной маркировке
-     */
-    #[Assert\Type('int')]
-    #[Assert\GreaterThanOrEqual(1)]
-    #[Assert\LessThanOrEqual(6)]
-    private ?int $_planned_status = null;
 
     /**
      * @var MarkCodeInfo|null Код товара (тег в 54 ФЗ — 1163).
@@ -416,29 +407,6 @@ class ReceiptItem extends AbstractObject implements ReceiptItemInterface
         }
 
         $this->_product_code = $this->validatePropertyValue('_product_code', $product_code);
-        return $this;
-    }
-
-    /**
-     * Возвращает планируемый статус товара.
-     *
-     * @return int|null Планируемый статус товара
-     */
-    public function getPlannedStatus(): ?int
-    {
-        return $this->_planned_status;
-    }
-
-    /**
-     * Устанавливает планируемый статус товара.
-     *
-     * @param int|null $planned_status Планируемый статус товара
-     *
-     * @return self
-     */
-    public function setPlannedStatus(?int $planned_status = null): self
-    {
-        $this->_planned_status = $this->validatePropertyValue('_planned_status', $planned_status);
         return $this;
     }
 

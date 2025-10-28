@@ -312,7 +312,7 @@ class MailManager implements FactoryContract
      * Create an instance of the Resend Transport driver.
      *
      * @param  array  $config
-     * @return \Illuminate\Mail\Transport\ResendTransport
+     * @return \Illuminate\Mail\Transport\ResendTransprot
      */
     protected function createResendTransport(array $config)
     {

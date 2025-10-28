@@ -11,11 +11,15 @@
       "email": "cms@yoomoney.ru"
     }
   ],
+  "repositories": [
+    {"type": "composer", "url": "https://nexus.yooteam.ru/repository/composer-proxy-packagist-org/"},
+    {"packagist": false}
+  ],
   "dist": {
     "type": "zip",
-    "url": "https://git.yoomoney.ru/rest/api/latest/projects/SDK/repos/yookassa-sdk-php/archive?at=refs%2Ftags%2F3.10.1&format=zip"
+    "url": "https://git.yoomoney.ru/rest/api/latest/projects/SDK/repos/yookassa-sdk-php/archive?at=refs%2Ftags%2F3.8.1&format=zip"
   },
-  "version": "3.10.1",
+  "version": "3.8.1",
   "require": {
     "php": ">=8.0",
     "ext-curl": "*",

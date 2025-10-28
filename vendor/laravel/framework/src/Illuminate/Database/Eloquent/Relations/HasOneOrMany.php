@@ -291,7 +291,7 @@ abstract class HasOneOrMany extends Relation
      */
     public function upsert(array $values, $uniqueBy, $update = null)
     {
-        if (! empty($values) && ! is_array(array_first($values))) {
+        if (! empty($values) && ! is_array(reset($values))) {
             $values = [$values];
         }
 
@@ -500,7 +500,7 @@ abstract class HasOneOrMany extends Relation
      *
      * @param  \Illuminate\Database\Eloquent\Builder<TRelatedModel>  $query
      * @param  \Illuminate\Database\Eloquent\Builder<TDeclaringModel>  $parentQuery
-     * @param  mixed  $columns
+     * @param  array|mixed  $columns
      * @return \Illuminate\Database\Eloquent\Builder<TRelatedModel>
      */
     public function getRelationExistenceQueryForSelfRelation(Builder $query, Builder $parentQuery, $columns = ['*'])
@@ -581,7 +581,7 @@ abstract class HasOneOrMany extends Relation
     {
         $segments = explode('.', $this->getQualifiedForeignKeyName());
 
-        return array_last($segments);
+        return end($segments);
     }
 
     /**

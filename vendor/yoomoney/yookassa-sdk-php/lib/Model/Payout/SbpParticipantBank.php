@@ -32,7 +32,7 @@ use YooKassa\Validator\Constraints as Assert;
 /**
  * Класс, представляющий модель SbpParticipantBank.
  *
- * Объект участника СБП (Системы быстрых платежей ЦБ РФ) — актуальная информация о банке или платежном сервисе, подключенном к СБП.
+ * Участник СБП (Системы быстрых платежей ЦБ РФ)
  *
  * @category Class
  * @package  YooKassa\Model

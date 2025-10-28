@@ -9,12 +9,12 @@ use YooKassa\Common\Exceptions\ForbiddenException;
  */
 class ForbiddenExceptionTest extends AbstractTestApiRequestException
 {
-    public function getTestInstance($message = '', $code = 0, $responseHeaders = [], $responseBody = ''): ForbiddenException
+    public function getTestInstance($message = '', $code = 0, $responseHeaders = [], $responseBody = '')
     {
         return new ForbiddenException($responseHeaders, $responseBody);
     }
 
-    public function expectedHttpCode(): int
+    public function expectedHttpCode()
     {
         return ForbiddenException::HTTP_CODE;
     }

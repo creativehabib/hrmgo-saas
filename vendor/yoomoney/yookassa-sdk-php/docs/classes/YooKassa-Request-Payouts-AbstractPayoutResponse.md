@@ -38,8 +38,6 @@
 | public | [$self_employed](../classes/YooKassa-Model-Payout-Payout.md#property_self_employed) |  | Данные самозанятого, который получит выплату |
 | public | [$selfEmployed](../classes/YooKassa-Model-Payout-Payout.md#property_selfEmployed) |  | Данные самозанятого, который получит выплату |
 | public | [$status](../classes/YooKassa-Model-Payout-Payout.md#property_status) |  | Текущее состояние выплаты |
-| public | [$succeeded_at](../classes/YooKassa-Model-Payout-Payout.md#property_succeeded_at) |  | Время успешного проведения выплаты |
-| public | [$succeededAt](../classes/YooKassa-Model-Payout-Payout.md#property_succeededAt) |  | Время успешного проведения выплаты |
 | public | [$test](../classes/YooKassa-Model-Payout-Payout.md#property_test) |  | Признак тестовой операции |
 | protected | [$_amount](../classes/YooKassa-Model-Payout-Payout.md#property__amount) |  | Сумма выплаты |
 | protected | [$_cancellation_details](../classes/YooKassa-Model-Payout-Payout.md#property__cancellation_details) |  | Комментарий к статусу canceled: кто отменил выплаты и по какой причине |
@@ -52,7 +50,6 @@
 | protected | [$_receipt](../classes/YooKassa-Model-Payout-Payout.md#property__receipt) |  | Данные чека, зарегистрированного в ФНС. Присутствует, если вы делаете выплату самозанятому. |
 | protected | [$_self_employed](../classes/YooKassa-Model-Payout-Payout.md#property__self_employed) |  | Данные самозанятого, который получит выплату. Присутствует, если вы делаете выплату самозанятому |
 | protected | [$_status](../classes/YooKassa-Model-Payout-Payout.md#property__status) |  | Текущее состояние выплаты |
-| protected | [$_succeeded_at](../classes/YooKassa-Model-Payout-Payout.md#property__succeeded_at) |  | Время успешного проведения выплаты. Пример: ~`2017-11-03T11:52:42.312Z` Обязательный параметр для выплат в статусе ~`succeeded` |
 | protected | [$_test](../classes/YooKassa-Model-Payout-Payout.md#property__test) |  | Признак тестовой операции |
 
 ---
@@ -67,7 +64,7 @@
 | public | [fromArray()](../classes/YooKassa-Common-AbstractObject.md#method_fromArray) |  | Устанавливает значения свойств текущего объекта из массива. |
 | public | [getAmount()](../classes/YooKassa-Model-Payout-Payout.md#method_getAmount) |  | Возвращает сумму. |
 | public | [getCancellationDetails()](../classes/YooKassa-Model-Payout-Payout.md#method_getCancellationDetails) |  | Возвращает комментарий к статусу canceled: кто отменил платеж и по какой причине. |
-| public | [getCreatedAt()](../classes/YooKassa-Model-Payout-Payout.md#method_getCreatedAt) |  | Возвращает время создания выплаты. |
+| public | [getCreatedAt()](../classes/YooKassa-Model-Payout-Payout.md#method_getCreatedAt) |  | Возвращает время создания заказа. |
 | public | [getDeal()](../classes/YooKassa-Model-Payout-Payout.md#method_getDeal) |  | Возвращает сделку, в рамках которой нужно провести выплату. |
 | public | [getDescription()](../classes/YooKassa-Model-Payout-Payout.md#method_getDescription) |  | Возвращает описание транзакции. |
 | public | [getId()](../classes/YooKassa-Model-Payout-Payout.md#method_getId) |  | Возвращает идентификатор выплаты. |
@@ -76,7 +73,6 @@
 | public | [getReceipt()](../classes/YooKassa-Model-Payout-Payout.md#method_getReceipt) |  | Возвращает данные чека, зарегистрированного в ФНС. |
 | public | [getSelfEmployed()](../classes/YooKassa-Model-Payout-Payout.md#method_getSelfEmployed) |  | Возвращает данные самозанятого, который получит выплату. |
 | public | [getStatus()](../classes/YooKassa-Model-Payout-Payout.md#method_getStatus) |  | Возвращает состояние выплаты. |
-| public | [getSucceededAt()](../classes/YooKassa-Model-Payout-Payout.md#method_getSucceededAt) |  | Возвращает время успешного проведения выплаты. |
 | public | [getTest()](../classes/YooKassa-Model-Payout-Payout.md#method_getTest) |  | Возвращает признак тестовой операции. |
 | public | [getValidator()](../classes/YooKassa-Common-AbstractObject.md#method_getValidator) |  |  |
 | public | [jsonSerialize()](../classes/YooKassa-Common-AbstractObject.md#method_jsonSerialize) |  | Возвращает ассоциативный массив со свойствами текущего объекта для его дальнейшей JSON сериализации. |
@@ -86,7 +82,7 @@
 | public | [offsetUnset()](../classes/YooKassa-Common-AbstractObject.md#method_offsetUnset) |  | Удаляет свойство. |
 | public | [setAmount()](../classes/YooKassa-Model-Payout-Payout.md#method_setAmount) |  | Устанавливает сумму выплаты. |
 | public | [setCancellationDetails()](../classes/YooKassa-Model-Payout-Payout.md#method_setCancellationDetails) |  | Устанавливает комментарий к статусу canceled: кто отменил платеж и по какой причине. |
-| public | [setCreatedAt()](../classes/YooKassa-Model-Payout-Payout.md#method_setCreatedAt) |  | Устанавливает время создания выплаты. |
+| public | [setCreatedAt()](../classes/YooKassa-Model-Payout-Payout.md#method_setCreatedAt) |  | Устанавливает время создания заказа. |
 | public | [setDeal()](../classes/YooKassa-Model-Payout-Payout.md#method_setDeal) |  | Устанавливает сделку, в рамках которой нужно провести выплату. |
 | public | [setDescription()](../classes/YooKassa-Model-Payout-Payout.md#method_setDescription) |  | Устанавливает описание транзакции |
 | public | [setId()](../classes/YooKassa-Model-Payout-Payout.md#method_setId) |  | Устанавливает идентификатор выплаты. |
@@ -95,7 +91,6 @@
 | public | [setReceipt()](../classes/YooKassa-Model-Payout-Payout.md#method_setReceipt) |  | Устанавливает данные чека, зарегистрированного в ФНС. |
 | public | [setSelfEmployed()](../classes/YooKassa-Model-Payout-Payout.md#method_setSelfEmployed) |  | Устанавливает данные самозанятого, который получит выплату. |
 | public | [setStatus()](../classes/YooKassa-Model-Payout-Payout.md#method_setStatus) |  | Устанавливает статус выплаты |
-| public | [setSucceededAt()](../classes/YooKassa-Model-Payout-Payout.md#method_setSucceededAt) |  | Устанавливает время успешного проведения выплаты. |
 | public | [setTest()](../classes/YooKassa-Model-Payout-Payout.md#method_setTest) |  | Устанавливает признак тестовой операции. |
 | public | [toArray()](../classes/YooKassa-Common-AbstractObject.md#method_toArray) |  | Возвращает ассоциативный массив со свойствами текущего объекта для его дальнейшей JSON сериализации Является алиасом метода AbstractObject::jsonSerialize(). |
 | protected | [getUnknownProperties()](../classes/YooKassa-Common-AbstractObject.md#method_getUnknownProperties) |  | Возвращает массив свойств которые не существуют, но были заданы у объекта. |
@@ -347,32 +342,6 @@ MIN_LENGTH_ID = 36 : int
 * Inherited From: [\YooKassa\Model\Payout\Payout](../classes/YooKassa-Model-Payout-Payout.md)
 
 
-<a name="property_succeeded_at"></a>
-#### public $succeeded_at : \DateTime
----
-***Description***
-
-Время успешного проведения выплаты
-
-**Type:** \DateTime
-
-**Details:**
-* Inherited From: [\YooKassa\Model\Payout\Payout](../classes/YooKassa-Model-Payout-Payout.md)
-
-
-<a name="property_succeededAt"></a>
-#### public $succeededAt : \DateTime
----
-***Description***
-
-Время успешного проведения выплаты
-
-**Type:** \DateTime
-
-**Details:**
-* Inherited From: [\YooKassa\Model\Payout\Payout](../classes/YooKassa-Model-Payout-Payout.md)
-
-
 <a name="property_test"></a>
 #### public $test : bool
 ---
@@ -524,20 +493,6 @@ MIN_LENGTH_ID = 36 : int
 Текущее состояние выплаты
 
 **Type:** <a href="../?string"><abbr title="?string">?string</abbr></a>
-
-**Details:**
-* Inherited From: [\YooKassa\Model\Payout\Payout](../classes/YooKassa-Model-Payout-Payout.md)
-
-
-<a name="property__succeeded_at"></a>
-#### protected $_succeeded_at : ?\DateTime
----
-**Summary**
-
-Время успешного проведения выплаты. Пример: ~`2017-11-03T11:52:42.312Z`
-Обязательный параметр для выплат в статусе ~`succeeded`
-
-**Type:** <a href="../?\DateTime"><abbr title="?\DateTime">DateTime</abbr></a>
 
 **Details:**
 * Inherited From: [\YooKassa\Model\Payout\Payout](../classes/YooKassa-Model-Payout-Payout.md)
@@ -735,12 +690,12 @@ public getCreatedAt() : \DateTime|null
 
 **Summary**
 
-Возвращает время создания выплаты.
+Возвращает время создания заказа.
 
 **Details:**
 * Inherited From: [\YooKassa\Model\Payout\Payout](../classes/YooKassa-Model-Payout-Payout.md)
 
-**Returns:** \DateTime|null - Время создания выплаты
+**Returns:** \DateTime|null - Время создания заказа
 
 
 <a name="method_getDeal" class="anchor"></a>
@@ -877,23 +832,6 @@ public getStatus() : string|null
 * Inherited From: [\YooKassa\Model\Payout\Payout](../classes/YooKassa-Model-Payout-Payout.md)
 
 **Returns:** string|null - Текущее состояние выплаты
-
-
-<a name="method_getSucceededAt" class="anchor"></a>
-#### public getSucceededAt() : \DateTime|null
-
-```php
-public getSucceededAt() : \DateTime|null
-```
-
-**Summary**
-
-Возвращает время успешного проведения выплаты.
-
-**Details:**
-* Inherited From: [\YooKassa\Model\Payout\Payout](../classes/YooKassa-Model-Payout-Payout.md)
-
-**Returns:** \DateTime|null - Время успешного проведения выплаты
 
 
 <a name="method_getTest" class="anchor"></a>
@@ -1085,7 +1023,7 @@ public setCreatedAt(\DateTime|string|null $created_at = null) : self
 
 **Summary**
 
-Устанавливает время создания выплаты.
+Устанавливает время создания заказа.
 
 **Details:**
 * Inherited From: [\YooKassa\Model\Payout\Payout](../classes/YooKassa-Model-Payout-Payout.md)
@@ -1274,28 +1212,6 @@ public setStatus(string|null $status = null) : self
 **Returns:** self - 
 
 
-<a name="method_setSucceededAt" class="anchor"></a>
-#### public setSucceededAt() : self
-
-```php
-public setSucceededAt(\DateTime|string|null $succeeded_at = null) : self
-```
-
-**Summary**
-
-Устанавливает время успешного проведения выплаты.
-
-**Details:**
-* Inherited From: [\YooKassa\Model\Payout\Payout](../classes/YooKassa-Model-Payout-Payout.md)
-
-##### Parameters:
-| Type | Name | Description |
-| ---- | ---- | ----------- |
-| <code lang="php">\DateTime OR string OR null</code> | succeeded_at  | Время успешного проведения выплаты. Указывается по [UTC](https://ru.wikipedia.org/wiki/Всемирное_координированное_время) и передается в формате [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). Пример: ~`2017-11-03T11:52:42.312Z`  Обязательный параметр для выплат в статусе ~`succeeded`. |
-
-**Returns:** self - 
-
-
 <a name="method_setTest" class="anchor"></a>
 #### public setTest() : self
 
@@ -1384,10 +1300,10 @@ protected validatePropertyValue(string $propertyName, mixed $propertyValue) : mi
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 40](../reports/deprecated.md)
+* [Deprecated - 33](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

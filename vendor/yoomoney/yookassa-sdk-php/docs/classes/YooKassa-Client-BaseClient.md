@@ -26,7 +26,6 @@
 | public | [SBP_BANKS_PATH](../classes/YooKassa-Client-BaseClient.md#constant_SBP_BANKS_PATH) |  | Точка входа для запросов к API по участникам СБП |
 | public | [SELF_EMPLOYED_PATH](../classes/YooKassa-Client-BaseClient.md#constant_SELF_EMPLOYED_PATH) |  | Точка входа для запросов к API по самозанятым |
 | public | [INVOICES_PATH](../classes/YooKassa-Client-BaseClient.md#constant_INVOICES_PATH) |  | Точка входа для запросов к API по счетам |
-| public | [PAYMENT_METHODS_PATH](../classes/YooKassa-Client-BaseClient.md#constant_PAYMENT_METHODS_PATH) |  | Точка входа для запросов к API по способам оплаты |
 | public | [IDEMPOTENCE_KEY_HEADER](../classes/YooKassa-Client-BaseClient.md#constant_IDEMPOTENCE_KEY_HEADER) |  | Имя HTTP заголовка, используемого для передачи idempotence key |
 | public | [DEFAULT_DELAY](../classes/YooKassa-Client-BaseClient.md#constant_DEFAULT_DELAY) |  | Значение по умолчанию времени ожидания между запросами при отправке повторного запроса в случае получения ответа с HTTP статусом 202. |
 | public | [DEFAULT_TRIES_COUNT](../classes/YooKassa-Client-BaseClient.md#constant_DEFAULT_TRIES_COUNT) |  | Значение по умолчанию количества попыток получения информации от API если пришёл ответ с HTTP статусом 202 |
@@ -180,15 +179,6 @@ SELF_EMPLOYED_PATH = '/self_employed'
 
 ```php
 INVOICES_PATH = '/invoices'
-```
-
-
-<a name="constant_PAYMENT_METHODS_PATH" class="anchor"></a>
-###### PAYMENT_METHODS_PATH
-Точка входа для запросов к API по способам оплаты
-
-```php
-PAYMENT_METHODS_PATH = '/payment_methods'
 ```
 
 
@@ -721,7 +711,6 @@ protected handleError(\YooKassa\Common\ResponseObject $response) : void
 | \YooKassa\Common\Exceptions\ForbiddenException | секретный ключ или OAuth-токен верный, но не хватает прав для совершения операции |
 | \YooKassa\Common\Exceptions\InternalServerError | Технические неполадки на стороне ЮKassa. Результат обработки запроса неизвестен. Повторите запрос позднее с тем же ключом идемпотентности. |
 | \YooKassa\Common\Exceptions\NotFoundException | ресурс не найден |
-| \YooKassa\Common\Exceptions\GoneException | ресурс удален |
 | \YooKassa\Common\Exceptions\ResponseProcessingException | запрос был принят на обработку, но она не завершена |
 | \YooKassa\Common\Exceptions\TooManyRequestsException | Превышен лимит запросов в единицу времени. Попробуйте снизить интенсивность запросов. |
 | \YooKassa\Common\Exceptions\UnauthorizedException | неверное имя пользователя или пароль или невалидный OAuth-токен при аутентификации |
@@ -742,10 +731,10 @@ protected handleError(\YooKassa\Common\ResponseObject $response) : void
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 40](../reports/deprecated.md)
+* [Deprecated - 33](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

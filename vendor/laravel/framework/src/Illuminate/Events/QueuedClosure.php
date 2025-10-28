@@ -32,20 +32,6 @@ class QueuedClosure
     public $queue;
 
     /**
-     * The job "group" the job should be sent to.
-     *
-     * @var string|null
-     */
-    public $messageGroup;
-
-    /**
-     * The job deduplicator callback the job should use to generate the deduplication ID.
-     *
-     * @var \Laravel\SerializableClosure\SerializableClosure|null
-     */
-    public $deduplicator;
-
-    /**
      * The number of seconds before the job should be made available.
      *
      * @var \DateTimeInterface|\DateInterval|int|null
@@ -96,38 +82,6 @@ class QueuedClosure
     }
 
     /**
-     * Set the desired job "group".
-     *
-     * This feature is only supported by some queues, such as Amazon SQS.
-     *
-     * @param  \UnitEnum|string  $group
-     * @return $this
-     */
-    public function onGroup($group)
-    {
-        $this->messageGroup = enum_value($group);
-
-        return $this;
-    }
-
-    /**
-     * Set the desired job deduplicator callback.
-     *
-     * This feature is only supported by some queues, such as Amazon SQS FIFO.
-     *
-     * @param  callable|null  $deduplicator
-     * @return $this
-     */
-    public function withDeduplicator($deduplicator)
-    {
-        $this->deduplicator = $deduplicator instanceof Closure
-            ? new SerializableClosure($deduplicator)
-            : $deduplicator;
-
-        return $this;
-    }
-
-    /**
      * Set the desired delay in seconds for the job.
      *
      * @param  \DateTimeInterface|\DateInterval|int|null  $delay
@@ -167,12 +121,7 @@ class QueuedClosure
                 'catch' => (new Collection($this->catchCallbacks))
                     ->map(fn ($callback) => new SerializableClosure($callback))
                     ->all(),
-            ]))
-                ->onConnection($this->connection)
-                ->onQueue($this->queue)
-                ->delay($this->delay)
-                ->onGroup($this->messageGroup)
-                ->withDeduplicator($this->deduplicator);
+            ]))->onConnection($this->connection)->onQueue($this->queue)->delay($this->delay);
         };
     }
 }

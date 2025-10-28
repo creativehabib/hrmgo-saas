@@ -50,8 +50,6 @@ class CreateMiddleware extends GeneratorCommand
 
     /**
      * Get the console command arguments.
-     *
-     * @return array<int, array<int, mixed>>
      */
     protected function getArguments(): array
     {
@@ -62,8 +60,6 @@ class CreateMiddleware extends GeneratorCommand
 
     /**
      * Get the console command options.
-     *
-     * @return array<int, array<int, mixed>>
      */
     protected function getOptions(): array
     {

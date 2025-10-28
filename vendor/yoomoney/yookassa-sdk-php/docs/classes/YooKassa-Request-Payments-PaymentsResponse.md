@@ -19,10 +19,10 @@
 ### Properties
 | Visibility | Name | Flag | Summary |
 | ----------:| ---- | ---- | ------- |
-| public | [$items](../classes/YooKassa-Request-Payments-PaymentsResponse.md#property_items) |  | Список платежей, созданных за последние три года. Платежи отсортированы по времени создания в порядке убывания (от новых к старым). |
+| public | [$items](../classes/YooKassa-Request-Payments-PaymentsResponse.md#property_items) |  | Массив платежей |
 | public | [$nextCursor](../classes/YooKassa-Request-AbstractListResponse.md#property_nextCursor) |  | Указатель на следующий фрагмент списка. Обязательный параметр, если размер списка больше размера выдачи (`limit`) и конец выдачи не достигнут. |
 | public | [$type](../classes/YooKassa-Request-AbstractListResponse.md#property_type) |  | Формат выдачи результатов запроса. Возможное значение: `list` (список). |
-| protected | [$_items](../classes/YooKassa-Request-Payments-PaymentsResponse.md#property__items) |  | Список платежей, созданных за последние три года. |
+| protected | [$_items](../classes/YooKassa-Request-Payments-PaymentsResponse.md#property__items) |  |  |
 | protected | [$_next_cursor](../classes/YooKassa-Request-AbstractListResponse.md#property__next_cursor) |  | Указатель на следующий фрагмент списка. Обязательный параметр, если размер списка больше размера выдачи (`limit`) и конец выдачи не достигнут. |
 | protected | [$_type](../classes/YooKassa-Request-AbstractListResponse.md#property__type) |  | Формат выдачи результатов запроса. Возможное значение: `list` (список). |
 
@@ -76,7 +76,7 @@
 ---
 ***Description***
 
-Список платежей, созданных за последние три года. Платежи отсортированы по времени создания в порядке убывания (от новых к старым).
+Массив платежей
 
 **Type:** <a href="../\YooKassa\Model\Payment\PaymentInterface[]|\YooKassa\Common\ListObjectInterface|null"><abbr title="\YooKassa\Model\Payment\PaymentInterface[]|\YooKassa\Common\ListObjectInterface|null">ListObjectInterface|null</abbr></a>
 
@@ -112,18 +112,8 @@
 <a name="property__items"></a>
 #### protected $_items : ?\YooKassa\Common\ListObject
 ---
-**Summary**
-
-Список платежей, созданных за последние три года.
-
-***Description***
-
-Платежи отсортированы по времени создания в порядке убывания (от новых к старым).
-Если результатов больше, чем задано в limit, список будет выводиться фрагментами.
-В этом случае в ответе на запрос вернется фрагмент списка и параметр next_cursor с указателем на следующий фрагмент.
-
 **Type:** <a href="../?\YooKassa\Common\ListObject"><abbr title="?\YooKassa\Common\ListObject">ListObject</abbr></a>
-Список платежей
+Массив платежей
 **Details:**
 
 
@@ -542,10 +532,10 @@ protected validatePropertyValue(string $propertyName, mixed $propertyValue) : mi
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 40](../reports/deprecated.md)
+* [Deprecated - 33](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

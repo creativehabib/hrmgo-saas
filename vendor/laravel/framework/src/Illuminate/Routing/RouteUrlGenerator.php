@@ -117,7 +117,7 @@ class RouteUrlGenerator
      *
      * @param  \Illuminate\Routing\Route  $route
      * @param  array  $parameters
-     * @return string|null
+     * @return string
      */
     protected function getRouteDomain($route, &$parameters)
     {
@@ -374,7 +374,7 @@ class RouteUrlGenerator
      *
      * @param  string  $uri
      * @param  array  $parameters
-     * @return mixed
+     * @return mixed|string
      */
     protected function addQueryString($uri, array $parameters)
     {

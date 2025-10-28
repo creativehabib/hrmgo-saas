@@ -34,7 +34,7 @@ use YooKassa\Validator\Constraints as Assert;
 /**
  * Класс, представляющий модель PersonalData.
  *
- * Объект персональных данных (PersonalData) — актуальная информация о персональных данных пользователя, сохраненных в ЮKassa.
+ * Информация о персональных данных
  *
  * @category Class
  * @package  YooKassa\Model

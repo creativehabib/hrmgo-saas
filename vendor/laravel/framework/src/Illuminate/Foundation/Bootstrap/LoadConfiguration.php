@@ -5,7 +5,6 @@ namespace Illuminate\Foundation\Bootstrap;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Config\Repository as RepositoryContract;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Support\Collection;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder;
 
@@ -44,8 +43,6 @@ class LoadConfiguration
         // the environment in a web context where an "--env" switch is not present.
         $app->detectEnvironment(fn () => $config->get('app.env', 'production'));
 
-        $app->resolveEnvironmentUsing($app->environment(...));
-
         date_default_timezone_set($config->get('app.timezone', 'UTC'));
 
         mb_internal_encoding('UTF-8');
@@ -72,7 +69,7 @@ class LoadConfiguration
             ? $this->getBaseConfiguration()
             : [];
 
-        foreach ((new Collection($base))->diffKeys($files) as $name => $config) {
+        foreach (array_diff(array_keys($base), array_keys($files)) as $name => $config) {
             $repository->set($name, $config);
         }
 

@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Ramsey\Uuid\Generator;
 
 use Brick\Math\BigInteger;
+use DateTimeImmutable;
 use DateTimeInterface;
 use Ramsey\Uuid\Type\Hexadecimal;
 
@@ -67,12 +68,7 @@ class UnixTimeGenerator implements TimeGeneratorInterface
      */
     public function generate($node = null, ?int $clockSeq = null, ?DateTimeInterface $dateTime = null): string
     {
-        if ($dateTime === null) {
-            $time = microtime(false);
-            $time = substr($time, 11) . substr($time, 2, 3);
-        } else {
-            $time = $dateTime->format('Uv');
-        }
+        $time = ($dateTime ?? new DateTimeImmutable('now'))->format('Uv');
 
         if ($time > self::$time || ($dateTime !== null && $time !== self::$time)) {
             $this->randomize($time);

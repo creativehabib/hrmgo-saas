@@ -39,7 +39,7 @@ use YooKassa\Validator\Constraints as Assert;
 /**
  * Класс, представляющий модель Payout.
  *
- * Объект выплаты (Payout) — актуальная информация о выплате.
+ * Объект выплаты.
  *
  * @category Class
  * @package  YooKassa\Model
@@ -53,8 +53,6 @@ use YooKassa\Validator\Constraints as Assert;
  * @property string $description Описание транзакции
  * @property DateTime $createdAt Время создания заказа
  * @property DateTime $created_at Время создания заказа
- * @property DateTime $succeededAt Время успешного проведения выплаты
- * @property DateTime $succeeded_at Время успешного проведения выплаты
  * @property PayoutDealInfo $deal Сделка, в рамках которой нужно провести выплату
  * @property PayoutSelfEmployed $self_employed Данные самозанятого, который получит выплату
  * @property PayoutSelfEmployed $selfEmployed Данные самозанятого, который получит выплату
@@ -133,16 +131,6 @@ class Payout extends AbstractObject implements PayoutInterface
     #[Assert\DateTime(format: YOOKASSA_DATE)]
     #[Assert\Type('DateTime')]
     protected ?DateTime $_created_at = null;
-
-    /**
-     * Время успешного проведения выплаты. Пример: ~`2017-11-03T11:52:42.312Z`
-     * Обязательный параметр для выплат в статусе ~`succeeded`
-     *
-     * @var DateTime|null
-     */
-    #[Assert\DateTime(format: YOOKASSA_DATE)]
-    #[Assert\Type('DateTime')]
-    protected ?DateTime $_succeeded_at = null;
 
     /**
      * Сделка, в рамках которой нужно провести выплату. Присутствует, если вы проводите Безопасную сделку
@@ -313,9 +301,9 @@ class Payout extends AbstractObject implements PayoutInterface
     }
 
     /**
-     * Возвращает время создания выплаты.
+     * Возвращает время создания заказа.
      *
-     * @return DateTime|null Время создания выплаты
+     * @return DateTime|null Время создания заказа
      */
     public function getCreatedAt(): ?DateTime
     {
@@ -323,7 +311,7 @@ class Payout extends AbstractObject implements PayoutInterface
     }
 
     /**
-     * Устанавливает время создания выплаты.
+     * Устанавливает время создания заказа.
      *
      * @param DateTime|string|null $created_at Время создания выплаты. Пример: ~`2017-11-03T11:52:31.827Z`
      *
@@ -332,29 +320,6 @@ class Payout extends AbstractObject implements PayoutInterface
     public function setCreatedAt(DateTime|string|null $created_at = null): self
     {
         $this->_created_at = $this->validatePropertyValue('_created_at', $created_at);
-        return $this;
-    }
-
-    /**
-     * Возвращает время успешного проведения выплаты.
-     *
-     * @return DateTime|null Время успешного проведения выплаты
-     */
-    public function getSucceededAt(): ?DateTime
-    {
-        return $this->_succeeded_at;
-    }
-
-    /**
-     * Устанавливает время успешного проведения выплаты.
-     *
-     * @param DateTime|string|null $succeeded_at Время успешного проведения выплаты. Указывается по [UTC](https://ru.wikipedia.org/wiki/Всемирное_координированное_время) и передается в формате [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). Пример: ~`2017-11-03T11:52:42.312Z`  Обязательный параметр для выплат в статусе ~`succeeded`.
-     *
-     * @return self
-     */
-    public function setSucceededAt(DateTime|string|null $succeeded_at = null): self
-    {
-        $this->_succeeded_at = $this->validatePropertyValue('_succeeded_at', $succeeded_at);
         return $this;
     }
 

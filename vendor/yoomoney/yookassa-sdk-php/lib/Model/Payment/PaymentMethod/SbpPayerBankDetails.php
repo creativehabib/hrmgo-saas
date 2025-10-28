@@ -53,7 +53,7 @@ class SbpPayerBankDetails extends AbstractObject
     #[Assert\NotBlank]
     #[Assert\Type('string')]
     #[Assert\Length(max: 12)]
-    #[Assert\Regex("/[a-zA-Z0-9]{12}/")]
+    #[Assert\Regex("/\\d{12}/")]
     private ?string $_bank_id = null;
 
     /**

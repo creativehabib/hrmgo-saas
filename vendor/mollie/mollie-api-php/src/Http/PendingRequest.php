@@ -78,6 +78,8 @@ class PendingRequest
      * made in testmode and not if the request is sent with a
      * testmode parameter. This allows the developer to react to requests
      * being made in testmode independent of the testmode parameter being set.
+     *
+     * @return bool
      */
     public function getTestmode(): bool
     {

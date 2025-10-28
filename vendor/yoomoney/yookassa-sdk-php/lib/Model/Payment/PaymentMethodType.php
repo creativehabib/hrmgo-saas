@@ -31,7 +31,7 @@ use YooKassa\Common\AbstractEnum;
 /**
  * Класс, представляющий модель PaymentMethodType.
  *
- * Код способа оплаты — тип платежного средства, которое используется для оплаты. [Подробнее о способах оплаты](https://yookassa.ru/developers/payment-acceptance/getting-started/payment-methods)
+ * Тип источника средств для проведения платежа.
  *
  * Возможные значения:
  * - `yoo_money` - Платеж из кошелька ЮMoney
@@ -136,9 +136,6 @@ class PaymentMethodType extends AbstractEnum
     /** Прием платежей по электронному сертификату, привязанному к карте «Мир» */
     public const ELECTRONIC_CERTIFICATE = 'electronic_certificate';
 
-    /** Оплата через сервис «Плати частями» */
-    public const SBER_BNPL = 'sber_bnpl';
-
     /**
      * Для неизвестных методов оплаты
      *
@@ -165,7 +162,6 @@ class PaymentMethodType extends AbstractEnum
         self::SBP => true,
         self::SBER_LOAN => true,
         self::ELECTRONIC_CERTIFICATE => true,
-        self::SBER_BNPL => true,
         self::UNKNOWN => false,
     ];
 }

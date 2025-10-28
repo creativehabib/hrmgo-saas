@@ -33,6 +33,7 @@ use YooKassa\Validator\Constraints as Assert;
 /**
  * Класс, представляющий модель DeliveryMethodDataSelfAllOf.
  *
+
  * @category Class
  * @package  YooKassa\Model
  * @author   cms@yoomoney.ru

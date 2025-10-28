@@ -84,7 +84,7 @@ var_dump($response);
 | public | [$additional_user_props](../classes/YooKassa-Request-Receipts-CreatePostReceiptRequest.md#property_additional_user_props) |  | Дополнительный реквизит пользователя. |
 | public | [$additionalUserProps](../classes/YooKassa-Request-Receipts-CreatePostReceiptRequest.md#property_additionalUserProps) |  | Дополнительный реквизит пользователя. |
 | public | [$customer](../classes/YooKassa-Request-Receipts-CreatePostReceiptRequest.md#property_customer) |  | Информация о плательщике |
-| public | [$items](../classes/YooKassa-Request-Receipts-CreatePostReceiptRequest.md#property_items) |  | Список товаров в заказе: для [Чеков от ЮKassa](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/yoomoney/basics) — не более 80 товаров, для [сторонних онлайн-касс](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/other-services/basics) — не более 100 товаров. |
+| public | [$items](../classes/YooKassa-Request-Receipts-CreatePostReceiptRequest.md#property_items) |  | Список товаров в заказе. Для чеков по 54-ФЗ можно передать не более 100 товаров, для чеков самозанятых — не более шести. |
 | public | [$object_id](../classes/YooKassa-Request-Receipts-CreatePostReceiptRequest.md#property_object_id) |  | Идентификатор объекта оплаты |
 | public | [$object_type](../classes/YooKassa-Request-Receipts-CreatePostReceiptRequest.md#property_object_type) |  | Тип объекта: приход "payment" или возврат "refund". |
 | public | [$objectId](../classes/YooKassa-Request-Receipts-CreatePostReceiptRequest.md#property_objectId) |  | Идентификатор объекта оплаты |
@@ -216,7 +216,7 @@ var_dump($response);
 ---
 ***Description***
 
-Список товаров в заказе: для [Чеков от ЮKassa](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/yoomoney/basics) — не более 80 товаров, для [сторонних онлайн-касс](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/other-services/basics) — не более 100 товаров.
+Список товаров в заказе. Для чеков по 54-ФЗ можно передать не более 100 товаров, для чеков самозанятых — не более шести.
 
 **Type:** <a href="../array"><abbr title="array">array</abbr></a>
 
@@ -1019,7 +1019,7 @@ ReceiptItemInterface, в противном случае будет выброш
 ##### Parameters:
 | Type | Name | Description |
 | ---- | ---- | ----------- |
-| <code lang="php">array OR \YooKassa\Common\ListObjectInterface</code> | items  | Список товаров в заказе: для [Чеков от ЮKassa](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/yoomoney/basics) — не более 80 товаров, для [сторонних онлайн-касс](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/other-services/basics) — не более 100 товаров. |
+| <code lang="php">array OR \YooKassa\Common\ListObjectInterface</code> | items  | Список товаров в заказе |
 
 **Returns:** self - 
 
@@ -1332,10 +1332,10 @@ protected validatePropertyValue(string $propertyName, mixed $propertyValue) : mi
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 40](../reports/deprecated.md)
+* [Deprecated - 33](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

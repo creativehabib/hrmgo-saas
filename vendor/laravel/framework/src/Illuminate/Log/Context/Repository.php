@@ -541,8 +541,6 @@ class Repository
      * @param  array<string, mixed>  $data
      * @param  array<string, mixed>  $hidden
      * @return mixed
-     *
-     * @throws \Throwable
      */
     public function scope(callable $callback, array $data = [], array $hidden = [])
     {

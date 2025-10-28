@@ -15,7 +15,6 @@
 | [\YooKassa\Common\Exceptions\EmptyPropertyValueException](../classes/YooKassa-Common-Exceptions-EmptyPropertyValueException.md) |  |
 | [\YooKassa\Common\Exceptions\ExtensionNotFoundException](../classes/YooKassa-Common-Exceptions-ExtensionNotFoundException.md) | Требуемое PHP расширение не установлено. |
 | [\YooKassa\Common\Exceptions\ForbiddenException](../classes/YooKassa-Common-Exceptions-ForbiddenException.md) | Секретный ключ или OAuth-токен верный, но не хватает прав для совершения операции. |
-| [\YooKassa\Common\Exceptions\GoneException](../classes/YooKassa-Common-Exceptions-GoneException.md) | Сущность была раньше, но была умышленно удалена и теперь недоступна. |
 | [\YooKassa\Common\Exceptions\InternalServerError](../classes/YooKassa-Common-Exceptions-InternalServerError.md) | Технические неполадки на стороне ЮKassa. Результат обработки запроса неизвестен. Повторите запрос позднее с тем же ключом идемпотентности. |
 | [\YooKassa\Common\Exceptions\InvalidPropertyException](../classes/YooKassa-Common-Exceptions-InvalidPropertyException.md) |  |
 | [\YooKassa\Common\Exceptions\InvalidPropertyValueException](../classes/YooKassa-Common-Exceptions-InvalidPropertyValueException.md) |  |
@@ -38,10 +37,10 @@
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 40](../reports/deprecated.md)
+* [Deprecated - 33](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

@@ -85,7 +85,5 @@ use Aws\AwsClient;
  * @method \GuzzleHttp\Promise\Promise updateCloudExadataInfrastructureAsync(array $args = [])
  * @method \Aws\Result updateOdbNetwork(array $args = [])
  * @method \GuzzleHttp\Promise\Promise updateOdbNetworkAsync(array $args = [])
- * @method \Aws\Result updateOdbPeeringConnection(array $args = [])
- * @method \GuzzleHttp\Promise\Promise updateOdbPeeringConnectionAsync(array $args = [])
  */
 class OdbClient extends AwsClient {}

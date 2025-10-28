@@ -40,12 +40,12 @@ use YooKassa\Validator\Constraints as Assert;
  * @author   cms@yoomoney.ru
  * @link     https://yookassa.ru/developers/api
  *
- * @property string $id Идентификатор счета в ЮKassa.
+ * @property string $id Идентификатор счета в ЮКасса.
  */
 class PaymentInvoiceDetails extends AbstractObject
 {
     /**
-     * Идентификатор счета в ЮKassa.
+     * Идентификатор счета в ЮКасса.
      *
      * @var string|null
      */
@@ -57,7 +57,7 @@ class PaymentInvoiceDetails extends AbstractObject
     /**
      * Возвращает id.
      *
-     * @return string|null Идентификатор счета в ЮKassa.
+     * @return string|null Идентификатор счета в ЮКасса.
      */
     public function getId(): ?string
     {
@@ -67,7 +67,7 @@ class PaymentInvoiceDetails extends AbstractObject
     /**
      * Устанавливает id.
      *
-     * @param string|null $id Идентификатор счета в ЮKassa.
+     * @param string|null $id Идентификатор счета в ЮКасса.
      *
      * @return self
      */

@@ -14,12 +14,21 @@ use function array_key_exists;
 use function assert;
 use function class_exists;
 use function class_parents;
+use function phpversion;
+use function version_compare;
 
 /**
  * PHP Runtime Reflection Service.
  */
 class RuntimeReflectionService implements ReflectionService
 {
+    private readonly bool $supportsTypedPropertiesWorkaround;
+
+    public function __construct()
+    {
+        $this->supportsTypedPropertiesWorkaround = version_compare(phpversion(), '7.4.0') >= 0;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -66,9 +75,11 @@ class RuntimeReflectionService implements ReflectionService
     {
         $reflectionProperty = new RuntimeReflectionProperty($class, $property);
 
-        if (! array_key_exists($property, $this->getClass($class)->getDefaultProperties())) {
+        if ($this->supportsTypedPropertiesWorkaround && ! array_key_exists($property, $this->getClass($class)->getDefaultProperties())) {
             $reflectionProperty = new TypedNoDefaultReflectionProperty($class, $property);
         }
+
+        $reflectionProperty->setAccessible(true);
 
         return $reflectionProperty;
     }

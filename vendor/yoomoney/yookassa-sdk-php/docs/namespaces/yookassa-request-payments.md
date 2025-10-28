@@ -8,7 +8,6 @@
 
 * [\YooKassa\Request\Payments\ConfirmationAttributes](../namespaces/yookassa-request-payments-confirmationattributes.md)
 * [\YooKassa\Request\Payments\PaymentData](../namespaces/yookassa-request-payments-paymentdata.md)
-* [\YooKassa\Request\Payments\PaymentOrderData](../namespaces/yookassa-request-payments-paymentorderdata.md)
 * [\YooKassa\Request\Payments\ReceiverData](../namespaces/yookassa-request-payments-receiverdata.md)
 
 ### Interfaces
@@ -45,7 +44,6 @@
 | [\YooKassa\Request\Payments\Locale](../classes/YooKassa-Request-Payments-Locale.md) | Класс, представляющий модель Locale. |
 | [\YooKassa\Request\Payments\MerchantCustomerBankAccount](../classes/YooKassa-Request-Payments-MerchantCustomerBankAccount.md) | Класс, представляющий модель MerchantCustomerBankAccount. |
 | [\YooKassa\Request\Payments\Passenger](../classes/YooKassa-Request-Payments-Passenger.md) | Класс, представляющий модель PaymentsRequest. |
-| [\YooKassa\Request\Payments\PaymentPeriod](../classes/YooKassa-Request-Payments-PaymentPeriod.md) | Класс, представляющий модель PaymentPeriod. |
 | [\YooKassa\Request\Payments\PaymentResponse](../classes/YooKassa-Request-Payments-PaymentResponse.md) | Класс, представляющий модель PaymentResponse. |
 | [\YooKassa\Request\Payments\PaymentsRequest](../classes/YooKassa-Request-Payments-PaymentsRequest.md) | Класс, представляющий модель PaymentsRequest. |
 | [\YooKassa\Request\Payments\PaymentsRequestBuilder](../classes/YooKassa-Request-Payments-PaymentsRequestBuilder.md) | Класс, представляющий модель PaymentsRequestBuilder. |
@@ -65,10 +63,10 @@
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 40](../reports/deprecated.md)
+* [Deprecated - 33](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

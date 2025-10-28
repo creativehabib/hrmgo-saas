@@ -44,31 +44,11 @@ final class NullValue
     }
 
     /**
-     * Forbid serializing enums.
-     *
-     * @throws SerializeNotSupportedException
-     */
-    final public function __serialize() : array
-    {
-        throw new SerializeNotSupportedException();
-    }
-
-    /**
      * Forbid unserializing enums.
      *
      * @throws UnserializeNotSupportedException
      */
     final public function __wakeup() : void
-    {
-        throw new UnserializeNotSupportedException();
-    }
-
-    /**
-     * Forbid unserializing enums.
-     *
-     * @throws UnserializeNotSupportedException
-     */
-    final public function __unserialize($arg) : void
     {
         throw new UnserializeNotSupportedException();
     }

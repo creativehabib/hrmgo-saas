@@ -11,7 +11,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\MailManager;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Illuminate\Support\Traits\ForwardsCalls;
 use Illuminate\Support\Traits\ReflectsClosures;
 use PHPUnit\Framework\Assert as PHPUnit;
@@ -56,7 +55,6 @@ class MailFake implements Factory, Fake, Mailer, MailQueue
     public function __construct(MailManager $manager)
     {
         $this->manager = $manager;
-        $this->currentMailer = $manager->getDefaultDriver();
     }
 
     /**
@@ -108,11 +106,7 @@ class MailFake implements Factory, Fake, Mailer, MailQueue
 
         PHPUnit::assertSame(
             $times, $count,
-            sprintf(
-                "The expected [{$mailable}] mailable was sent {$count} %s instead of {$times} %s.",
-                Str::plural('time', $count),
-                Str::plural('time', $times)
-            )
+            "The expected [{$mailable}] mailable was sent {$count} times instead of {$times} times."
         );
     }
 
@@ -231,11 +225,7 @@ class MailFake implements Factory, Fake, Mailer, MailQueue
 
         PHPUnit::assertSame(
             $times, $count,
-            sprintf(
-                "The expected [{$mailable}] mailable was queued {$count} %s instead of {$times} %s.",
-                Str::plural('time', $count),
-                Str::plural('time', $times)
-            )
+            "The expected [{$mailable}] mailable was queued {$count} times instead of {$times} times."
         );
     }
 

@@ -75,8 +75,6 @@ use YooKassa\Model\Receipt\SupplierInterface;
  * @property string $measure Мера количества предмета расчета (тег в 54 ФЗ — 2108)
  * @property string $productCode Код товара — уникальный номер, который присваивается экземпляру товара при маркировке (тег в 54 ФЗ — 1162)
  * @property string $product_code Код товара — уникальный номер, который присваивается экземпляру товара при маркировке (тег в 54 ФЗ — 1162)
- * @property int $plannedStatus Планируемый статус товара. Тег в 54 ФЗ — 2003
- * @property int $planned_status Планируемый статус товара. Тег в 54 ФЗ — 2003
  * @property string $markMode Режим обработки кода маркировки (тег в 54 ФЗ — 2102)
  * @property string $mark_mode Режим обработки кода маркировки (тег в 54 ФЗ — 2102)
  * @property MarkQuantity $markQuantity Дробное количество маркированного товара (тег в 54 ФЗ — 1291)
@@ -209,14 +207,6 @@ class ReceiptResponseItem extends AbstractObject implements ReceiptResponseItemI
     #[Assert\Length(max: 96)]
     #[Assert\Regex(pattern: '/^[0-9A-F ]{2,96}$/')]
     private ?string $_product_code = null;
-
-    /**
-     * @var int|null Планируемый статус товара. Тег в 54 ФЗ — 2003. Указывается только для товаров, которые подлежат обязательной маркировке
-     */
-    #[Assert\Type('int')]
-    #[Assert\GreaterThanOrEqual(1)]
-    #[Assert\LessThanOrEqual(6)]
-    private ?int $_planned_status = null;
 
     /**
      * @var string|null Режим обработки кода маркировки (тег в 54 ФЗ — 2102). Должен принимать значение равное «0».
@@ -494,29 +484,6 @@ class ReceiptResponseItem extends AbstractObject implements ReceiptResponseItemI
         }
 
         $this->_product_code = $this->validatePropertyValue('_product_code', $product_code);
-        return $this;
-    }
-
-    /**
-     * Возвращает планируемый статус товара.
-     *
-     * @return int|null Планируемый статус товара
-     */
-    public function getPlannedStatus(): ?int
-    {
-        return $this->_planned_status;
-    }
-
-    /**
-     * Устанавливает планируемый статус товара.
-     *
-     * @param int|null $planned_status Планируемый статус товара
-     *
-     * @return self
-     */
-    public function setPlannedStatus(?int $planned_status = null): self
-    {
-        $this->_planned_status = $this->validatePropertyValue('_planned_status', $planned_status);
         return $this;
     }
 

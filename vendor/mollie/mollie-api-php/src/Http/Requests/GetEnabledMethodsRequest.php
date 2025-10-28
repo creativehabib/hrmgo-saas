@@ -38,6 +38,8 @@ class GetEnabledMethodsRequest extends ResourceHydratableRequest implements Supp
 
     /**
      * Whether to filter out methods with a status of null.
+     *
+     * @var bool
      */
     private bool $filtersNullStatus = true;
 

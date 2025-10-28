@@ -147,7 +147,7 @@ class Application extends SymfonyApplication implements ApplicationContract
     /**
      * Run an Artisan console command by name.
      *
-     * @param  \Symfony\Component\Console\Command\Command|string  $command
+     * @param  string  $command
      * @param  array  $parameters
      * @param  \Symfony\Component\Console\Output\OutputInterface|null  $outputBuffer
      * @return int
@@ -170,7 +170,7 @@ class Application extends SymfonyApplication implements ApplicationContract
     /**
      * Parse the incoming Artisan command and its input.
      *
-     * @param  \Symfony\Component\Console\Command\Command|string  $command
+     * @param  string  $command
      * @param  array  $parameters
      * @return array
      */
@@ -178,10 +178,6 @@ class Application extends SymfonyApplication implements ApplicationContract
     {
         if (is_subclass_of($command, SymfonyCommand::class)) {
             $callingClass = true;
-
-            if (is_object($command)) {
-                $command = get_class($command);
-            }
 
             $command = $this->laravel->make($command)->getName();
         }
@@ -282,7 +278,7 @@ class Application extends SymfonyApplication implements ApplicationContract
     /**
      * Resolve an array of commands through the application.
      *
-     * @param  mixed  $commands
+     * @param  array|mixed  $commands
      * @return $this
      */
     public function resolveCommands($commands)

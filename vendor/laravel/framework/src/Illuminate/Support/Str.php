@@ -4,6 +4,7 @@ namespace Illuminate\Support;
 
 use Closure;
 use Illuminate\Support\Traits\Macroable;
+use JsonException;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\Extension\InlinesOnly\InlinesOnlyExtension;
@@ -34,42 +35,42 @@ class Str
     /**
      * The cache of snake-cased words.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected static $snakeCache = [];
 
     /**
      * The cache of camel-cased words.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected static $camelCache = [];
 
     /**
      * The cache of studly-cased words.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected static $studlyCache = [];
 
     /**
      * The callback that should be used to generate UUIDs.
      *
-     * @var (callable(): \Ramsey\Uuid\UuidInterface)|null
+     * @var callable|null
      */
     protected static $uuidFactory;
 
     /**
      * The callback that should be used to generate ULIDs.
      *
-     * @var (callable(): \Symfony\Component\Uid\Ulid)|null
+     * @var callable|null
      */
     protected static $ulidFactory;
 
     /**
      * The callback that should be used to generate random strings.
      *
-     * @var (callable(int): string)|null
+     * @var callable|null
      */
     protected static $randomStringFactory;
 
@@ -370,20 +371,12 @@ class Str
      * Replace consecutive instances of a given character with a single character in the given string.
      *
      * @param  string  $string
-     * @param  array<string>|string  $characters
+     * @param  string  $character
      * @return string
      */
-    public static function deduplicate(string $string, array|string $characters = ' ')
+    public static function deduplicate(string $string, string $character = ' ')
     {
-        if (is_string($characters)) {
-            return preg_replace('/'.preg_quote($characters, '/').'+/u', $characters, $string);
-        }
-
-        return array_reduce(
-            $characters,
-            fn ($carry, $character) => preg_replace('/'.preg_quote($character, '/').'+/u', $character, $carry),
-            $string
-        );
+        return preg_replace('/'.preg_quote($character, '/').'+/u', $character, $string);
     }
 
     /**
@@ -569,8 +562,6 @@ class Str
      *
      * @param  mixed  $value
      * @return bool
-     *
-     * @phpstan-assert-if-true =non-empty-string $value
      */
     public static function isJson($value)
     {
@@ -578,7 +569,17 @@ class Str
             return false;
         }
 
-        return json_validate($value, 512);
+        if (function_exists('json_validate')) {
+            return json_validate($value, 512);
+        }
+
+        try {
+            json_decode($value, true, 512, JSON_THROW_ON_ERROR);
+        } catch (JsonException) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -587,8 +588,6 @@ class Str
      * @param  mixed  $value
      * @param  array  $protocols
      * @return bool
-     *
-     * @phpstan-assert-if-true =non-empty-string $value
      */
     public static function isUrl($value, array $protocols = [])
     {
@@ -630,10 +629,8 @@ class Str
      * Determine if a given value is a valid UUID.
      *
      * @param  mixed  $value
-     * @param  int<0, 8>|'nil'|'max'|null  $version
+     * @param  int<0, 8>|'max'|null  $version
      * @return bool
-     *
-     * @phpstan-assert-if-true =non-empty-string $value
      */
     public static function isUuid($value, $version = null)
     {
@@ -675,8 +672,6 @@ class Str
      *
      * @param  mixed  $value
      * @return bool
-     *
-     * @phpstan-assert-if-true =non-empty-string $value
      */
     public static function isUlid($value)
     {
@@ -934,7 +929,17 @@ class Str
      */
     public static function padBoth($value, $length, $pad = ' ')
     {
-        return mb_str_pad($value, $length, $pad, STR_PAD_BOTH);
+        if (function_exists('mb_str_pad')) {
+            return mb_str_pad($value, $length, $pad, STR_PAD_BOTH);
+        }
+
+        $short = max(0, $length - mb_strlen($value));
+        $shortLeft = floor($short / 2);
+        $shortRight = ceil($short / 2);
+
+        return mb_substr(str_repeat($pad, $shortLeft), 0, $shortLeft).
+               $value.
+               mb_substr(str_repeat($pad, $shortRight), 0, $shortRight);
     }
 
     /**
@@ -947,7 +952,13 @@ class Str
      */
     public static function padLeft($value, $length, $pad = ' ')
     {
-        return mb_str_pad($value, $length, $pad, STR_PAD_LEFT);
+        if (function_exists('mb_str_pad')) {
+            return mb_str_pad($value, $length, $pad, STR_PAD_LEFT);
+        }
+
+        $short = max(0, $length - mb_strlen($value));
+
+        return mb_substr(str_repeat($pad, $short), 0, $short).$value;
     }
 
     /**
@@ -960,7 +971,13 @@ class Str
      */
     public static function padRight($value, $length, $pad = ' ')
     {
-        return mb_str_pad($value, $length, $pad, STR_PAD_RIGHT);
+        if (function_exists('mb_str_pad')) {
+            return mb_str_pad($value, $length, $pad, STR_PAD_RIGHT);
+        }
+
+        $short = max(0, $length - mb_strlen($value));
+
+        return $value.mb_substr(str_repeat($pad, $short), 0, $short);
     }
 
     /**
@@ -991,16 +1008,11 @@ class Str
      *
      * @param  string  $value
      * @param  int|array|\Countable  $count
-     * @param  bool  $prependCount
      * @return string
      */
-    public static function plural($value, $count = 2, $prependCount = false)
+    public static function plural($value, $count = 2)
     {
-        if (is_countable($count)) {
-            $count = count($count);
-        }
-
-        return ($prependCount ? Number::format($count).' ' : '').Pluralizer::plural($value, $count);
+        return Pluralizer::plural($value, $count);
     }
 
     /**
@@ -1116,7 +1128,7 @@ class Str
     /**
      * Set the callable that will be used to generate random strings.
      *
-     * @param  (callable(int): string)|null  $factory
+     * @param  callable|null  $factory
      * @return void
      */
     public static function createRandomStringsUsing(?callable $factory = null)
@@ -1437,7 +1449,7 @@ class Str
      */
     public static function headline($value)
     {
-        $parts = mb_split('\s+', $value);
+        $parts = explode(' ', $value);
 
         $parts = count($parts) > 1
             ? array_map(static::title(...), $parts)
@@ -1464,16 +1476,15 @@ class Str
 
         $minorWords = [
             'and', 'as', 'but', 'for', 'if', 'nor', 'or', 'so', 'yet', 'a', 'an',
-            'the', 'at', 'by', 'in', 'of', 'off', 'on', 'per', 'to', 'up', 'via',
+            'the', 'at', 'by', 'for', 'in', 'of', 'off', 'on', 'per', 'to', 'up', 'via',
             'et', 'ou', 'un', 'une', 'la', 'le', 'les', 'de', 'du', 'des', 'par', 'à',
         ];
 
         $endPunctuation = ['.', '!', '?', ':', '—', ','];
 
-        $words = mb_split('\s+', $value);
-        $wordCount = count($words);
+        $words = preg_split('/\s+/', $value, -1, PREG_SPLIT_NO_EMPTY);
 
-        for ($i = 0; $i < $wordCount; $i++) {
+        for ($i = 0; $i < count($words); $i++) {
             $lowercaseWord = mb_strtolower($words[$i]);
 
             if (str_contains($lowercaseWord, '-')) {
@@ -1686,7 +1697,7 @@ class Str
             return static::$studlyCache[$key];
         }
 
-        $words = mb_split('\s+', static::replace(['-', '_'], ' ', $value));
+        $words = explode(' ', static::replace(['-', '_'], ' ', $value));
 
         $studlyWords = array_map(fn ($word) => static::ucfirst($word), $words);
 
@@ -1917,7 +1928,7 @@ class Str
     /**
      * Set the callable that will be used to generate UUIDs.
      *
-     * @param  (callable(): \Ramsey\Uuid\UuidInterface)|null  $factory
+     * @param  callable|null  $factory
      * @return void
      */
     public static function createUuidsUsing(?callable $factory = null)
@@ -1929,7 +1940,7 @@ class Str
      * Set the sequence that will be used to generate UUIDs.
      *
      * @param  array  $sequence
-     * @param  (callable(): \Ramsey\Uuid\UuidInterface)|null  $whenMissing
+     * @param  callable|null  $whenMissing
      * @return void
      */
     public static function createUuidsUsingSequence(array $sequence, $whenMissing = null)
@@ -2024,7 +2035,7 @@ class Str
     /**
      * Set the callable that will be used to generate ULIDs.
      *
-     * @param  (callable(): \Symfony\Component\Uid\Ulid)|null  $factory
+     * @param  callable|null  $factory
      * @return void
      */
     public static function createUlidsUsing(?callable $factory = null)
@@ -2036,7 +2047,7 @@ class Str
      * Set the sequence that will be used to generate ULIDs.
      *
      * @param  array  $sequence
-     * @param  (callable(): \Symfony\Component\Uid\Ulid)|null  $whenMissing
+     * @param  callable|null  $whenMissing
      * @return void
      */
     public static function createUlidsUsingSequence(array $sequence, $whenMissing = null)

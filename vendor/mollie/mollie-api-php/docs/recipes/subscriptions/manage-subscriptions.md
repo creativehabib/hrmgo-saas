@@ -5,12 +5,12 @@ How to create and manage subscriptions using the Mollie API.
 ## Create a Subscription
 
 ```php
-use Mollie\Api\Http\Requests\CreateSubscriptionRequest;
+use Mollie\Api\Http\Requests\CreateCustomerSubscriptionRequest;
 
 try {
     // Create a subscription for a customer
     $subscription = $mollie->send(
-        new CreateSubscriptionRequest(
+        new CreateCustomerSubscriptionRequest(
             customerId: 'cst_8wmqcHMN4U',
             parameters: [
                 'amount' => [
@@ -36,12 +36,12 @@ try {
 ## List Subscriptions
 
 ```php
-use Mollie\Api\Http\Requests\GetPaginatedSubscriptionsRequest;
+use Mollie\Api\Http\Requests\ListCustomerSubscriptionsRequest;
 
 try {
     // List all subscriptions for a customer
     $response = $mollie->send(
-        new GetPaginatedSubscriptionsRequest(
+        new ListCustomerSubscriptionsRequest(
             customerId: 'cst_8wmqcHMN4U'
         )
     );
@@ -62,12 +62,12 @@ try {
 ## Cancel a Subscription
 
 ```php
-use Mollie\Api\Http\Requests\CancelSubscriptionRequest;
+use Mollie\Api\Http\Requests\CancelCustomerSubscriptionRequest;
 
 try {
     // Cancel a subscription
     $mollie->send(
-        new CancelSubscriptionRequest(
+        new CancelCustomerSubscriptionRequest(
             customerId: 'cst_8wmqcHMN4U',
             subscriptionId: 'sub_rVKGtNd6s3'
         )

@@ -21,8 +21,6 @@ use Illuminate\Contracts\Foundation\CachesRoutes;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Pusher\Pusher;
-use RuntimeException;
-use Throwable;
 
 /**
  * @mixin \Illuminate\Contracts\Broadcasting\Broadcaster
@@ -161,7 +159,7 @@ class BroadcastManager implements FactoryContract
     /**
      * Begin broadcasting an event.
      *
-     * @param  mixed  $event
+     * @param  mixed|null  $event
      * @return \Illuminate\Broadcasting\PendingBroadcast
      */
     public function event($event = null)
@@ -294,11 +292,7 @@ class BroadcastManager implements FactoryContract
             throw new InvalidArgumentException("Driver [{$config['driver']}] is not supported.");
         }
 
-        try {
-            return $this->{$driverMethod}($config);
-        } catch (Throwable $e) {
-            throw new RuntimeException("Failed to create broadcaster for connection \"{$name}\" with error: {$e->getMessage()}.", 0, $e);
-        }
+        return $this->{$driverMethod}($config);
     }
 
     /**

@@ -27,7 +27,7 @@
 | public | [$fiscalProviderId](../classes/YooKassa-Request-Receipts-AbstractReceiptResponse.md#property_fiscalProviderId) |  | Идентификатор чека в онлайн-кассе. Присутствует, если чек удалось зарегистрировать. |
 | public | [$fiscalStorageNumber](../classes/YooKassa-Request-Receipts-AbstractReceiptResponse.md#property_fiscalStorageNumber) |  | Номер фискального накопителя в кассовом аппарате. |
 | public | [$id](../classes/YooKassa-Request-Receipts-AbstractReceiptResponse.md#property_id) |  | Идентификатор чека в ЮKassa. |
-| public | [$items](../classes/YooKassa-Request-Receipts-AbstractReceiptResponse.md#property_items) |  | Список товаров в заказе: для [Чеков от ЮKassa](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/yoomoney/basics) — не более 80 товаров, для [сторонних онлайн-касс](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/other-services/basics) — не более 100 товаров. |
+| public | [$items](../classes/YooKassa-Request-Receipts-AbstractReceiptResponse.md#property_items) |  | Список товаров в заказе. |
 | public | [$object_id](../classes/YooKassa-Request-Receipts-AbstractReceiptResponse.md#property_object_id) |  | Идентификатор объекта чека. |
 | public | [$objectId](../classes/YooKassa-Request-Receipts-AbstractReceiptResponse.md#property_objectId) |  | Идентификатор объекта чека. |
 | public | [$on_behalf_of](../classes/YooKassa-Request-Receipts-AbstractReceiptResponse.md#property_on_behalf_of) |  | Идентификатор магазина. |
@@ -76,7 +76,7 @@
 | public | [getFiscalProviderId()](../classes/YooKassa-Request-Receipts-AbstractReceiptResponse.md#method_getFiscalProviderId) |  | Возвращает идентификатор чека в онлайн-кассе. |
 | public | [getFiscalStorageNumber()](../classes/YooKassa-Request-Receipts-AbstractReceiptResponse.md#method_getFiscalStorageNumber) |  | Возвращает номер фискального накопителя в кассовом аппарате. |
 | public | [getId()](../classes/YooKassa-Request-Receipts-AbstractReceiptResponse.md#method_getId) |  | Возвращает идентификатор чека в ЮKassa. |
-| public | [getItems()](../classes/YooKassa-Request-Receipts-AbstractReceiptResponse.md#method_getItems) |  | Возвращает Список товаров в заказе: для [Чеков от ЮKassa](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/yoomoney/basics) — не более 80 товаров, для [сторонних онлайн-касс](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/other-services/basics) — не более 100 товаров. |
+| public | [getItems()](../classes/YooKassa-Request-Receipts-AbstractReceiptResponse.md#method_getItems) |  | Возвращает список товаров в заказ. |
 | public | [getObjectId()](../classes/YooKassa-Request-Receipts-AbstractReceiptResponse.md#method_getObjectId) |  | Возвращает идентификатор платежа или возврата, для которого был сформирован чек. |
 | public | [getOnBehalfOf()](../classes/YooKassa-Request-Receipts-AbstractReceiptResponse.md#method_getOnBehalfOf) |  | Возвращает идентификатор магазин |
 | public | [getReceiptIndustryDetails()](../classes/YooKassa-Request-Receipts-AbstractReceiptResponse.md#method_getReceiptIndustryDetails) |  | Возвращает отраслевой реквизит чека. |
@@ -260,7 +260,7 @@ LENGTH_RECEIPT_ID = 39
 ---
 ***Description***
 
-Список товаров в заказе: для [Чеков от ЮKassa](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/yoomoney/basics) — не более 80 товаров, для [сторонних онлайн-касс](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/other-services/basics) — не более 100 товаров.
+Список товаров в заказе.
 
 **Type:** <a href="../\YooKassa\Common\ListObjectInterface|\YooKassa\Request\Receipts\ReceiptResponseItemInterface[]"><abbr title="\YooKassa\Common\ListObjectInterface|\YooKassa\Request\Receipts\ReceiptResponseItemInterface[]">ReceiptResponseItemInterface[]</abbr></a>
 
@@ -513,7 +513,7 @@ LENGTH_RECEIPT_ID = 39
 #### protected $_items : ?\YooKassa\Common\ListObject
 ---
 **Type:** <a href="../?\YooKassa\Common\ListObject"><abbr title="?\YooKassa\Common\ListObject">ListObject</abbr></a>
-Список товаров в заказе: для [Чеков от ЮKassa](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/yoomoney/basics) — не более 80 товаров, для [сторонних онлайн-касс](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/other-services/basics) — не более 100 товаров
+Список товаров в заказе
 **Details:**
 * Inherited From: [\YooKassa\Request\Receipts\AbstractReceiptResponse](../classes/YooKassa-Request-Receipts-AbstractReceiptResponse.md)
 
@@ -874,7 +874,7 @@ public getItems() : \YooKassa\Request\Receipts\ReceiptResponseItemInterface[]|\Y
 
 **Summary**
 
-Возвращает Список товаров в заказе: для [Чеков от ЮKassa](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/yoomoney/basics) — не более 80 товаров, для [сторонних онлайн-касс](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/other-services/basics) — не более 100 товаров.
+Возвращает список товаров в заказ.
 
 **Details:**
 * Inherited From: [\YooKassa\Request\Receipts\AbstractReceiptResponse](../classes/YooKassa-Request-Receipts-AbstractReceiptResponse.md)
@@ -1298,7 +1298,7 @@ public setItems(\YooKassa\Request\Receipts\ReceiptResponseItemInterface[]|null $
 ##### Parameters:
 | Type | Name | Description |
 | ---- | ---- | ----------- |
-| <code lang="php">\YooKassa\Request\Receipts\ReceiptResponseItemInterface[] OR null</code> | items  | Список товаров в заказе: для [Чеков от ЮKassa](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/yoomoney/basics) — не более 80 товаров, для [сторонних онлайн-касс](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/other-services/basics) — не более 100 товаров |
+| <code lang="php">\YooKassa\Request\Receipts\ReceiptResponseItemInterface[] OR null</code> | items  | Список товаров в заказе |
 
 **Returns:** self - 
 
@@ -1589,10 +1589,10 @@ protected validatePropertyValue(string $propertyName, mixed $propertyValue) : mi
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 40](../reports/deprecated.md)
+* [Deprecated - 33](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

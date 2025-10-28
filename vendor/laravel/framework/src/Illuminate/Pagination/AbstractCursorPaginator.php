@@ -403,12 +403,8 @@ abstract class AbstractCursorPaginator implements Htmlable, Stringable
     /**
      * Transform each item in the slice of items using a callback.
      *
-     * @template TThroughValue
-     *
-     * @param  callable(TValue, TKey): TThroughValue  $callback
+     * @param  callable  $callback
      * @return $this
-     *
-     * @phpstan-this-out static<TKey, TThroughValue>
      */
     public function through(callable $callback)
     {

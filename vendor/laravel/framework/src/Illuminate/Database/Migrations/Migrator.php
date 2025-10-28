@@ -662,11 +662,7 @@ class Migrator
 
         $this->setConnection($name);
 
-        try {
-            return $callback();
-        } finally {
-            $this->setConnection($previousConnection);
-        }
+        return tap($callback(), fn () => $this->setConnection($previousConnection));
     }
 
     /**

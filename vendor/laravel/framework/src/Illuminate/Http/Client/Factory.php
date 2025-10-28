@@ -81,13 +81,6 @@ class Factory
     protected $preventStrayRequests = false;
 
     /**
-     * A list of URL patterns that are allowed to bypass the stray request guard.
-     *
-     * @var array<int, string>
-     */
-    protected $allowedStrayRequestUrls = [];
-
-    /**
      * Create a new factory instance.
      *
      * @param  \Illuminate\Contracts\Events\Dispatcher|null  $dispatcher
@@ -340,22 +333,13 @@ class Factory
     }
 
     /**
-     * Allow stray, unfaked requests entirely, or optionally allow only specific URLs.
+     * Indicate that an exception should not be thrown if any request is not faked.
      *
-     * @param  array<int, string>|null  $only
      * @return $this
      */
-    public function allowStrayRequests(?array $only = null)
+    public function allowStrayRequests()
     {
-        if (is_null($only)) {
-            $this->preventStrayRequests(false);
-
-            $this->allowedStrayRequestUrls = [];
-        } else {
-            $this->allowedStrayRequestUrls = array_values($only);
-        }
-
-        return $this;
+        return $this->preventStrayRequests(false);
     }
 
     /**
@@ -502,10 +486,7 @@ class Factory
     public function createPendingRequest()
     {
         return tap($this->newPendingRequest(), function ($request) {
-            $request
-                ->stub($this->stubCallbacks)
-                ->preventStrayRequests($this->preventStrayRequests)
-                ->allowStrayRequests($this->allowedStrayRequestUrls);
+            $request->stub($this->stubCallbacks)->preventStrayRequests($this->preventStrayRequests);
         });
     }
 

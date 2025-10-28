@@ -20,14 +20,14 @@ class PaymentLinkEndpointCollection extends EndpointCollection
      *
      * @throws RequestException
      */
-    public function create(array $payload = [], bool $testmode = false): PaymentLink
+    public function create(array $payload = []): PaymentLink
     {
         $request = CreatePaymentLinkRequestFactory::new()
             ->withPayload($payload)
             ->create();
 
         /** @var PaymentLink */
-        return $this->send($request->test($testmode));
+        return $this->send($request);
     }
 
     /**

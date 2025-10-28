@@ -206,7 +206,7 @@ trait InteractsWithIO
      * @param  string  $question
      * @param  array  $choices
      * @param  string|int|null  $default
-     * @param  mixed  $attempts
+     * @param  mixed|null  $attempts
      * @param  bool  $multiple
      * @return string|array
      */
@@ -430,8 +430,6 @@ trait InteractsWithIO
      */
     protected function parseVerbosity($level = null)
     {
-        $level ??= '';
-
         if (isset($this->verbosityMap[$level])) {
             $level = $this->verbosityMap[$level];
         } elseif (! is_int($level)) {

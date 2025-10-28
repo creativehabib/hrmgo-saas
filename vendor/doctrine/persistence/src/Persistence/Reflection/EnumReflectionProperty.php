@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Doctrine\Persistence\Reflection;
 
 use BackedEnum;
+use ReflectionClass;
 use ReflectionProperty;
+use ReflectionType;
 
 use function array_map;
 use function is_array;
@@ -19,7 +21,29 @@ class EnumReflectionProperty extends ReflectionProperty
     /** @param class-string<BackedEnum> $enumType */
     public function __construct(private readonly ReflectionProperty $originalReflectionProperty, private readonly string $enumType)
     {
-        parent::__construct($originalReflectionProperty->class, $originalReflectionProperty->name);
+    }
+
+    public function getDeclaringClass(): ReflectionClass
+    {
+        return $this->originalReflectionProperty->getDeclaringClass();
+    }
+
+    public function getName(): string
+    {
+        return $this->originalReflectionProperty->getName();
+    }
+
+    public function getType(): ReflectionType|null
+    {
+        return $this->originalReflectionProperty->getType();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAttributes(string|null $name = null, int $flags = 0): array
+    {
+        return $this->originalReflectionProperty->getAttributes($name, $flags);
     }
 
     /**
@@ -95,5 +119,20 @@ class EnumReflectionProperty extends ReflectionProperty
         }
 
         return $this->enumType::from($value);
+    }
+
+    public function getModifiers(): int
+    {
+        return $this->originalReflectionProperty->getModifiers();
+    }
+
+    public function getDocComment(): string|false
+    {
+        return $this->originalReflectionProperty->getDocComment();
+    }
+
+    public function isPrivate(): bool
+    {
+        return $this->originalReflectionProperty->isPrivate();
     }
 }

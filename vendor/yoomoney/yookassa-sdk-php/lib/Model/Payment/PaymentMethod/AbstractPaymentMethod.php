@@ -69,8 +69,7 @@ abstract class AbstractPaymentMethod extends AbstractObject
     protected ?string $_id = null;
 
     /**
-     * Признак сохранения способа оплаты для %[автоплатежей](https://yookassa.ru/developers/payment-acceptance/scenario-extensions/recurring-payments/pay-with-saved).
-     * Возможные значения:   * ~`true` — способ оплаты сохранен для автоплатежей и выплат; * ~`false` — способ оплаты не сохранен.
+     * С помощью сохраненного способа оплаты можно проводить [безакцептные списания](/developers/payment-acceptance/scenario-extensions/recurring-payments).
      *
      * @var bool|null
      */
@@ -156,11 +155,10 @@ abstract class AbstractPaymentMethod extends AbstractObject
     /**
      * Устанавливает признак возможности многократного использования.
      *
-     * @param bool|null $saved Признак сохранения способа оплаты для %[автоплатежей](https://yookassa.ru/developers/payment-acceptance/scenario-extensions/recurring-payments/pay-with-saved).
-     * Возможные значения: * ~`true` — способ оплаты сохранен для автоплатежей и выплат; * ~`false` — способ оплаты не сохранен.
+     * @param bool|null $saved С помощью сохраненного способа оплаты можно проводить [безакцептные списания](/developers/payment-acceptance/scenario-extensions/recurring-payments).
      *
-     * @return self
      * @throws Exception
+     * @return self
      */
     public function setSaved(mixed $saved = null): self
     {

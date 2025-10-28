@@ -68,7 +68,7 @@ use YooKassa\Model\Receipt\SettlementInterface;
  * @property ListObjectInterface|IndustryDetails[] $receipt_industry_details Отраслевой реквизит чека.
  * @property OperationalDetails $receiptOperationalDetails Операционный реквизит чека.
  * @property OperationalDetails $receipt_operational_details Операционный реквизит чека.
- * @property ListObjectInterface|ReceiptResponseItemInterface[] $items Список товаров в заказе: для [Чеков от ЮKassa](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/yoomoney/basics) — не более 80 товаров, для [сторонних онлайн-касс](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/other-services/basics) — не более 100 товаров.
+ * @property ListObjectInterface|ReceiptResponseItemInterface[] $items Список товаров в заказе.
  * @property ListObjectInterface|SettlementInterface[] $settlements Перечень совершенных расчетов.
  * @property string $onBehalfOf Идентификатор магазина.
  * @property string $on_behalf_of Идентификатор магазина.
@@ -126,7 +126,7 @@ abstract class AbstractReceiptResponse extends AbstractObject implements Receipt
     #[Assert\Type('string')]
     protected ?string $_fiscal_provider_id = null;
 
-    /** @var ReceiptResponseItemInterface[]|ListObjectInterface Список товаров в заказе: для [Чеков от ЮKassa](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/yoomoney/basics) — не более 80 товаров, для [сторонних онлайн-касс](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/other-services/basics) — не более 100 товаров */
+    /** @var ReceiptResponseItemInterface[]|ListObjectInterface Список товаров в заказе */
     #[Assert\NotBlank]
     #[Assert\Type(ListObject::class)]
     #[Assert\AllType(ReceiptResponseItem::class)]
@@ -401,7 +401,7 @@ abstract class AbstractReceiptResponse extends AbstractObject implements Receipt
     /**
      * Устанавливает список позиций в чеке.
      *
-     * @param ReceiptResponseItemInterface[]|null $items Список товаров в заказе: для [Чеков от ЮKassa](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/yoomoney/basics) — не более 80 товаров, для [сторонних онлайн-касс](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/other-services/basics) — не более 100 товаров
+     * @param ReceiptResponseItemInterface[]|null $items Список товаров в заказе
      *
      * @return self
      */

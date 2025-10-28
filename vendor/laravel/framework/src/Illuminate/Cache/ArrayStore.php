@@ -13,14 +13,14 @@ class ArrayStore extends TaggableStore implements LockProvider
     /**
      * The array of stored values.
      *
-     * @var array<string, array{value: mixed, expiresAt: float}>
+     * @var array
      */
     protected $storage = [];
 
     /**
      * The array of locks.
      *
-     * @var array<string, array{owner: ?string, expiresAt: ?\Illuminate\Support\Carbon}>
+     * @var array
      */
     public $locks = [];
 
@@ -39,30 +39,6 @@ class ArrayStore extends TaggableStore implements LockProvider
     public function __construct($serializesValues = false)
     {
         $this->serializesValues = $serializesValues;
-    }
-
-    /**
-     * Get all of the cached values and their expiration times.
-     *
-     * @param  bool  $unserialize
-     * @return array<string, array{value: mixed, expiresAt: float}>
-     */
-    public function all($unserialize = true)
-    {
-        if ($unserialize === false || $this->serializesValues === false) {
-            return $this->storage;
-        }
-
-        $storage = [];
-
-        foreach ($this->storage as $key => $data) {
-            $storage[$key] = [
-                'value' => unserialize($data['value']),
-                'expiresAt' => $data['expiresAt'],
-            ];
-        }
-
-        return $storage;
     }
 
     /**

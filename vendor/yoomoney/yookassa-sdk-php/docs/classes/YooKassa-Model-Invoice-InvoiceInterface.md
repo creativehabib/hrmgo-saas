@@ -57,7 +57,7 @@
 | --- | ------- | ----------- |
 | category |  | Class |
 | author |  | cms@yoomoney.ru |
-| property |  | Идентификатор счета в ЮKassa. |
+| property |  | Идентификатор счета в ЮКасса. |
 | property |  | Статус счета. Возможные значения: `pending`, `succeeded`, `canceled`. |
 | property |  | Корзина заказа — список товаров или услуг, который отобразится на странице счета перед оплатой. |
 | property |  | Данные о выбранном способе доставки счета. Присутствует только для счетов в статусе `pending`. |
@@ -133,7 +133,7 @@ public setId(string|null $id = null) : self
 ##### Parameters:
 | Type | Name | Description |
 | ---- | ---- | ----------- |
-| <code lang="php">string OR null</code> | id  | Идентификатор счета в ЮKassa. |
+| <code lang="php">string OR null</code> | id  | Идентификатор счета в ЮКасса. |
 
 **Returns:** self - 
 
@@ -502,10 +502,10 @@ public setMetadata(string|array|null $metadata = null) : self
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 40](../reports/deprecated.md)
+* [Deprecated - 33](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

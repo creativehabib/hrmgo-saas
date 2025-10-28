@@ -52,7 +52,6 @@ use YooKassa\Model\Invoice\InvoiceInterface;
 use YooKassa\Model\Payment\PaymentInterface;
 use YooKassa\Model\Payout\PayoutInterface;
 use YooKassa\Model\PersonalData\PersonalDataInterface;
-use YooKassa\Model\SavePaymentMethod\SavePaymentMethodInterface;
 use YooKassa\Model\SelfEmployed\SelfEmployedInterface;
 use YooKassa\Model\Webhook\Webhook;
 use YooKassa\Request\Deals\CreateDealRequest;
@@ -68,10 +67,6 @@ use YooKassa\Request\Invoices\CreateInvoiceRequest;
 use YooKassa\Request\Invoices\CreateInvoiceRequestInterface;
 use YooKassa\Request\Invoices\CreateInvoiceRequestSerializer;
 use YooKassa\Request\Invoices\InvoiceResponse;
-use YooKassa\Request\PaymentMethods\CreatePaymentMethodRequest;
-use YooKassa\Request\PaymentMethods\CreatePaymentMethodRequestInterface;
-use YooKassa\Request\PaymentMethods\CreatePaymentMethodRequestSerializer;
-use YooKassa\Request\PaymentMethods\PaymentMethodResponse;
 use YooKassa\Request\Payments\CancelResponse;
 use YooKassa\Request\Payments\CreateCaptureRequest;
 use YooKassa\Request\Payments\CreateCaptureRequestInterface;
@@ -130,7 +125,7 @@ class Client extends BaseClient
     /**
      * Текущая версия библиотеки.
      */
-    public const SDK_VERSION = '3.10.1';
+    public const SDK_VERSION = '3.8.1';
 
     /**
      * Получить список платежей магазина.
@@ -1437,99 +1432,6 @@ class Client extends BaseClient
         if (200 === $response->getCode()) {
             $resultArray = $this->decodeData($response);
             $result = new InvoiceResponse($resultArray);
-        } else {
-            $this->handleError($response);
-        }
-
-        return $result;
-    }
-
-    /**
-     * Создание способа оплаты.
-     *
-     * Используйте этот запрос, чтобы создать в ЮKassa [объект способа оплаты](https://yookassa.ru/developers/api#create_payment_method).
-     * В запросе необходимо передать код способа оплаты, который вы хотите сохранить, и при необходимости дополнительные параметры, связанные с той функциональностью, которую вы хотите использовать.
-     *
-     * Идентификатор созданного способа оплаты вы можете использовать при проведении [автоплатежей](/developers/payment-acceptance/scenario-extensions/recurring-payments/create-recurring) или [выплат](/developers/payouts/scenario-extensions/multipurpose-token).
-     *
-     * @example 01-client.php 568 34 Запрос на создание способа оплаты
-     *
-     * @param array|CreatePaymentMethodRequestInterface $paymentMethod
-     * @param string|null $idempotenceKey
-     *
-     * @return SavePaymentMethodInterface|null
-     * @throws ApiConnectionException
-     * @throws ApiException
-     * @throws AuthorizeException
-     * @throws BadApiRequestException
-     * @throws ExtensionNotFoundException
-     * @throws ForbiddenException
-     * @throws InternalServerError
-     * @throws NotFoundException
-     * @throws ResponseProcessingException
-     * @throws TooManyRequestsException
-     * @throws UnauthorizedException
-     * @throws JsonException
-     *
-     */
-    public function createPaymentMethod(array|CreatePaymentMethodRequestInterface $paymentMethod, ?string $idempotenceKey = null): ?SavePaymentMethodInterface
-    {
-        $path = self::PAYMENT_METHODS_PATH;
-
-        $headers = [self::IDEMPOTENCE_KEY_HEADER => $idempotenceKey ?: UUID::v4()];
-        $request = is_array($paymentMethod) ? CreatePaymentMethodRequest::builder()->build($paymentMethod) : $paymentMethod;
-
-        $serializer = new CreatePaymentMethodRequestSerializer();
-        $serializedData = $serializer->serialize($request);
-        $httpBody = $this->encodeData($serializedData);
-
-        $response = $this->execute($path, HttpVerb::POST, [], $httpBody, $headers);
-
-        $result = null;
-        if (200 === $response->getCode()) {
-            $resultArray = $this->decodeData($response);
-            $result = new PaymentMethodResponse($resultArray);
-        } else {
-            $this->handleError($response);
-        }
-
-        return $result;
-    }
-
-    /**
-     * Получить информацию о способе оплаты
-     *
-     * Используйте этот запрос, чтобы получить информацию о текущем состоянии способа оплаты по его уникальному идентификатору.
-     *
-     * @param string $paymentMethodId Идентификатор способа оплаты
-     *
-     * @example 01-client.php 604 10 Получить информацию о способе оплаты
-     *
-     * @return SavePaymentMethodInterface|null
-     * @throws ApiConnectionException
-     * @throws ApiException
-     * @throws AuthorizeException
-     * @throws BadApiRequestException
-     * @throws ExtensionNotFoundException
-     * @throws ForbiddenException
-     * @throws InternalServerError
-     * @throws JsonException
-     * @throws NotFoundException
-     * @throws ResponseProcessingException
-     * @throws TooManyRequestsException
-     * @throws UnauthorizedException
-     *
-     */
-    public function getPaymentMethodInfo(string $paymentMethodId): ?SavePaymentMethodInterface
-    {
-        $path = self::PAYMENT_METHODS_PATH . '/' . $paymentMethodId;
-
-        $response = $this->execute($path, HttpVerb::GET, []);
-
-        $result = null;
-        if (200 === $response->getCode()) {
-            $resultArray = $this->decodeData($response);
-            $result = new PaymentMethodResponse($resultArray);
         } else {
             $this->handleError($response);
         }

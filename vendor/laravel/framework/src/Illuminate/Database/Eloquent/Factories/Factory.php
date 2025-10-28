@@ -16,9 +16,6 @@ use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\ForwardsCalls;
 use Illuminate\Support\Traits\Macroable;
 use Throwable;
-use UnitEnum;
-
-use function Illuminate\Support\enum_value;
 
 /**
  * @template TModel of \Illuminate\Database\Eloquent\Model
@@ -95,16 +92,9 @@ abstract class Factory
     protected $expandRelationships = true;
 
     /**
-     * The relationships that should not be automatically created.
-     *
-     * @var array
-     */
-    protected $excludeRelationships = [];
-
-    /**
      * The name of the database connection that will be used to create the models.
      *
-     * @var \UnitEnum|string|null
+     * @var string|null
      */
     protected $connection;
 
@@ -144,13 +134,6 @@ abstract class Factory
     protected static $factoryNameResolver;
 
     /**
-     * Whether to expand relationships by default.
-     *
-     * @var bool
-     */
-    protected static $expandRelationshipsByDefault = true;
-
-    /**
      * Create a new factory instance.
      *
      * @param  int|null  $count
@@ -159,10 +142,9 @@ abstract class Factory
      * @param  \Illuminate\Support\Collection|null  $for
      * @param  \Illuminate\Support\Collection|null  $afterMaking
      * @param  \Illuminate\Support\Collection|null  $afterCreating
-     * @param  \UnitEnum|string|null  $connection
+     * @param  string|null  $connection
      * @param  \Illuminate\Support\Collection|null  $recycle
-     * @param  bool|null  $expandRelationships
-     * @param  array  $excludeRelationships
+     * @param  bool  $expandRelationships
      */
     public function __construct(
         $count = null,
@@ -173,8 +155,7 @@ abstract class Factory
         ?Collection $afterCreating = null,
         $connection = null,
         ?Collection $recycle = null,
-        ?bool $expandRelationships = null,
-        array $excludeRelationships = [],
+        bool $expandRelationships = true
     ) {
         $this->count = $count;
         $this->states = $states ?? new Collection;
@@ -185,8 +166,7 @@ abstract class Factory
         $this->connection = $connection;
         $this->recycle = $recycle ?? new Collection;
         $this->faker = $this->withFaker();
-        $this->expandRelationships = $expandRelationships ?? self::$expandRelationshipsByDefault;
-        $this->excludeRelationships = $excludeRelationships;
+        $this->expandRelationships = $expandRelationships;
     }
 
     /**
@@ -518,11 +498,8 @@ abstract class Factory
     protected function expandAttributes(array $definition)
     {
         return (new Collection($definition))
-            ->map($evaluateRelations = function ($attribute, $key) {
+            ->map($evaluateRelations = function ($attribute) {
                 if (! $this->expandRelationships && $attribute instanceof self) {
-                    $attribute = null;
-                } elseif ($attribute instanceof self &&
-                    array_intersect([$attribute->modelName(), $key], $this->excludeRelationships)) {
                     $attribute = null;
                 } elseif ($attribute instanceof self) {
                     $attribute = $this->getRandomRecycledModel($attribute->modelName())?->getKey()
@@ -538,7 +515,7 @@ abstract class Factory
                     $attribute = $attribute($definition);
                 }
 
-                $attribute = $evaluateRelations($attribute, $key);
+                $attribute = $evaluateRelations($attribute);
 
                 $definition[$key] = $attribute;
 
@@ -790,12 +767,11 @@ abstract class Factory
     /**
      * Indicate that related parent models should not be created.
      *
-     * @param  array<string|class-string<Model>>  $parents
      * @return static
      */
-    public function withoutParents($parents = [])
+    public function withoutParents()
     {
-        return $this->newInstance(! $parents ? ['expandRelationships' => false] : ['excludeRelationships' => $parents]);
+        return $this->newInstance(['expandRelationships' => false]);
     }
 
     /**
@@ -805,16 +781,16 @@ abstract class Factory
      */
     public function getConnectionName()
     {
-        return enum_value($this->connection);
+        return $this->connection;
     }
 
     /**
      * Specify the database connection that should be used to generate models.
      *
-     * @param  \UnitEnum|string  $connection
+     * @param  string  $connection
      * @return static
      */
-    public function connection(UnitEnum|string $connection)
+    public function connection(string $connection)
     {
         return $this->newInstance(['connection' => $connection]);
     }
@@ -837,7 +813,6 @@ abstract class Factory
             'connection' => $this->connection,
             'recycle' => $this->recycle,
             'expandRelationships' => $this->expandRelationships,
-            'excludeRelationships' => $this->excludeRelationships,
         ], $arguments)));
     }
 
@@ -931,36 +906,12 @@ abstract class Factory
     }
 
     /**
-     * Specify that relationships should create parent relationships by default.
-     *
-     * @return void
-     */
-    public static function expandRelationshipsByDefault()
-    {
-        static::$expandRelationshipsByDefault = true;
-    }
-
-    /**
-     * Specify that relationships should not create parent relationships by default.
-     *
-     * @return void
-     */
-    public static function dontExpandRelationshipsByDefault()
-    {
-        static::$expandRelationshipsByDefault = false;
-    }
-
-    /**
      * Get a new Faker instance.
      *
-     * @return \Faker\Generator|null
+     * @return \Faker\Generator
      */
     protected function withFaker()
     {
-        if (! class_exists(Generator::class)) {
-            return;
-        }
-
         return Container::getInstance()->make(Generator::class);
     }
 
@@ -1014,7 +965,6 @@ abstract class Factory
         static::$modelNameResolvers = [];
         static::$factoryNameResolver = null;
         static::$namespace = 'Database\\Factories\\';
-        static::$expandRelationshipsByDefault = true;
     }
 
     /**

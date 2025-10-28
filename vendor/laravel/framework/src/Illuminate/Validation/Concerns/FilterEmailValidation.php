@@ -18,7 +18,7 @@ class FilterEmailValidation implements EmailValidation
     /**
      * Create a new validation instance.
      *
-     * @param  int|null  $flags
+     * @param  int  $flags
      */
     public function __construct($flags = null)
     {

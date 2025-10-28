@@ -408,7 +408,7 @@ class Kernel implements KernelContract
     /**
      * Run an Artisan console command by name.
      *
-     * @param  \Symfony\Component\Console\Command\Command|string  $command
+     * @param  string  $command
      * @param  array  $parameters
      * @param  \Symfony\Component\Console\Output\OutputInterface|null  $outputBuffer
      * @return int

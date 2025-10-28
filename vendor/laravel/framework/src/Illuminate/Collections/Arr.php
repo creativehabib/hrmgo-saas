@@ -63,12 +63,8 @@ class Arr
 
     /**
      * Get an array item from an array using "dot" notation.
-     *
-     * @return array
-     *
-     * @throws \InvalidArgumentException
      */
-    public static function array(ArrayAccess|array $array, string|int|null $key, ?array $default = null)
+    public static function array(ArrayAccess|array $array, string|int|null $key, ?array $default = null): array
     {
         $value = Arr::get($array, $key, $default);
 
@@ -83,8 +79,6 @@ class Arr
 
     /**
      * Get a boolean item from an array using "dot" notation.
-     *
-     * @throws \InvalidArgumentException
      */
     public static function boolean(ArrayAccess|array $array, string|int|null $key, ?bool $default = null): bool
     {
@@ -111,10 +105,12 @@ class Arr
 
         foreach ($array as $values) {
             if ($values instanceof Collection) {
-                $results[] = $values->all();
-            } elseif (is_array($values)) {
-                $results[] = $values;
+                $values = $values->all();
+            } elseif (! is_array($values)) {
+                continue;
             }
+
+            $results[] = $values;
         }
 
         return array_merge([], ...$results);
@@ -234,7 +230,7 @@ class Arr
             return $array->offsetExists($key);
         }
 
-        if (is_float($key) || is_null($key)) {
+        if (is_float($key)) {
             $key = (string) $key;
         }
 
@@ -260,10 +256,6 @@ class Arr
                 return value($default);
             }
 
-            if (is_array($array)) {
-                return array_first($array);
-            }
-
             foreach ($array as $item) {
                 return $item;
             }
@@ -271,9 +263,13 @@ class Arr
             return value($default);
         }
 
-        $key = array_find_key($array, $callback);
+        foreach ($array as $key => $value) {
+            if ($callback($value, $key)) {
+                return $value;
+            }
+        }
 
-        return $key !== null ? $array[$key] : value($default);
+        return value($default);
     }
 
     /**
@@ -291,7 +287,7 @@ class Arr
     public static function last($array, ?callable $callback = null, $default = null)
     {
         if (is_null($callback)) {
-            return empty($array) ? value($default) : array_last($array);
+            return empty($array) ? value($default) : end($array);
         }
 
         return static::first(array_reverse($array, true), $callback, $default);
@@ -345,8 +341,6 @@ class Arr
 
     /**
      * Get a float item from an array using "dot" notation.
-     *
-     * @throws \InvalidArgumentException
      */
     public static function float(ArrayAccess|array $array, string|int|null $key, ?float $default = null): float
     {
@@ -454,7 +448,7 @@ class Arr
         }
 
         if (! str_contains($key, '.')) {
-            return value($default);
+            return $array[$key] ?? value($default);
         }
 
         foreach (explode('.', $key) as $segment) {
@@ -559,33 +553,7 @@ class Arr
     }
 
     /**
-     * Determine if all items pass the given truth test.
-     *
-     * @param  iterable  $array
-     * @param  (callable(mixed, array-key): bool)  $callback
-     * @return bool
-     */
-    public static function every($array, callable $callback)
-    {
-        return array_all($array, $callback);
-    }
-
-    /**
-     * Determine if some items pass the given truth test.
-     *
-     * @param  iterable  $array
-     * @param  (callable(mixed, array-key): bool)  $callback
-     * @return bool
-     */
-    public static function some($array, callable $callback)
-    {
-        return array_any($array, $callback);
-    }
-
-    /**
      * Get an integer item from an array using "dot" notation.
-     *
-     * @throws \InvalidArgumentException
      */
     public static function integer(ArrayAccess|array $array, string|int|null $key, ?int $default = null): int
     {
@@ -645,7 +613,7 @@ class Arr
         }
 
         if (count($array) === 1) {
-            return array_last($array);
+            return end($array);
         }
 
         $finalItem = array_pop($array);
@@ -656,7 +624,7 @@ class Arr
     /**
      * Key an associative array by a field or using a callback.
      *
-     * @param  iterable  $array
+     * @param  array  $array
      * @param  callable|array|string  $keyBy
      * @return array
      */
@@ -974,23 +942,6 @@ class Arr
     }
 
     /**
-     * Push an item into an array using "dot" notation.
-     *
-     * @param  \ArrayAccess|array  $array
-     * @param  string|int|null  $key
-     * @param  mixed  $values
-     * @return array
-     */
-    public static function push(ArrayAccess|array &$array, string|int|null $key, mixed ...$values): array
-    {
-        $target = static::array($array, $key, []);
-
-        array_push($target, ...$values);
-
-        return static::set($array, $key, $target);
-    }
-
-    /**
      * Shuffle the given array and return the result.
      *
      * @param  array  $array
@@ -1032,7 +983,7 @@ class Arr
     /**
      * Sort the array using the given callback or "dot" notation.
      *
-     * @param  iterable  $array
+     * @param  array  $array
      * @param  callable|array|string|null  $callback
      * @return array
      */
@@ -1044,7 +995,7 @@ class Arr
     /**
      * Sort the array in descending order using the given callback or "dot" notation.
      *
-     * @param  iterable  $array
+     * @param  array  $array
      * @param  callable|array|string|null  $callback
      * @return array
      */
@@ -1096,8 +1047,6 @@ class Arr
 
     /**
      * Get a string item from an array using "dot" notation.
-     *
-     * @throws \InvalidArgumentException
      */
     public static function string(ArrayAccess|array $array, string|int|null $key, ?string $default = null): string
     {

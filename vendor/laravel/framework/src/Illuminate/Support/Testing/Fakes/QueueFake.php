@@ -9,7 +9,6 @@ use Illuminate\Events\CallQueuedListener;
 use Illuminate\Queue\CallQueuedClosure;
 use Illuminate\Queue\QueueManager;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Illuminate\Support\Traits\ReflectsClosures;
 use PHPUnit\Framework\Assert as PHPUnit;
 
@@ -127,11 +126,7 @@ class QueueFake extends QueueManager implements Fake, Queue
 
         PHPUnit::assertSame(
             $times, $count,
-            sprintf(
-                "The expected [{$job}] job was pushed {$count} %s instead of {$times} %s.",
-                Str::plural('time', $count),
-                Str::plural('time', $times)
-            )
+            "The expected [{$job}] job was pushed {$count} times instead of {$times} times."
         );
     }
 

@@ -262,14 +262,7 @@ class Mailable implements MailableContract, Renderable
      */
     protected function newQueuedJob()
     {
-        $messageGroup = $this->messageGroup ?? (method_exists($this, 'messageGroup') ? $this->messageGroup() : null);
-
-        /** @phpstan-ignore callable.nonNativeMethod (false positive since method_exists guard is used) */
-        $deduplicator = $this->deduplicator ?? (method_exists($this, 'deduplicationId') ? $this->deduplicationId(...) : null);
-
         return Container::getInstance()->make(SendQueuedMailable::class, ['mailable' => $this])
-            ->onGroup($messageGroup)
-            ->withDeduplicator($deduplicator)
             ->through(array_merge(
                 method_exists($this, 'middleware') ? $this->middleware() : [],
                 $this->middleware ?? []
@@ -1191,17 +1184,13 @@ class Mailable implements MailableContract, Renderable
     /**
      * Add a metadata header to the message when supported by the underlying transport.
      *
-     * @param  array|string  $key
-     * @param  string|null  $value
+     * @param  string  $key
+     * @param  string  $value
      * @return $this
      */
-    public function metadata($key, $value = null)
+    public function metadata($key, $value)
     {
-        if (is_array($key)) {
-            $this->metadata = array_merge($this->metadata, $key);
-        } else {
-            $this->metadata[$key] = $value;
-        }
+        $this->metadata[$key] = $value;
 
         return $this;
     }
@@ -1820,17 +1809,6 @@ class Mailable implements MailableContract, Renderable
             ->each(function ($attachment) {
                 $this->attach($attachment);
             });
-    }
-
-    /**
-     * Determine if the mailable will be sent by the given mailer.
-     *
-     * @param  string  $mailer
-     * @return bool
-     */
-    public function usesMailer($mailer)
-    {
-        return $this->mailer === $mailer;
     }
 
     /**

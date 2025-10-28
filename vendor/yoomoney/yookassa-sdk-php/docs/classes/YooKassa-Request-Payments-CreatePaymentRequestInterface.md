@@ -26,7 +26,6 @@ Interface CreatePaymentRequestInterface.
 | public | [getMetadata()](../classes/YooKassa-Request-Payments-CreatePaymentRequestInterface.md#method_getMetadata) |  | Возвращает данные оплаты установленные мерчантом |
 | public | [getPaymentMethodData()](../classes/YooKassa-Request-Payments-CreatePaymentRequestInterface.md#method_getPaymentMethodData) |  | Возвращает данные для создания метода оплаты. |
 | public | [getPaymentMethodId()](../classes/YooKassa-Request-Payments-CreatePaymentRequestInterface.md#method_getPaymentMethodId) |  | Устанавливает идентификатор записи платёжных данных покупателя. |
-| public | [getPaymentOrder()](../classes/YooKassa-Request-Payments-CreatePaymentRequestInterface.md#method_getPaymentOrder) |  | Возвращает платежное поручение. |
 | public | [getPaymentToken()](../classes/YooKassa-Request-Payments-CreatePaymentRequestInterface.md#method_getPaymentToken) |  | Возвращает одноразовый токен для проведения оплаты. |
 | public | [getReceipt()](../classes/YooKassa-Request-Payments-CreatePaymentRequestInterface.md#method_getReceipt) |  | Возвращает чек, если он есть. |
 | public | [getReceiver()](../classes/YooKassa-Request-Payments-CreatePaymentRequestInterface.md#method_getReceiver) |  | Возвращает реквизиты получателя оплаты. |
@@ -43,7 +42,6 @@ Interface CreatePaymentRequestInterface.
 | public | [hasMetadata()](../classes/YooKassa-Request-Payments-CreatePaymentRequestInterface.md#method_hasMetadata) |  | Проверяет, были ли установлены метаданные заказа. |
 | public | [hasPaymentMethodData()](../classes/YooKassa-Request-Payments-CreatePaymentRequestInterface.md#method_hasPaymentMethodData) |  | Проверяет установлен ли объект с методом оплаты. |
 | public | [hasPaymentMethodId()](../classes/YooKassa-Request-Payments-CreatePaymentRequestInterface.md#method_hasPaymentMethodId) |  | Проверяет наличие идентификатора записи о платёжных данных покупателя. |
-| public | [hasPaymentOrder()](../classes/YooKassa-Request-Payments-CreatePaymentRequestInterface.md#method_hasPaymentOrder) |  | Проверяет, было ли установлено платежное поручение. |
 | public | [hasPaymentToken()](../classes/YooKassa-Request-Payments-CreatePaymentRequestInterface.md#method_hasPaymentToken) |  | Проверяет наличие одноразового токена для проведения оплаты. |
 | public | [hasReceipt()](../classes/YooKassa-Request-Payments-CreatePaymentRequestInterface.md#method_hasReceipt) |  | Проверяет наличие чека в создаваемом платеже. |
 | public | [hasReceiver()](../classes/YooKassa-Request-Payments-CreatePaymentRequestInterface.md#method_hasReceiver) |  | Проверяет, были ли установлены реквизиты получателя оплаты. |
@@ -60,7 +58,6 @@ Interface CreatePaymentRequestInterface.
 | public | [setMetadata()](../classes/YooKassa-Request-Payments-CreatePaymentRequestInterface.md#method_setMetadata) |  | Устанавливает метаданные, привязанные к платежу. |
 | public | [setPaymentMethodData()](../classes/YooKassa-Request-Payments-CreatePaymentRequestInterface.md#method_setPaymentMethodData) |  | Устанавливает объект с информацией для создания метода оплаты. |
 | public | [setPaymentMethodId()](../classes/YooKassa-Request-Payments-CreatePaymentRequestInterface.md#method_setPaymentMethodId) |  | Устанавливает идентификатор записи о сохранённых данных покупателя. |
-| public | [setPaymentOrder()](../classes/YooKassa-Request-Payments-CreatePaymentRequestInterface.md#method_setPaymentOrder) |  | Устанавливает платежное поручение. |
 | public | [setPaymentToken()](../classes/YooKassa-Request-Payments-CreatePaymentRequestInterface.md#method_setPaymentToken) |  | Устанавливает одноразовый токен для проведения оплаты, сформированный YooKassa JS widget. |
 | public | [setReceiver()](../classes/YooKassa-Request-Payments-CreatePaymentRequestInterface.md#method_setReceiver) |  | Устанавливает реквизиты получателя оплаты. |
 | public | [setRecipient()](../classes/YooKassa-Request-Payments-CreatePaymentRequestInterface.md#method_setRecipient) |  | Устанавливает объект с информацией о получателе платежа. |
@@ -949,62 +946,6 @@ public setMerchantCustomerId(string|null $merchant_customer_id) : self
 **Returns:** self - 
 
 
-<a name="method_getPaymentOrder" class="anchor"></a>
-#### public getPaymentOrder() : \YooKassa\Request\Payments\PaymentOrderData\AbstractPaymentOrder|null
-
-```php
-public getPaymentOrder() : \YooKassa\Request\Payments\PaymentOrderData\AbstractPaymentOrder|null
-```
-
-**Summary**
-
-Возвращает платежное поручение.
-
-**Details:**
-* Inherited From: [\YooKassa\Request\Payments\CreatePaymentRequestInterface](../classes/YooKassa-Request-Payments-CreatePaymentRequestInterface.md)
-
-**Returns:** \YooKassa\Request\Payments\PaymentOrderData\AbstractPaymentOrder|null - Платежное поручение — распоряжение на перевод банку для оплаты жилищно-коммунальных услуг (ЖКУ), сведения о платеже для регистрации в ГИС ЖКХ.
-
-
-<a name="method_hasPaymentOrder" class="anchor"></a>
-#### public hasPaymentOrder() : bool
-
-```php
-public hasPaymentOrder() : bool
-```
-
-**Summary**
-
-Проверяет, было ли установлено платежное поручение.
-
-**Details:**
-* Inherited From: [\YooKassa\Request\Payments\CreatePaymentRequestInterface](../classes/YooKassa-Request-Payments-CreatePaymentRequestInterface.md)
-
-**Returns:** bool - True если платежное поручение было установлены, false если нет
-
-
-<a name="method_setPaymentOrder" class="anchor"></a>
-#### public setPaymentOrder() : self
-
-```php
-public setPaymentOrder(\YooKassa\Request\Payments\PaymentOrderData\AbstractPaymentOrder|array|null $payment_order = null) : self
-```
-
-**Summary**
-
-Устанавливает платежное поручение.
-
-**Details:**
-* Inherited From: [\YooKassa\Request\Payments\CreatePaymentRequestInterface](../classes/YooKassa-Request-Payments-CreatePaymentRequestInterface.md)
-
-##### Parameters:
-| Type | Name | Description |
-| ---- | ---- | ----------- |
-| <code lang="php">\YooKassa\Request\Payments\PaymentOrderData\AbstractPaymentOrder OR array OR null</code> | payment_order  | Платежное поручение — распоряжение на перевод банку для оплаты жилищно-коммунальных услуг (ЖКУ), сведения о платеже для регистрации в ГИС ЖКХ. |
-
-**Returns:** self - 
-
-
 <a name="method_getReceiver" class="anchor"></a>
 #### public getReceiver() : null|\YooKassa\Request\Payments\ReceiverData\AbstractReceiver
 
@@ -1074,10 +1015,10 @@ public setReceiver(null|array|\YooKassa\Request\Payments\ReceiverData\AbstractRe
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 40](../reports/deprecated.md)
+* [Deprecated - 33](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

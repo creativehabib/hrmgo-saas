@@ -5,7 +5,7 @@ How to retrieve your Mollie invoices using the API.
 ## The Code
 
 ```php
-use Mollie\Api\Http\Requests\GetPaginatedInvoiceRequest;
+use Mollie\Api\Http\Requests\ListInvoicesRequest;
 
 try {
     // Initialize with OAuth (required for invoices)
@@ -14,7 +14,7 @@ try {
 
     // Get all invoices
     $response = $mollie->send(
-        new GetPaginatedInvoiceRequest()
+        new ListInvoicesRequest()
     );
 
     foreach ($response as $invoice) {

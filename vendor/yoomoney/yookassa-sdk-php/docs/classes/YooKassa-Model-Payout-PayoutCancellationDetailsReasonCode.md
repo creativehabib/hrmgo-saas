@@ -20,7 +20,6 @@
 - `recipient_not_found` - Для выплат через СБП: получатель не найден
 - `recipient_check_failed` - Только для выплат с проверкой получателя. Получатель выплаты не прошел проверку
 - `identification_required` - Кошелек ЮMoney не идентифицирован. Пополнение анонимного кошелька запрещено
-- `self_employed_annual_limit_exceeded` - Превышен лимит на годовой доход самозанятого.
 
 ---
 ### Constants
@@ -36,7 +35,6 @@
 | public | [RECIPIENT_NOT_FOUND](../classes/YooKassa-Model-Payout-PayoutCancellationDetailsReasonCode.md#constant_RECIPIENT_NOT_FOUND) |  | Для [выплат через СБП](https://yookassa.ru/developers/payouts/making-payouts/sbp): получатель не найден — в выбранном банке или платежном сервисе не найден счет, к которому привязан указанный номер телефона. Следует повторить запрос с новыми данными и новым ключом идемпотентности или выбрать другой способ получения выплаты. |
 | public | [RECIPIENT_CHECK_FAILED](../classes/YooKassa-Model-Payout-PayoutCancellationDetailsReasonCode.md#constant_RECIPIENT_CHECK_FAILED) |  | Только для выплат с [проверкой получателя](https://yookassa.ru/developers/payouts/scenario-extensions/recipient-check). Получатель выплаты не прошел проверку: имя получателя не совпало с именем владельца счета, на который необходимо перевести деньги. [Что делать в этом случае](https://yookassa.ru/developers/payouts/scenario-extensions/recipient-check#process-results-canceled-recipient-check-failed) |
 | public | [IDENTIFICATION_REQUIRED](../classes/YooKassa-Model-Payout-PayoutCancellationDetailsReasonCode.md#constant_IDENTIFICATION_REQUIRED) |  | Кошелек ЮMoney не идентифицирован. Пополнение анонимного кошелька запрещено. Пользователю необходимо [идентифицировать кошелек](https://yoomoney.ru/page?id=536136) |
-| public | [SELF_EMPLOYED_ANNUAL_LIMIT_EXCEEDED](../classes/YooKassa-Model-Payout-PayoutCancellationDetailsReasonCode.md#constant_SELF_EMPLOYED_ANNUAL_LIMIT_EXCEEDED) |  | Только для [выплат самозанятым](https://yookassa.ru/developers/payouts/scenario-extensions/self-employed). Превышен лимит на годовой доход самозанятого. Порекомендуйте получателю выплаты проверить свой доход. |
 
 ---
 ### Properties
@@ -162,15 +160,6 @@ IDENTIFICATION_REQUIRED = 'identification_required'
 ```
 
 
-<a name="constant_SELF_EMPLOYED_ANNUAL_LIMIT_EXCEEDED" class="anchor"></a>
-###### SELF_EMPLOYED_ANNUAL_LIMIT_EXCEEDED
-Только для [выплат самозанятым](https://yookassa.ru/developers/payouts/scenario-extensions/self-employed). Превышен лимит на годовой доход самозанятого. Порекомендуйте получателю выплаты проверить свой доход.
-
-```php
-SELF_EMPLOYED_ANNUAL_LIMIT_EXCEEDED = 'self_employed_annual_limit_exceeded'
-```
-
-
 
 ---
 ## Properties
@@ -262,10 +251,10 @@ Static public valueExists(mixed $value) : bool
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 40](../reports/deprecated.md)
+* [Deprecated - 33](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

@@ -13,7 +13,9 @@
 
 ---
 ### Constants
-* No constants found
+| Visibility | Name | Flag | Summary |
+| ----------:| ---- | ---- | ------- |
+| public | [MAX_LENGTH_BANK_ID](../classes/YooKassa-Request-Payouts-PayoutDestinationData-PayoutDestinationDataSbp.md#constant_MAX_LENGTH_BANK_ID) |  |  |
 
 ---
 ### Properties
@@ -71,6 +73,16 @@
 | --- | ------- | ----------- |
 | category |  | Class |
 | author |  | cms@yoomoney.ru |
+
+---
+## Constants
+<a name="constant_MAX_LENGTH_BANK_ID" class="anchor"></a>
+###### MAX_LENGTH_BANK_ID
+```php
+MAX_LENGTH_BANK_ID = 12 : int
+```
+
+
 
 ---
 ## Properties
@@ -587,10 +599,10 @@ protected validatePropertyValue(string $propertyName, mixed $propertyValue) : mi
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 40](../reports/deprecated.md)
+* [Deprecated - 33](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

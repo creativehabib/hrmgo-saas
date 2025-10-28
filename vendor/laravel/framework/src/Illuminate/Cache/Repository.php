@@ -596,7 +596,7 @@ class Repository implements ArrayAccess, CacheContract
     /**
      * Begin executing a new tags operation if the store supports it.
      *
-     * @param  mixed  $names
+     * @param  array|mixed  $names
      * @return \Illuminate\Cache\TaggedCache
      *
      * @throws \BadMethodCallException

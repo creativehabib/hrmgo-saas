@@ -79,23 +79,12 @@ class Method extends BaseResource
     public function issuers(): IssuerCollection
     {
         /** @var IssuerCollection */
-        $collection = ResourceFactory::createCollection(
+        return ResourceFactory::createResourceCollection(
             $this->connector,
-            IssuerCollection::class
+            IssuerCollection::class,
+            $this->response,
+            $this->issuers
         );
-
-        if ($this->issuers === null) {
-            return $collection;
-        }
-
-        /** @var IssuerCollection */
-        $collection = (new ResourceHydrator)->hydrateCollection(
-            $collection,
-            (array) $this->issuers,
-            $this->response
-        );
-
-        return $collection;
     }
 
     /**
@@ -104,22 +93,11 @@ class Method extends BaseResource
     public function pricing(): MethodPriceCollection
     {
         /** @var MethodPriceCollection */
-        $collection = ResourceFactory::createCollection(
+        return ResourceFactory::createResourceCollection(
             $this->connector,
-            MethodPriceCollection::class
+            MethodPriceCollection::class,
+            $this->response,
+            $this->pricing
         );
-
-        if ($this->pricing === null) {
-            return $collection;
-        }
-
-        /** @var MethodPriceCollection */
-        $collection = (new ResourceHydrator)->hydrateCollection(
-            $collection,
-            (array) $this->pricing,
-            $this->response
-        );
-
-        return $collection;
     }
 }

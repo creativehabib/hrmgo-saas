@@ -26,7 +26,7 @@ class GetPaginatedChargebacksRequest extends PaginatedRequest implements IsItera
         parent::__construct($from, $limit);
 
         $this->query()
-            ->add('embed', $includePayment ? PaymentIncludesQuery::PAYMENT : null)
+            ->add('include', $includePayment ? PaymentIncludesQuery::PAYMENT : null)
             ->add('profileId', $profileId);
     }
 

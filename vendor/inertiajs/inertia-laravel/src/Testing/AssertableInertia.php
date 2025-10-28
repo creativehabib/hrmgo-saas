@@ -3,8 +3,6 @@
 namespace Inertia\Testing;
 
 use Closure;
-use Illuminate\Http\Response;
-use Illuminate\Support\Arr;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Illuminate\Testing\TestResponse;
 use InvalidArgumentException;
@@ -13,53 +11,21 @@ use PHPUnit\Framework\AssertionFailedError;
 
 class AssertableInertia extends AssertableJson
 {
-    /**
-     * The Inertia component name for this page.
-     *
-     * @var string
-     */
+    /** @var string */
     private $component;
 
-    /**
-     * The current page URL.
-     *
-     * @var string
-     */
+    /** @var string */
     private $url;
 
-    /**
-     * The current asset version.
-     *
-     * @var string|null
-     */
+    /** @var string|null */
     private $version;
 
-    /**
-     * Whether history state should be encrypted.
-     *
-     * @var bool
-     */
+    /** @var bool */
     private $encryptHistory;
 
-    /**
-     * Whether history should be cleared.
-     *
-     * @var bool
-     */
+    /** @var bool */
     private $clearHistory;
 
-    /**
-     * The deferred props (if any).
-     *
-     * @var array<string, array<int, string>>
-     */
-    private $deferredProps;
-
-    /**
-     * Create an AssertableInertia instance from a test response.
-     *
-     * @param  TestResponse<Response>  $response
-     */
     public static function fromTestResponse(TestResponse $response): self
     {
         try {
@@ -83,16 +49,10 @@ class AssertableInertia extends AssertableJson
         $instance->version = $page['version'];
         $instance->encryptHistory = $page['encryptHistory'];
         $instance->clearHistory = $page['clearHistory'];
-        $instance->deferredProps = $page['deferredProps'] ?? [];
 
         return $instance;
     }
 
-    /**
-     * Assert that the page uses the given component.
-     *
-     * @param  bool|null  $shouldExist
-     */
     public function component(?string $value = null, $shouldExist = null): self
     {
         PHPUnit::assertSame($value, $this->component, 'Unexpected Inertia page component.');
@@ -108,9 +68,6 @@ class AssertableInertia extends AssertableJson
         return $this;
     }
 
-    /**
-     * Assert that the current page URL matches the expected value.
-     */
     public function url(string $value): self
     {
         PHPUnit::assertSame($value, $this->url, 'Unexpected Inertia page url.');
@@ -118,9 +75,6 @@ class AssertableInertia extends AssertableJson
         return $this;
     }
 
-    /**
-     * Assert that the current asset version matches the expected value.
-     */
     public function version(string $value): self
     {
         PHPUnit::assertSame($value, $this->version, 'Unexpected Inertia asset version.');
@@ -129,28 +83,7 @@ class AssertableInertia extends AssertableJson
     }
 
     /**
-     * Load the deferred props for the given groups and perform assertions on the response.
-     *
-     * @param  Closure|array<int, string>|string  $groupsOrCallback
-     */
-    public function loadDeferredProps(Closure|array|string $groupsOrCallback, ?Closure $callback = null): self
-    {
-        $callback = is_callable($groupsOrCallback) ? $groupsOrCallback : $callback;
-
-        $groups = is_callable($groupsOrCallback) ? array_keys($this->deferredProps) : Arr::wrap($groupsOrCallback);
-
-        $props = collect($groups)->flatMap(function ($group) {
-            return $this->deferredProps[$group] ?? [];
-        })->implode(',');
-
-        return $this->reloadOnly($props, $callback);
-    }
-
-    /**
      * Reload the Inertia page and perform assertions on the response.
-     *
-     * @param  array<int, string>|string|null  $only
-     * @param  array<int, string>|string|null  $except
      */
     public function reload(?Closure $callback = null, array|string|null $only = null, array|string|null $except = null): self
     {
@@ -186,8 +119,6 @@ class AssertableInertia extends AssertableJson
 
     /**
      * Reload the Inertia page as a partial request with only the specified props.
-     *
-     * @param  array<int, string>|string  $only
      */
     public function reloadOnly(array|string $only, ?Closure $callback = null): self
     {
@@ -202,8 +133,6 @@ class AssertableInertia extends AssertableJson
 
     /**
      * Reload the Inertia page as a partial request excluding the specified props.
-     *
-     * @param  array<int, string>|string  $except
      */
     public function reloadExcept(array|string $except, ?Closure $callback = null): self
     {
@@ -216,11 +145,6 @@ class AssertableInertia extends AssertableJson
         });
     }
 
-    /**
-     * Convert the instance to an array.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray()
     {
         return [

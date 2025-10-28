@@ -174,7 +174,7 @@ class PayoutDestinationFactoryTest extends TestCase
                 [
                     'type' => PaymentMethodType::SBP,
                     'phone' => Random::str(4, 15, '1234567890'),
-                    'bank_id' => Random::str(12, 12, '0123456789'),
+                    'bank_id' => Random::str(4, 12),
                 ],
             ],
         ];

@@ -4,11 +4,9 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Badge } from './ui/badge';
 import { toast } from 'sonner';
-import { Upload, X, Image as ImageIcon, Search, Plus, Check, Info } from 'lucide-react';
+import { Upload, X, Image as ImageIcon, Search, Plus, Check } from 'lucide-react';
 import { usePage } from '@inertiajs/react';
 import { hasPermission } from '@/utils/authorization';
-import { getCsrfToken } from '@/utils/csrf';
-import { useTranslation } from 'react-i18next';
 
 interface MediaItem {
   id: number;
@@ -34,12 +32,10 @@ export default function MediaLibraryModal({
   onSelect,
   multiple = false
 }: MediaLibraryModalProps) {
-  const { t } = useTranslation();
-  const { auth, csrf_token } = usePage().props as any;
+  const { auth } = usePage().props as any;
   const permissions = auth?.permissions || [];
   const canCreateMedia = hasPermission(permissions, 'create-media');
   const canManageMedia = hasPermission(permissions, 'manage-media');
-  const canManageDirectories = hasPermission(permissions, 'manage-media-directories');
 
   const [media, setMedia] = useState<MediaItem[]>([]);
   const [directories, setDirectories] = useState<any[]>([]);
@@ -52,36 +48,8 @@ export default function MediaLibraryModal({
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 24;
-  const [loadError, setLoadError] = useState<string | null>(null);
-
-  const buildHeaders = useCallback(
-    (additional: Record<string, string> = {}) => {
-      const headers: Record<string, string> = {
-        'X-Requested-With': 'XMLHttpRequest',
-        ...additional,
-      };
-
-      const token = getCsrfToken() ?? csrf_token ?? null;
-      if (token) {
-        headers['X-CSRF-TOKEN'] = token;
-      }
-
-      return headers;
-    },
-    [csrf_token]
-  );
 
   const fetchMedia = useCallback(async () => {
-    if (!canManageMedia) {
-      const message = t('You do not have permission to view media.');
-      setLoadError(message);
-      setMedia([]);
-      setDirectories([]);
-      setFilteredMedia([]);
-      setLoading(false);
-      return;
-    }
-
     setLoading(true);
     try {
       const params = new URLSearchParams();
@@ -91,34 +59,14 @@ export default function MediaLibraryModal({
 
       const response = await fetch(`${route('api.media.index')}?${params}`, {
         credentials: 'same-origin',
-        headers: buildHeaders({ Accept: 'application/json' }),
+        headers: {
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+        },
       });
 
-      if (response.status === 419) {
-        const message = t('Your session has expired. Please refresh the page and try again.');
-        setLoadError(message);
-        toast.error(message);
-        return;
-      }
-
       if (!response.ok) {
-        let errorMessage = t('Failed to load media');
-        let errorData: any = null;
-        try {
-          errorData = await response.json();
-        } catch (error) {
-          errorData = null;
-        }
-
-        if (response.status === 403) {
-          errorMessage = errorData?.message || errorData?.error || t('You do not have permission to view media.');
-        } else if (errorData) {
-          errorMessage = errorData.message || errorData.error || errorMessage;
-        }
-
-        setLoadError(errorMessage);
-        toast.error(errorMessage);
-        return;
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
@@ -126,15 +74,12 @@ export default function MediaLibraryModal({
       setMedia(mediaArray);
       setDirectories(data.directories || []);
       setFilteredMedia(mediaArray);
-      setLoadError(null);
     } catch (error) {
-      const message = t('Network error: Failed to load media.');
-      setLoadError(message);
-      toast.error(message);
+      toast.error('Failed to load media');
     } finally {
       setLoading(false);
     }
-  }, [buildHeaders, canManageMedia, currentDirectory, t]);
+  }, [currentDirectory]);
 
   useEffect(() => {
     if (isOpen) {
@@ -182,20 +127,13 @@ export default function MediaLibraryModal({
         method: 'POST',
         body: formData,
         credentials: 'same-origin',
-        headers: buildHeaders(),
+        headers: {
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+          'X-Requested-With': 'XMLHttpRequest',
+        },
       });
 
-      let result: any = null;
-      try {
-        result = await response.json();
-      } catch (error) {
-        result = null;
-      }
-
-      if (response.status === 419) {
-        toast.error(result?.message || 'Your session has expired. Please refresh the page and try again.');
-        return;
-      }
+      const result = await response.json();
 
       if (response.ok) {
         if (result.data && result.data.length > 0) {
@@ -298,42 +236,39 @@ export default function MediaLibraryModal({
 
         <div className="space-y-4 flex-1 flex flex-col overflow-hidden">
           {/* Directory Navigation */}
-          {canManageDirectories && !loadError && (
-            <div className="flex items-center gap-2 flex-wrap pb-3 border-b">
+          <div className="flex items-center gap-2 flex-wrap pb-3 border-b">
+            <Button
+              variant={currentDirectory === null ? "default" : "outline"}
+              size="sm"
+              onClick={() => setCurrentDirectory(null)}
+            >
+              All Files
+            </Button>
+            {directories.map((dir: any) => (
               <Button
-                variant={currentDirectory === null ? "default" : "outline"}
+                key={dir.id}
+                variant={currentDirectory === dir.id ? "default" : "outline"}
                 size="sm"
-                onClick={() => setCurrentDirectory(null)}
+                onClick={() => setCurrentDirectory(dir.id)}
               >
-                All Files
+                {dir.name}
               </Button>
-              {directories.map((dir: any) => (
-                <Button
-                  key={dir.id}
-                  variant={currentDirectory === dir.id ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setCurrentDirectory(dir.id)}
-                >
-                  {dir.name}
-                </Button>
-              ))}
-            </div>
-          )}
+            ))}
+          </div>
 
           {/* Header with Search and Upload */}
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
               <Input
-                placeholder={t('Search media files...')}
+                placeholder="Search media files..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10"
-                disabled={!!loadError}
               />
             </div>
 
-            {canCreateMedia && !loadError && (
+            {canCreateMedia && (
               <div className="flex gap-2">
                 <Input
                   type="file"
@@ -351,7 +286,7 @@ export default function MediaLibraryModal({
                   size="sm"
                 >
                   <Plus className="h-4 w-4 mr-2" />
-                  {uploading ? t('Uploading...') : t('Upload')}
+                  {uploading ? 'Uploading...' : 'Upload'}
                 </Button>
               </div>
             )}
@@ -360,7 +295,7 @@ export default function MediaLibraryModal({
           {/* Stats and Selection Info */}
           <div className="flex items-center justify-between text-sm text-muted-foreground bg-muted/30 px-3 py-2 rounded-md">
             <span>
-              {filteredMedia.length} {t('files')} • {t('Page')} {currentPage} {t('of')} {totalPages || 1}
+              {filteredMedia.length} files • Page {currentPage} of {totalPages || 1}
             </span>
             {multiple && selectedItems.length > 0 && (
               <Badge variant="default" className="text-xs">
@@ -375,17 +310,7 @@ export default function MediaLibraryModal({
               <div className="flex-1 flex items-center justify-center">
                 <div className="text-center">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-                  <p className="text-muted-foreground">{t('Loading media...')}</p>
-                </div>
-              </div>
-            ) : loadError ? (
-              <div className="flex-1 flex items-center justify-center py-16">
-                <div className="text-center max-w-sm">
-                  <div className="mx-auto w-24 h-24 bg-destructive/10 text-destructive rounded-full flex items-center justify-center mb-6">
-                    <Info className="h-10 w-10" />
-                  </div>
-                  <h3 className="text-lg font-semibold mb-2">{t('Unable to display media')}</h3>
-                  <p className="text-sm text-muted-foreground">{loadError}</p>
+                  <p className="text-muted-foreground">Loading media...</p>
                 </div>
               </div>
             ) : filteredMedia.length === 0 ? (
@@ -403,25 +328,25 @@ export default function MediaLibraryModal({
                   </div>
 
                   <div className="space-y-3 mb-6">
-                    <h3 className="text-lg font-semibold">{t('No media files found')}</h3>
+                    <h3 className="text-lg font-semibold">No media files found</h3>
                     {searchTerm && (
                       <p className="text-sm text-muted-foreground">
-                        {t('No results for "{{term}}"', { term: searchTerm })}
+                        No results for <span className="font-medium text-foreground">"${searchTerm}"</span>
                       </p>
                     )}
                     <p className="text-sm text-muted-foreground">
-                      {searchTerm ? t('Try a different search term or upload new images') : t('Upload images to get started')}
+                      {searchTerm ? 'Try a different search term or upload new images' : 'Upload images to get started'}
                     </p>
                   </div>
 
-                  {canCreateMedia && !loadError && (
+                  {canCreateMedia && (
                     <Button
                       type="button"
                       onClick={() => document.getElementById('file-upload')?.click()}
                       disabled={uploading}
                     >
                       <Plus className="h-4 w-4 mr-2" />
-                      {t('Upload Images')}
+                      Upload Images
                     </Button>
                   )}
                 </div>

@@ -3,12 +3,9 @@
 namespace Illuminate\Support;
 
 use Closure;
-use Illuminate\Support\Traits\Macroable;
 
 class Benchmark
 {
-    use Macroable;
-
     /**
      * Measure a callable or array of callables over the given number of iterations.
      *
@@ -61,7 +58,7 @@ class Benchmark
      * @param  int  $iterations
      * @return never
      */
-    public static function dd(Closure|array $benchmarkables, int $iterations = 1): never
+    public static function dd(Closure|array $benchmarkables, int $iterations = 1): void
     {
         $result = (new Collection(static::measure(Arr::wrap($benchmarkables), $iterations)))
             ->map(fn ($average) => number_format($average, 3).'ms')

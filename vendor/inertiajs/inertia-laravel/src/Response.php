@@ -10,7 +10,6 @@ use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Response as ResponseFactory;
 use Illuminate\Support\Str;
@@ -21,71 +20,26 @@ class Response implements Responsable
 {
     use Macroable;
 
-    /**
-     * The name of the root component.
-     *
-     * @var string
-     */
     protected $component;
 
-    /**
-     * The page props.
-     *
-     * @var array<string, mixed>
-     */
     protected $props;
 
-    /**
-     * The name of the root view.
-     *
-     * @var string
-     */
     protected $rootView;
 
-    /**
-     * The asset version.
-     *
-     * @var string
-     */
     protected $version;
 
-    /**
-     * Indicates if the browser history should be cleared.
-     *
-     * @var bool
-     */
     protected $clearHistory;
 
-    /**
-     * Indicates if the browser history should be encrypted.
-     *
-     * @var bool
-     */
     protected $encryptHistory;
 
-    /**
-     * The view data.
-     *
-     * @var array<string, mixed>
-     */
     protected $viewData = [];
 
-    /**
-     * The cache duration settings.
-     *
-     * @var array<int, mixed>
-     */
     protected $cacheFor = [];
 
-    /**
-     * The URL resolver callback.
-     */
     protected ?Closure $urlResolver = null;
 
     /**
-     * Create a new Inertia response instance.
-     *
-     * @param  array<array-key, mixed|\Inertia\ProvidesInertiaProperties>  $props
+     * @param  array|Arrayable  $props
      */
     public function __construct(
         string $component,
@@ -96,7 +50,7 @@ class Response implements Responsable
         ?Closure $urlResolver = null
     ) {
         $this->component = $component;
-        $this->props = $props;
+        $this->props = $props instanceof Arrayable ? $props->toArray() : $props;
         $this->rootView = $rootView;
         $this->version = $version;
         $this->clearHistory = session()->pull('inertia.clear_history', false);
@@ -105,17 +59,13 @@ class Response implements Responsable
     }
 
     /**
-     * Add additional properties to the page.
-     *
-     * @param  string|array<string, mixed>|ProvidesInertiaProperties  $key
+     * @param  string|array  $key
      * @param  mixed  $value
      * @return $this
      */
     public function with($key, $value = null): self
     {
-        if ($key instanceof ProvidesInertiaProperties) {
-            $this->props[] = $key;
-        } elseif (is_array($key)) {
+        if (is_array($key)) {
             $this->props = array_merge($this->props, $key);
         } else {
             $this->props[$key] = $value;
@@ -125,9 +75,7 @@ class Response implements Responsable
     }
 
     /**
-     * Add additional data to the view.
-     *
-     * @param  string|array<string, mixed>  $key
+     * @param  string|array  $key
      * @param  mixed  $value
      * @return $this
      */
@@ -142,11 +90,6 @@ class Response implements Responsable
         return $this;
     }
 
-    /**
-     * Set the root view.
-     *
-     * @return $this
-     */
     public function rootView(string $rootView): self
     {
         $this->rootView = $rootView;
@@ -154,12 +97,6 @@ class Response implements Responsable
         return $this;
     }
 
-    /**
-     * Set the cache duration for the response.
-     *
-     * @param  string|array<int, mixed>  $cacheFor
-     * @return $this
-     */
     public function cache(string|array $cacheFor): self
     {
         $this->cacheFor = is_array($cacheFor) ? $cacheFor : [$cacheFor];
@@ -189,7 +126,6 @@ class Response implements Responsable
             $this->resolveMergeProps($request),
             $this->resolveDeferredProps($request),
             $this->resolveCacheDirections($request),
-            $this->resolveScrollProps($request),
         );
 
         if ($request->header(Header::INERTIA)) {
@@ -200,14 +136,10 @@ class Response implements Responsable
     }
 
     /**
-     * Resolve the properties for the response.
-     *
-     * @param  array<array-key, mixed>  $props
-     * @return array<string, mixed>
+     * Resolve the properites for the response.
      */
     public function resolveProperties(Request $request, array $props): array
     {
-        $props = $this->resolveInertiaPropsProviders($props, $request);
         $props = $this->resolvePartialProperties($props, $request);
         $props = $this->resolveArrayableProperties($props, $request);
         $props = $this->resolveAlways($props);
@@ -217,43 +149,12 @@ class Response implements Responsable
     }
 
     /**
-     * Resolve the ProvidesInertiaProperties props.
-     *
-     * @param  array<array-key, mixed>  $props
-     * @return array<string, mixed>
-     */
-    public function resolveInertiaPropsProviders(array $props, Request $request): array
-    {
-        $newProps = [];
-
-        $renderContext = new RenderContext($this->component, $request);
-
-        foreach ($props as $key => $value) {
-            if (is_numeric($key) && $value instanceof ProvidesInertiaProperties) {
-                // Pipe into a Collection to leverage Collection::getArrayableItems()
-                /** @var array<string, mixed> $inertiaProps */
-                $inertiaProps = collect($value->toInertiaProperties($renderContext))->all();
-                $newProps = array_merge($newProps, $inertiaProps);
-            } else {
-                $newProps[$key] = $value;
-            }
-        }
-
-        return $newProps;
-    }
-
-    /**
-     * Resolve properties for partial requests. Filters properties based on
-     * 'only' and 'except' headers from the client, allowing for selective
-     * data loading to improve performance.
-     *
-     * @param  array<string, mixed>  $props
-     * @return array<string, mixed>
+     * Resolve the `only` and `except` partial request props.
      */
     public function resolvePartialProperties(array $props, Request $request): array
     {
         if (! $this->isPartial($request)) {
-            return array_filter($props, static function ($prop) {
+            return array_filter($this->props, static function ($prop) {
                 return ! ($prop instanceof IgnoreFirstLoad);
             });
         }
@@ -279,12 +180,7 @@ class Response implements Responsable
     }
 
     /**
-     * Resolve arrayable properties and closures. Converts Arrayable objects
-     * to arrays, evaluates closures, and handles dot notation properties
-     * for nested data structures.
-     *
-     * @param  array<string, mixed>  $props
-     * @return array<string, mixed>
+     * Resolve all arrayables properties into an array.
      */
     public function resolveArrayableProperties(array $props, Request $request, bool $unpackDotProps = true): array
     {
@@ -314,9 +210,6 @@ class Response implements Responsable
 
     /**
      * Resolve the `only` partial request props.
-     *
-     * @param  array<string, mixed>  $props
-     * @return array<string, mixed>
      */
     public function resolveOnly(Request $request, array $props): array
     {
@@ -333,9 +226,6 @@ class Response implements Responsable
 
     /**
      * Resolve the `except` partial request props.
-     *
-     * @param  array<string, mixed>  $props
-     * @return array<string, mixed>
      */
     public function resolveExcept(Request $request, array $props): array
     {
@@ -347,10 +237,7 @@ class Response implements Responsable
     }
 
     /**
-     * Resolve `always` properties that should always be included.
-     *
-     * @param  array<string, mixed>  $props
-     * @return array<string, mixed>
+     * Resolve `always` properties that should always be included on all visits, regardless of "only" or "except" requests.
      */
     public function resolveAlways(array $props): array
     {
@@ -366,17 +253,10 @@ class Response implements Responsable
 
     /**
      * Resolve all necessary class instances in the given props.
-     *
-     * @param  array<string, mixed>  $props
-     * @return array<string, mixed>
      */
-    public function resolvePropertyInstances(array $props, Request $request, ?string $parentKey = null): array
+    public function resolvePropertyInstances(array $props, Request $request): array
     {
         foreach ($props as $key => $value) {
-            if ($value instanceof ScrollProp) {
-                $value->configureMergeIntent($request);
-            }
-
             $resolveViaApp = collect([
                 Closure::class,
                 LazyProp::class,
@@ -384,17 +264,10 @@ class Response implements Responsable
                 DeferProp::class,
                 AlwaysProp::class,
                 MergeProp::class,
-                ScrollProp::class,
             ])->first(fn ($class) => $value instanceof $class);
 
             if ($resolveViaApp) {
                 $value = App::call($value);
-            }
-
-            $currentKey = $parentKey ? $parentKey.'.'.$key : $key;
-
-            if ($value instanceof ProvidesInertiaProperty) {
-                $value = $value->toInertiaProperty(new PropertyContext($currentKey, $props, $request));
             }
 
             if ($value instanceof Arrayable) {
@@ -414,7 +287,7 @@ class Response implements Responsable
             }
 
             if (is_array($value)) {
-                $value = $this->resolvePropertyInstances($value, $request, $currentKey);
+                $value = $this->resolvePropertyInstances($value, $request);
             }
 
             $props[$key] = $value;
@@ -425,8 +298,6 @@ class Response implements Responsable
 
     /**
      * Resolve the cache directions for the response.
-     *
-     * @return array<string, mixed>
      */
     public function resolveCacheDirections(Request $request): array
     {
@@ -445,130 +316,43 @@ class Response implements Responsable
         ];
     }
 
-    /**
-     * Get the props that should be reset based on the request headers.
-     *
-     * @return array<int, string>
-     */
-    public function getResetProps(Request $request): array
+    public function resolveMergeProps(Request $request): array
     {
-        return array_filter(explode(',', $request->header(Header::RESET, '')));
-    }
-
-    /**
-     * Get the props that should be considered for merging based on the request headers.
-     *
-     * @return \Illuminate\Support\Collection<string, \Inertia\Mergeable>
-     */
-    protected function getMergePropsForRequest(Request $request, bool $rejectResetProps = true): Collection
-    {
-        $resetProps = $rejectResetProps ? $this->getResetProps($request) : [];
+        $resetProps = array_filter(explode(',', $request->header(Header::RESET, '')));
         $onlyProps = array_filter(explode(',', $request->header(Header::PARTIAL_ONLY, '')));
         $exceptProps = array_filter(explode(',', $request->header(Header::PARTIAL_EXCEPT, '')));
 
-        return collect($this->props)
+        $mergeProps = collect($this->props)
             ->filter(fn ($prop) => $prop instanceof Mergeable)
-            ->filter(fn (Mergeable $prop) => $prop->shouldMerge())
-            ->reject(fn ($_, string $key) => in_array($key, $resetProps))
-            ->filter(fn ($_, string $key) => count($onlyProps) === 0 || in_array($key, $onlyProps))
-            ->reject(fn ($_, string $key) => in_array($key, $exceptProps));
-    }
+            ->filter(fn ($prop) => $prop->shouldMerge())
+            ->reject(fn ($_, $key) => in_array($key, $resetProps))
+            ->filter(fn ($_, $key) => count($onlyProps) === 0 || in_array($key, $onlyProps))
+            ->reject(fn ($_, $key) => in_array($key, $exceptProps));
 
-    /**
-     * Resolve merge props configuration for client-side prop merging.
-     *
-     * @return array<string, mixed>
-     */
-    public function resolveMergeProps(Request $request): array
-    {
-        $mergeProps = $this->getMergePropsForRequest($request);
+        $deepMergeProps = $mergeProps
+            ->filter(fn ($prop) => $prop->shouldDeepMerge())
+            ->keys();
 
-        return array_filter([
-            'mergeProps' => $this->resolveAppendMergeProps($mergeProps),
-            'prependProps' => $this->resolvePrependMergeProps($mergeProps),
-            'deepMergeProps' => $this->resolveDeepMergeProps($mergeProps),
-            'matchPropsOn' => $this->resolveMergeMatchingKeys($mergeProps),
-        ], fn ($prop) => count($prop) > 0);
-    }
-
-    /**
-     * Resolve props that should be appended during merging.
-     *
-     * @param  \Illuminate\Support\Collection<string, \Inertia\Mergeable>  $mergeProps
-     * @return array<int, string>
-     */
-    protected function resolveAppendMergeProps(Collection $mergeProps): array
-    {
-        [$rootAppendProps, $nestedAppendProps] = $mergeProps
-            ->reject(fn (Mergeable $prop) => $prop->shouldDeepMerge())
-            ->partition(fn (Mergeable $prop) => $prop->appendsAtRoot());
-
-        return $nestedAppendProps
-            ->flatMap(fn (Mergeable $prop, string $key) => collect($prop->appendsAtPaths())->map(fn ($path) => $key.'.'.$path))
-            ->merge($rootAppendProps->keys())
-            ->unique()
-            ->values()
-            ->toArray();
-    }
-
-    /**
-     * Resolve props that should be prepended during merging.
-     *
-     * @param  \Illuminate\Support\Collection<string, \Inertia\Mergeable>  $mergeProps
-     * @return array<int, string>
-     */
-    protected function resolvePrependMergeProps(Collection $mergeProps): array
-    {
-        [$rootPrependProps, $nestedPrependProps] = $mergeProps
-            ->reject(fn (Mergeable $prop) => $prop->shouldDeepMerge())
-            ->partition(fn (Mergeable $prop) => $prop->prependsAtRoot());
-
-        return $nestedPrependProps
-            ->flatMap(fn (Mergeable $prop, string $key) => collect($prop->prependsAtPaths())->map(fn ($path) => $key.'.'.$path))
-            ->merge($rootPrependProps->keys())
-            ->unique()
-            ->values()
-            ->toArray();
-    }
-
-    /**
-     * Resolve props that should be deep merged.
-     *
-     * @param  \Illuminate\Support\Collection<string, \Inertia\Mergeable>  $mergeProps
-     * @return array<int, string>
-     */
-    protected function resolveDeepMergeProps(Collection $mergeProps): array
-    {
-        return $mergeProps
-            ->filter(fn (Mergeable $prop) => $prop->shouldDeepMerge())
-            ->keys()
-            ->toArray();
-    }
-
-    /**
-     * Resolve the matching keys for merge props.
-     *
-     * @param  \Illuminate\Support\Collection<string, \Inertia\Mergeable>  $mergeProps
-     * @return array<int, string>
-     */
-    protected function resolveMergeMatchingKeys(Collection $mergeProps): array
-    {
-        return $mergeProps
-            ->map(function (Mergeable $prop, $key) {
+        $matchPropsOn = $mergeProps
+            ->map(function ($prop, $key) {
                 return collect($prop->matchesOn())
                     ->map(fn ($strategy) => $key.'.'.$strategy)
                     ->toArray();
             })
             ->flatten()
-            ->values()
-            ->toArray();
+            ->values();
+
+        $mergeProps = $mergeProps
+            ->filter(fn ($prop) => ! $prop->shouldDeepMerge())
+            ->keys();
+
+        return array_filter([
+            'mergeProps' => $mergeProps->toArray(),
+            'deepMergeProps' => $deepMergeProps->toArray(),
+            'matchPropsOn' => $matchPropsOn->toArray(),
+        ], fn ($prop) => count($prop) > 0);
     }
 
-    /**
-     * Resolve deferred props configuration for client-side lazy loading.
-     *
-     * @return array<string, mixed>
-     */
     public function resolveDeferredProps(Request $request): array
     {
         if ($this->isPartial($request)) {
@@ -593,25 +377,6 @@ class Response implements Responsable
     }
 
     /**
-     * Resolve scroll props configuration for client-side infinite scrolling.
-     *
-     * @return array<string, mixed>
-     */
-    public function resolveScrollProps(Request $request): array
-    {
-        $resetProps = $this->getResetProps($request);
-
-        $scrollProps = $this->getMergePropsForRequest($request, false)
-            ->filter(fn (Mergeable $prop) => $prop instanceof ScrollProp)
-            ->mapWithKeys(fn (ScrollProp $prop, string $key) => [$key => [
-                ...$prop->metadata(),
-                'reset' => in_array($key, $resetProps),
-            ]]);
-
-        return $scrollProps->isNotEmpty() ? ['scrollProps' => $scrollProps->toArray()] : [];
-    }
-
-    /**
      * Determine if the request is a partial request.
      */
     public function isPartial(Request $request): bool
@@ -620,7 +385,7 @@ class Response implements Responsable
     }
 
     /**
-     * Get the URL from the request while preserving the trailing slash.
+     * Get the URL from the request (without the scheme and host) while preserving the trailing slash if it exists.
      */
     protected function getUrl(Request $request): string
     {
@@ -636,7 +401,7 @@ class Response implements Responsable
     }
 
     /**
-     * Ensure the URL has a trailing slash before the query string.
+     * Ensure the URL has a trailing slash before the query string (if it exists).
      */
     protected function finishUrlWithTrailingSlash(string $url): string
     {

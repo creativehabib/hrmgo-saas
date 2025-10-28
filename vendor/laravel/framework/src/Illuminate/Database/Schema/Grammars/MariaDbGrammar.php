@@ -51,17 +51,4 @@ class MariaDbGrammar extends MySqlGrammar
             $column->srid ? ' ref_system_id='.$column->srid : ''
         );
     }
-
-    /**
-     * Wrap the given JSON selector.
-     *
-     * @param  string  $value
-     * @return string
-     */
-    protected function wrapJsonSelector($value)
-    {
-        [$field, $path] = $this->wrapJsonFieldAndPath($value);
-
-        return 'json_value('.$field.$path.')';
-    }
 }

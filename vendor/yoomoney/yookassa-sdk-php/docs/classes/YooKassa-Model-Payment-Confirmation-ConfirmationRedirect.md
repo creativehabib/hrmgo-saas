@@ -25,8 +25,8 @@
 | public | [$enforce](../classes/YooKassa-Model-Payment-Confirmation-ConfirmationRedirect.md#property_enforce) |  | Требование принудительного подтверждения платежа покупателем, требование 3-D Secure для оплаты банковскими картами. По умолчанию определяется политикой платежной системы |
 | public | [$return_url](../classes/YooKassa-Model-Payment-Confirmation-ConfirmationRedirect.md#property_return_url) |  | URL на который вернется плательщик после подтверждения или отмены платежа на странице партнера |
 | public | [$returnUrl](../classes/YooKassa-Model-Payment-Confirmation-ConfirmationRedirect.md#property_returnUrl) |  | URL на который вернется плательщик после подтверждения или отмены платежа на странице партнера |
-| public | [$type](../classes/YooKassa-Model-Payment-Confirmation-AbstractConfirmation.md#property_type) |  | Код сценария подтверждения |
-| protected | [$_type](../classes/YooKassa-Model-Payment-Confirmation-AbstractConfirmation.md#property__type) |  | Код сценария подтверждения. |
+| public | [$type](../classes/YooKassa-Model-Payment-Confirmation-AbstractConfirmation.md#property_type) |  | Тип подтверждения платежа |
+| protected | [$_type](../classes/YooKassa-Model-Payment-Confirmation-AbstractConfirmation.md#property__type) |  | Тип подтверждения платежа. |
 
 ---
 ### Methods
@@ -44,7 +44,7 @@
 | public | [getConfirmationUrl()](../classes/YooKassa-Model-Payment-Confirmation-ConfirmationRedirect.md#method_getConfirmationUrl) |  | Возвращает URL на который необходимо перенаправить плательщика для подтверждения оплаты |
 | public | [getEnforce()](../classes/YooKassa-Model-Payment-Confirmation-ConfirmationRedirect.md#method_getEnforce) |  | Возвращает флаг принудительного подтверждения платежа покупателем |
 | public | [getReturnUrl()](../classes/YooKassa-Model-Payment-Confirmation-ConfirmationRedirect.md#method_getReturnUrl) |  | Возвращает URL на который вернется плательщик после подтверждения или отмены платежа на странице партнера |
-| public | [getType()](../classes/YooKassa-Model-Payment-Confirmation-AbstractConfirmation.md#method_getType) |  | Возвращает код сценария подтверждения. |
+| public | [getType()](../classes/YooKassa-Model-Payment-Confirmation-AbstractConfirmation.md#method_getType) |  | Возвращает тип подтверждения платежа. |
 | public | [getValidator()](../classes/YooKassa-Common-AbstractObject.md#method_getValidator) |  |  |
 | public | [jsonSerialize()](../classes/YooKassa-Common-AbstractObject.md#method_jsonSerialize) |  | Возвращает ассоциативный массив со свойствами текущего объекта для его дальнейшей JSON сериализации. |
 | public | [offsetExists()](../classes/YooKassa-Common-AbstractObject.md#method_offsetExists) |  | Проверяет наличие свойства. |
@@ -54,7 +54,7 @@
 | public | [setConfirmationUrl()](../classes/YooKassa-Model-Payment-Confirmation-ConfirmationRedirect.md#method_setConfirmationUrl) |  | Устанавливает URL на который необходимо перенаправить плательщика для подтверждения оплаты |
 | public | [setEnforce()](../classes/YooKassa-Model-Payment-Confirmation-ConfirmationRedirect.md#method_setEnforce) |  | Устанавливает флаг принудительного подтверждения платежа покупателем |
 | public | [setReturnUrl()](../classes/YooKassa-Model-Payment-Confirmation-ConfirmationRedirect.md#method_setReturnUrl) |  | Устанавливает URL на который вернется плательщик после подтверждения или отмены платежа на странице партнера |
-| public | [setType()](../classes/YooKassa-Model-Payment-Confirmation-AbstractConfirmation.md#method_setType) |  | Устанавливает код сценария подтверждения |
+| public | [setType()](../classes/YooKassa-Model-Payment-Confirmation-AbstractConfirmation.md#method_setType) |  | Устанавливает тип подтверждения платежа |
 | public | [toArray()](../classes/YooKassa-Common-AbstractObject.md#method_toArray) |  | Возвращает ассоциативный массив со свойствами текущего объекта для его дальнейшей JSON сериализации Является алиасом метода AbstractObject::jsonSerialize(). |
 | protected | [getUnknownProperties()](../classes/YooKassa-Common-AbstractObject.md#method_getUnknownProperties) |  | Возвращает массив свойств которые не существуют, но были заданы у объекта. |
 | protected | [validatePropertyValue()](../classes/YooKassa-Common-AbstractObject.md#method_validatePropertyValue) |  |  |
@@ -146,7 +146,7 @@ URL на который вернется плательщик после под�
 ---
 ***Description***
 
-Код сценария подтверждения
+Тип подтверждения платежа
 
 **Type:** <a href="../string"><abbr title="string">string</abbr></a>
 
@@ -159,7 +159,7 @@ URL на который вернется плательщик после под�
 ---
 **Summary**
 
-Код сценария подтверждения.
+Тип подтверждения платежа.
 
 **Type:** <a href="../?string"><abbr title="?string">?string</abbr></a>
 
@@ -411,7 +411,7 @@ public getType() : ?string
 
 **Summary**
 
-Возвращает код сценария подтверждения.
+Возвращает тип подтверждения платежа.
 
 **Details:**
 * Inherited From: [\YooKassa\Model\Payment\Confirmation\AbstractConfirmation](../classes/YooKassa-Model-Payment-Confirmation-AbstractConfirmation.md)
@@ -613,7 +613,7 @@ public setType(string|null $type = null) : self
 
 **Summary**
 
-Устанавливает код сценария подтверждения
+Устанавливает тип подтверждения платежа
 
 **Details:**
 * Inherited From: [\YooKassa\Model\Payment\Confirmation\AbstractConfirmation](../classes/YooKassa-Model-Payment-Confirmation-AbstractConfirmation.md)
@@ -621,7 +621,7 @@ public setType(string|null $type = null) : self
 ##### Parameters:
 | Type | Name | Description |
 | ---- | ---- | ----------- |
-| <code lang="php">string OR null</code> | type  | Код сценария подтверждения |
+| <code lang="php">string OR null</code> | type  | Тип подтверждения платежа |
 
 **Returns:** self - 
 
@@ -692,10 +692,10 @@ protected validatePropertyValue(string $propertyName, mixed $propertyValue) : mi
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 40](../reports/deprecated.md)
+* [Deprecated - 33](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

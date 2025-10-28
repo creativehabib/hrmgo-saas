@@ -61,7 +61,6 @@ use PHPUnit\TextUI\CliArguments\Configuration as CliConfiguration;
 use PHPUnit\TextUI\CliArguments\Exception as ArgumentsException;
 use PHPUnit\TextUI\CliArguments\XmlConfigurationFileFinder;
 use PHPUnit\TextUI\Command\AtLeastVersionCommand;
-use PHPUnit\TextUI\Command\CheckPhpConfigurationCommand;
 use PHPUnit\TextUI\Command\GenerateConfigurationCommand;
 use PHPUnit\TextUI\Command\ListGroupsCommand;
 use PHPUnit\TextUI\Command\ListTestFilesCommand;
@@ -284,7 +283,14 @@ final readonly class Application
             }
 
             $shellExitCode = (new ShellExitCodeCalculator)->calculate(
-                $configuration,
+                $configuration->failOnDeprecation(),
+                $configuration->failOnPhpunitDeprecation(),
+                $configuration->failOnEmptyTestSuite(),
+                $configuration->failOnIncomplete(),
+                $configuration->failOnNotice(),
+                $configuration->failOnRisky(),
+                $configuration->failOnSkipped(),
+                $configuration->failOnWarning(),
                 $result,
             );
 
@@ -464,10 +470,6 @@ final readonly class Application
             $this->execute(new ShowVersionCommand);
         }
 
-        if ($cliConfiguration->checkPhpConfiguration()) {
-            $this->execute(new CheckPhpConfigurationCommand);
-        }
-
         if ($cliConfiguration->checkVersion()) {
             $this->execute(new VersionCheckCommand(new PhpDownloader, Version::majorVersionNumber(), Version::id()));
         }
@@ -547,7 +549,7 @@ final readonly class Application
         $runtime = 'PHP ' . PHP_VERSION;
 
         if (CodeCoverage::instance()->isActive()) {
-            $runtime .= ' with ' . CodeCoverage::instance()->driverNameAndVersion();
+            $runtime .= ' with ' . CodeCoverage::instance()->driver()->nameAndVersion();
         }
 
         $this->writeMessage($printer, 'Runtime', $runtime);

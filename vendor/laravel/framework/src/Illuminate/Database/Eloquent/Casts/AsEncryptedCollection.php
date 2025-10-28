@@ -79,7 +79,7 @@ class AsEncryptedCollection implements Castable
      * Specify the collection for the cast.
      *
      * @param  class-string  $class
-     * @param  array{class-string, string}|class-string|null  $map
+     * @param  array{class-string, string}|class-string  $map
      * @return string
      */
     public static function using($class, $map = null)

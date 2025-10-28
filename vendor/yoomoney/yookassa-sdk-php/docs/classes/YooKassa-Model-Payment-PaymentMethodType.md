@@ -9,7 +9,7 @@
 
 **Description:**
 
-Код способа оплаты — тип платежного средства, которое используется для оплаты. [Подробнее о способах оплаты](https://yookassa.ru/developers/payment-acceptance/getting-started/payment-methods)
+Тип источника средств для проведения платежа.
 
 Возможные значения:
 - `yoo_money` - Платеж из кошелька ЮMoney
@@ -51,7 +51,6 @@
 | public | [SBP](../classes/YooKassa-Model-Payment-PaymentMethodType.md#constant_SBP) |  | Оплата через сервис быстрых платежей |
 | public | [SBER_LOAN](../classes/YooKassa-Model-Payment-PaymentMethodType.md#constant_SBER_LOAN) |  | Прием оплаты с использованием Кредита от СберБанка |
 | public | [ELECTRONIC_CERTIFICATE](../classes/YooKassa-Model-Payment-PaymentMethodType.md#constant_ELECTRONIC_CERTIFICATE) |  | Прием платежей по электронному сертификату, привязанному к карте «Мир» |
-| public | [SBER_BNPL](../classes/YooKassa-Model-Payment-PaymentMethodType.md#constant_SBER_BNPL) |  | Оплата через сервис «Плати частями» |
 | public | [UNKNOWN](../classes/YooKassa-Model-Payment-PaymentMethodType.md#constant_UNKNOWN) | *deprecated* | Для неизвестных методов оплаты |
 
 ---
@@ -262,15 +261,6 @@ ELECTRONIC_CERTIFICATE = 'electronic_certificate'
 ```
 
 
-<a name="constant_SBER_BNPL" class="anchor"></a>
-###### SBER_BNPL
-Оплата через сервис «Плати частями»
-
-```php
-SBER_BNPL = 'sber_bnpl'
-```
-
-
 <a name="constant_UNKNOWN" class="anchor"></a>
 ###### ~~UNKNOWN~~
 Для неизвестных методов оплаты
@@ -364,10 +354,10 @@ Static public valueExists(mixed $value) : bool
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 40](../reports/deprecated.md)
+* [Deprecated - 33](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

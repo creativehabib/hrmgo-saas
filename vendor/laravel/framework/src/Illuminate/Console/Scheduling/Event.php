@@ -380,7 +380,7 @@ class Event
     /**
      * E-mail the results of the scheduled operation.
      *
-     * @param  mixed  $addresses
+     * @param  array|mixed  $addresses
      * @param  bool  $onlyIfOutputExists
      * @return $this
      *
@@ -400,7 +400,7 @@ class Event
     /**
      * E-mail the results of the scheduled operation if it produces output.
      *
-     * @param  mixed  $addresses
+     * @param  array|mixed  $addresses
      * @return $this
      *
      * @throws \LogicException
@@ -413,7 +413,7 @@ class Event
     /**
      * E-mail the results of the scheduled operation if it fails.
      *
-     * @param  mixed  $addresses
+     * @param  array|mixed  $addresses
      * @return $this
      */
     public function emailOutputOnFailure($addresses)

@@ -273,6 +273,8 @@ class Native implements Serializable
                         continue;
                     }
 
+                    $property->setAccessible(true);
+
                     if (! $property->isInitialized($instance)) {
                         continue;
                     }

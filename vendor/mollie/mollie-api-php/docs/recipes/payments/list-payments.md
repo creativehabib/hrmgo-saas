@@ -5,11 +5,13 @@ How to retrieve a list of payments from the Mollie API.
 ## The Code
 
 ```php
-use Mollie\Api\Http\Requests\GetPaginatedPaymentsRequest;
+use Mollie\Api\Http\Requests\ListPaymentsRequest;
 
 try {
     // Get all payments for this API key ordered by newest
-    $payments = $mollie->send(new GetPaginatedPaymentsRequest);
+    $payments = $mollie->send(
+        new ListPaymentsRequest()
+    );
 
     // Display the payments
     foreach ($payments as $payment) {

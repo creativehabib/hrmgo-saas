@@ -20,7 +20,6 @@
 | Name | Summary |
 | ---- | ------- |
 | [\YooKassa\Model\Refund\Refund](../classes/YooKassa-Model-Refund-Refund.md) | Класс, представляющий модель Refund. |
-| [\YooKassa\Model\Refund\RefundAuthorizationDetails](../classes/YooKassa-Model-Refund-RefundAuthorizationDetails.md) | Класс, представляющий модель RefundAuthorizationDetails. |
 | [\YooKassa\Model\Refund\RefundCancellationDetails](../classes/YooKassa-Model-Refund-RefundCancellationDetails.md) | Класс, представляющий модель RefundCancellationDetails. |
 | [\YooKassa\Model\Refund\RefundCancellationDetailsPartyCode](../classes/YooKassa-Model-Refund-RefundCancellationDetailsPartyCode.md) | Класс, представляющий модель CancellationDetailsPartyCode. |
 | [\YooKassa\Model\Refund\RefundCancellationDetailsReasonCode](../classes/YooKassa-Model-Refund-RefundCancellationDetailsReasonCode.md) | Класс, представляющий модель RefundCancellationDetailsReasonCode. |
@@ -39,10 +38,10 @@
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 40](../reports/deprecated.md)
+* [Deprecated - 33](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

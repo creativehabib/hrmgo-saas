@@ -5,7 +5,6 @@ namespace Mollie\Api\Http\Requests;
 use DateTimeInterface;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
-use Mollie\Api\Http\Data\Date;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
@@ -36,10 +35,7 @@ class CreateMandateRequest extends ResourceHydratableRequest implements HasPaylo
 
     private ?string $consumerEmail;
 
-    /**
-     * @var Date|DateTimeInterface
-     */
-    private $signatureDate;
+    private ?DateTimeInterface $signatureDate;
 
     private ?string $mandateReference;
 
@@ -52,7 +48,7 @@ class CreateMandateRequest extends ResourceHydratableRequest implements HasPaylo
         ?string $consumerAccount = null,
         ?string $consumerBic = null,
         ?string $consumerEmail = null,
-        $signatureDate = null,
+        ?DateTimeInterface $signatureDate = null,
         ?string $mandateReference = null,
         ?string $paypalBillingAgreementId = null
     ) {

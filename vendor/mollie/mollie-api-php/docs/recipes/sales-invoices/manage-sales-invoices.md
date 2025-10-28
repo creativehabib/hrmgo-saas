@@ -5,11 +5,13 @@ How to list and manage sales invoices using the Mollie API.
 ## List Sales Invoices
 
 ```php
-use Mollie\Api\Http\Requests\GetPaginatedSalesInvoicesRequest;
+use Mollie\Api\Http\Requests\ListSalesInvoicesRequest;
 
 try {
     // List all sales invoices
-    $response = $mollie->send(new GetPaginatedSalesInvoicesRequest);
+    $response = $mollie->send(
+        new ListSalesInvoicesRequest()
+    );
 
     foreach ($response as $invoice) {
         echo "Invoice {$invoice->reference}:\n";

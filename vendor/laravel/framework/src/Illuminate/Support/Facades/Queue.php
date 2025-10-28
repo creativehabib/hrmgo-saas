@@ -40,8 +40,6 @@ use Illuminate\Support\Testing\Fakes\QueueFake;
  * @method static mixed getJobBackoff(mixed $job)
  * @method static mixed getJobExpiration(mixed $job)
  * @method static void createPayloadUsing(callable|null $callback)
- * @method static array getConfig()
- * @method static \Illuminate\Queue\Queue setConfig(array $config)
  * @method static \Illuminate\Container\Container getContainer()
  * @method static void setContainer(\Illuminate\Container\Container $container)
  * @method static \Illuminate\Support\Testing\Fakes\QueueFake except(array|string $jobsToBeQueued)

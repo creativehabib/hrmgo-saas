@@ -9,7 +9,7 @@
 
 **Description:**
 
-Оплата наличными в терминалах.
+Оплата наличными в терминалах РФ или СНГ.
 
 ---
 ### Constants
@@ -25,7 +25,7 @@
 | public | [$title](../classes/YooKassa-Model-Payment-PaymentMethod-AbstractPaymentMethod.md#property_title) |  | Название метода оплаты |
 | public | [$type](../classes/YooKassa-Model-Payment-PaymentMethod-AbstractPaymentMethod.md#property_type) |  | Код способа оплаты |
 | protected | [$_id](../classes/YooKassa-Model-Payment-PaymentMethod-AbstractPaymentMethod.md#property__id) |  | Идентификатор записи о сохраненных платежных данных. |
-| protected | [$_saved](../classes/YooKassa-Model-Payment-PaymentMethod-AbstractPaymentMethod.md#property__saved) |  | Признак сохранения способа оплаты для %[автоплатежей](https://yookassa.ru/developers/payment-acceptance/scenario-extensions/recurring-payments/pay-with-saved). |
+| protected | [$_saved](../classes/YooKassa-Model-Payment-PaymentMethod-AbstractPaymentMethod.md#property__saved) |  | С помощью сохраненного способа оплаты можно проводить [безакцептные списания](/developers/payment-acceptance/scenario-extensions/recurring-payments). |
 | protected | [$_status](../classes/YooKassa-Model-Payment-PaymentMethod-AbstractPaymentMethod.md#property__status) |  | Статус проверки и сохранения способа оплаты. |
 | protected | [$_title](../classes/YooKassa-Model-Payment-PaymentMethod-AbstractPaymentMethod.md#property__title) |  | Название способа оплаты. |
 | protected | [$_type](../classes/YooKassa-Model-Payment-PaymentMethod-AbstractPaymentMethod.md#property__type) |  | Код способа оплаты. |
@@ -164,11 +164,7 @@
 ---
 **Summary**
 
-Признак сохранения способа оплаты для %[автоплатежей](https://yookassa.ru/developers/payment-acceptance/scenario-extensions/recurring-payments/pay-with-saved).
-
-***Description***
-
-Возможные значения:   * ~`true` — способ оплаты сохранен для автоплатежей и выплат; * ~`false` — способ оплаты не сохранен.
+С помощью сохраненного способа оплаты можно проводить [безакцептные списания](/developers/payment-acceptance/scenario-extensions/recurring-payments).
 
 **Type:** <a href="../bool"><abbr title="bool">bool</abbr></a>
 
@@ -595,7 +591,7 @@ public setSaved(bool|null $saved = null) : self
 ##### Parameters:
 | Type | Name | Description |
 | ---- | ---- | ----------- |
-| <code lang="php">bool OR null</code> | saved  | Признак сохранения способа оплаты для %[автоплатежей](https://yookassa.ru/developers/payment-acceptance/scenario-extensions/recurring-payments/pay-with-saved). Возможные значения: * ~`true` — способ оплаты сохранен для автоплатежей и выплат; * ~`false` — способ оплаты не сохранен. |
+| <code lang="php">bool OR null</code> | saved  | С помощью сохраненного способа оплаты можно проводить [безакцептные списания](/developers/payment-acceptance/scenario-extensions/recurring-payments). |
 
 ##### Throws:
 | Type | Description |
@@ -742,10 +738,10 @@ protected validatePropertyValue(string $propertyName, mixed $propertyValue) : mi
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 40](../reports/deprecated.md)
+* [Deprecated - 33](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2025-09-29 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-07-01 using [phpDocumentor](http://www.phpdoc.org/)
 
 &copy; 2025 YooMoney

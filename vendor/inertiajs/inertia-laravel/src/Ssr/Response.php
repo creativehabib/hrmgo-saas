@@ -5,21 +5,17 @@ namespace Inertia\Ssr;
 class Response
 {
     /**
-     * The HTML head content from server-side rendering.
-     *
      * @var string
      */
     public $head;
 
     /**
-     * The HTML body content from server-side rendering.
-     *
      * @var string
      */
     public $body;
 
     /**
-     * Create a new SSR response instance.
+     * Prepare the Inertia Server Side Rendering (SSR) response.
      */
     public function __construct(string $head, string $body)
     {

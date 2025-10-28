@@ -82,7 +82,7 @@ class MigrationCreator
      * Ensure that a migration with the given name doesn't already exist.
      *
      * @param  string  $name
-     * @param  string|null  $migrationPath
+     * @param  string  $migrationPath
      * @return void
      *
      * @throws \InvalidArgumentException

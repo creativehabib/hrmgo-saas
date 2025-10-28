@@ -48,8 +48,6 @@ use YooKassa\Model\Payment\PaymentMethod\AbstractPaymentMethod;
  * @property string $description Описание транзакции
  * @property DateTime $createdAt Время создания заказа
  * @property DateTime $created_at Время создания заказа
- * @property DateTime $succeededAt Время успешного проведения выплаты
- * @property DateTime $succeeded_at Время успешного проведения выплаты
  * @property PayoutDealInfo $deal Сделка, в рамках которой нужно провести выплату
  * @property CancellationDetailsInterface $cancellationDetails Комментарий к отмене выплаты
  * @property CancellationDetailsInterface $cancellation_details Комментарий к отмене выплаты
@@ -80,9 +78,9 @@ interface PayoutInterface
     public function getStatus(): ?string;
 
     /**
-     * Возвращает платежное средство, на которое ЮKassa зачисляет выплату.
+     * Возвращает платежное средство продавца, на которое ЮKassa переводит оплату.
      *
-     * @return AbstractPayoutDestination|null Платежное средство, на которое ЮKassa зачисляет выплату.
+     * @return AbstractPayoutDestination|null Платежное средство продавца, на которое ЮKassa переводит оплату
      */
     public function getPayoutDestination(): ?AbstractPayoutDestination;
 
@@ -94,18 +92,11 @@ interface PayoutInterface
     public function getDescription(): ?string;
 
     /**
-     * Возвращает время создания выплаты.
+     * Возвращает время создания сделки.
      *
      * @return DateTime|null Время создания сделки
      */
     public function getCreatedAt(): ?DateTime;
-
-    /**
-     * Возвращает время успешного проведения выплаты.
-     *
-     * @return DateTime|null Время создания выплаты
-     */
-    public function getSucceededAt(): ?DateTime;
 
     /**
      * Возвращает сделку, в рамках которой нужно провести выплату.
