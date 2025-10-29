@@ -1,5 +1,5 @@
 // pages/hr/employees/create.tsx
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { PageTemplate } from '@/components/page-template';
 import { usePage, router } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
@@ -46,17 +46,22 @@ export default function EmployeeCreate() {
   const [departmentList, setDepartmentList] = useState<any[]>(normalizeDepartmentData(departments));
   const [isLoadingDepartments, setIsLoadingDepartments] = useState(false);
   const [departmentLoadError, setDepartmentLoadError] = useState<string | null>(null);
+  const selectedBranchRef = useRef<string>('');
 
   useEffect(() => {
     setDepartmentList(normalizeDepartmentData(departments));
   }, [departments]);
 
   const fetchDepartments = useCallback(
-    async () => {
+    async (branchId?: string) => {
       try {
         setIsLoadingDepartments(true);
         setDepartmentLoadError(null);
-        const response = await axios.get(route('hr.employees.get-departments'));
+        const requestUrl =
+          branchId && branchId !== 'all'
+            ? route('hr.employees.get-departments', { branchId })
+            : route('hr.employees.get-departments');
+        const response = await axios.get(requestUrl);
         const fetchedDepartments = normalizeDepartmentData(response.data?.departments ?? response.data);
         setDepartmentList(fetchedDepartments);
       } catch (error) {
@@ -70,6 +75,10 @@ export default function EmployeeCreate() {
   );
 
   useEffect(() => {
+    if (selectedBranchRef.current) {
+      return;
+    }
+
     if (departmentList.length === 0 && !isLoadingDepartments) {
       fetchDepartments();
     }
@@ -138,6 +147,8 @@ export default function EmployeeCreate() {
         updatedData.branch_id = value;
         updatedData.department_id = '';
         updatedData.designation_id = '';
+        selectedBranchRef.current = value;
+        fetchDepartments(value || undefined);
       }
 
       if (name === 'department_id') {
@@ -149,7 +160,9 @@ export default function EmployeeCreate() {
         );
 
         if (selectedDepartment) {
-          updatedData.branch_id = String(selectedDepartment.branch_id ?? '');
+          const newBranchId = String(selectedDepartment.branch_id ?? '');
+          updatedData.branch_id = newBranchId;
+          selectedBranchRef.current = newBranchId;
         }
       }
 
@@ -516,10 +529,10 @@ export default function EmployeeCreate() {
                     {!formData.branch_id && departmentList.length > 0 && (
                       <p className="text-muted-foreground text-xs">{t('Select a branch to view departments.')}</p>
                     )}
-                    {formData.branch_id && filteredDepartments.length === 0 && departmentList.length > 0 && (
+                    {formData.branch_id && filteredDepartments.length === 0 && !isLoadingDepartments && (
                       <p className="text-muted-foreground text-xs">{t('No departments are assigned to the selected branch.')}</p>
                     )}
-                    {departmentList.length === 0 && (
+                    {!formData.branch_id && departmentList.length === 0 && !isLoadingDepartments && (
                       <p className="text-muted-foreground text-xs">{t('Create a department to assign employees.')}</p>
                     )}
                     {errors.department_id && <p className="text-red-500 text-xs">{errors.department_id}</p>}
