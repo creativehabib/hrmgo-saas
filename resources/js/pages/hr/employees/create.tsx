@@ -21,36 +21,46 @@ export default function EmployeeCreate() {
   const { t } = useTranslation();
   const { branches = [], departments, designations, documentTypes = [], shifts = [], attendancePolicies = [] } = usePage().props as any;
 
-  const normalizeDepartmentData = (departmentData: any) => {
+  const normalizeDepartmentData = useCallback((departmentData: any) => {
+    const normalizeArray = (rawDepartments: any[]) =>
+      rawDepartments
+        .filter(Boolean)
+        .map(department => ({
+          ...department,
+          branch_id: department?.branch_id != null ? String(department.branch_id) : ''
+        }));
+
     if (Array.isArray(departmentData)) {
-      return departmentData;
+      return normalizeArray(departmentData);
     }
 
     if (departmentData && typeof departmentData === 'object') {
       if (Array.isArray(departmentData.data)) {
-        return departmentData.data;
+        return normalizeArray(departmentData.data);
       }
 
-      return Object.values(departmentData).filter(
-        value =>
-          value &&
-          typeof value === 'object' &&
-          !Array.isArray(value) &&
-          'id' in (value as Record<string, unknown>)
-      ) as any[];
+      return normalizeArray(
+        Object.values(departmentData).filter(
+          value =>
+            value &&
+            typeof value === 'object' &&
+            !Array.isArray(value) &&
+            'id' in (value as Record<string, unknown>)
+        ) as any[]
+      );
     }
 
     return [];
-  };
+  }, []);
 
-  const [departmentList, setDepartmentList] = useState<any[]>(normalizeDepartmentData(departments));
+  const [departmentList, setDepartmentList] = useState<any[]>(() => normalizeDepartmentData(departments));
   const [isLoadingDepartments, setIsLoadingDepartments] = useState(false);
   const [departmentLoadError, setDepartmentLoadError] = useState<string | null>(null);
   const selectedBranchRef = useRef<string>('');
 
   useEffect(() => {
     setDepartmentList(normalizeDepartmentData(departments));
-  }, [departments]);
+  }, [departments, normalizeDepartmentData]);
 
   const fetchDepartments = useCallback(
     async (branchId?: string) => {
@@ -71,7 +81,7 @@ export default function EmployeeCreate() {
         setIsLoadingDepartments(false);
       }
     },
-    [t]
+    [normalizeDepartmentData, t]
   );
 
   useEffect(() => {
@@ -131,7 +141,7 @@ export default function EmployeeCreate() {
   
   // Filter departments based on selected branch
   const filteredDepartments = formData.branch_id
-    ? departmentList.filter((dept: any) => Number(dept.branch_id) === Number(formData.branch_id))
+    ? departmentList.filter((dept: any) => dept.branch_id === String(formData.branch_id))
     : departmentList;
 
   // Filter designations based on selected department
@@ -144,11 +154,12 @@ export default function EmployeeCreate() {
       const updatedData = { ...prev, [name]: value };
 
       if (name === 'branch_id') {
-        updatedData.branch_id = value;
+        const branchValue = value ? String(value) : '';
+        updatedData.branch_id = branchValue;
         updatedData.department_id = '';
         updatedData.designation_id = '';
-        selectedBranchRef.current = value;
-        fetchDepartments(value || undefined);
+        selectedBranchRef.current = branchValue;
+        fetchDepartments(branchValue || undefined);
       }
 
       if (name === 'department_id') {
@@ -160,7 +171,7 @@ export default function EmployeeCreate() {
         );
 
         if (selectedDepartment) {
-          const newBranchId = String(selectedDepartment.branch_id ?? '');
+          const newBranchId = selectedDepartment.branch_id ?? '';
           updatedData.branch_id = newBranchId;
           selectedBranchRef.current = newBranchId;
         }
