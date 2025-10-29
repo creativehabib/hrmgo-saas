@@ -1098,16 +1098,31 @@ if (! function_exists('getCompanyAndUsersId')) {
     function getCompanyAndUsersId()
     {
         $user = Auth::user();
+
+        if (!$user) {
+            return [];
+        }
+
+        if ($user->hasRole(['superadmin'])) {
+            return User::pluck('id')->toArray();
+        }
+
         if ($user->hasRole(['company'])) {
             $companyUserIds = User::where('created_by', $user->id)->pluck('id')->toArray();
             $companyUserIds[] = $user->id;
             return $companyUserIds;
-        } else {
-            $userCreatedBy = User::where('id', Auth::user()->created_by)->value('id');
-            $companyUserIds = User::where('created_by', $userCreatedBy)->pluck('id')->toArray();
-            $companyUserIds[] = $userCreatedBy;
-            return $companyUserIds;
         }
+
+        $companyOwnerId = $user->created_by ?: $user->id;
+
+        if (!$companyOwnerId) {
+            return [$user->id];
+        }
+
+        $companyUserIds = User::where('created_by', $companyOwnerId)->pluck('id')->toArray();
+        $companyUserIds[] = $companyOwnerId;
+
+        return array_values(array_unique($companyUserIds));
     }
 }
 
