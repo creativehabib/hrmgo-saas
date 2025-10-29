@@ -138,7 +138,7 @@ export default function DependentDropdown({ fields, values, onChange, disabled =
         };
 
         loadAllOptions();
-    }, [fields]);
+    }, [fields, values]);
 
     const handleFieldChange = async (fieldName: string, value: string, fieldIndex: number) => {
         // Clear all dependent fields when parent changes
